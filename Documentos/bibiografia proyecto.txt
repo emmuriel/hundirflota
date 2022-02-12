@@ -1,0 +1,5 @@
+Bibliografía hundir la flota
+
+Imitar la sobrecarga de constructores en php.
+https://desarrolloweb.com/articulos/sobrecarga-constructores-php.html
+

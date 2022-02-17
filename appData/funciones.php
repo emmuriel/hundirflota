@@ -13,7 +13,6 @@
         header('Location:https://localhost/index.php'); //redirige a index.php
     }
 
-
   /*'-------------------------------------------------------------------------------------
     ' Nombre: validaFormReg
     ' Proceso: Realiza el proceso de validación del formalio de registro de usuario
@@ -33,28 +32,33 @@
         }
         else{
         //Nombre de usuario válido
+          if(!usuValido($f_nombre)){
+            $ok=false;
+            echo "<p><span>**Error:El nombre debe comenzar con dos letras. Solo se permiten caracteres especiales = - _ /</span></p>";
+          }
         //Formato de correo válido 
         //Contraseña segura
-        
-        $ok=false;
-        echo "<p><span>**Error:La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico</span></p>";
+        if (!passSecure($f_password)){
+          $ok=false;
+          echo "<p><span>**Error:La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico</span></p>";
         }
+      
         
         if ($ok==true){
           //Nombre de usuario ya existe en la BBDD
           $ctrl=new ControlUsuario();
-        if($ctrl->usuarioRegistrado($f_nombre)){
-          $ok=false;
-          echo "<p><span>**Error: El nombre de usuario ya existe</span></p>";
+          if($ctrl->usuarioRegistrado($f_nombre)){
+            $ok=false;
+            echo "<br /><br /><br /><p><span>**Error: El nombre de usuario ya existe</span></p>";
+          }
+          
+          //Correo ya existe ya existe en la BBDD
+          if($ctrl->emailRegistrado($f_mail)){
+            $ok=false;
+            echo "<br /><br /><br /><p><span>**Error: La dirección de correo ya está registrada</span></p>";
+          }
         }
-        
-        //Correo ya existe ya existe en la BBDD
-        if($ctrl->emailRegistrado($f_mail)){
-          $ok=false;
-          echo "<p><span>**Error: La dirección de correo ya está registrada</span></p>";
-        }
-        }
-
+      }
         return $ok;
     }
  /*'-------------------------------------------------------------------------------------
@@ -90,7 +94,7 @@ function passSecure($pass){
     '-------------------------------------------------------------------------------------*/
 function usuValido($nomUsu){
   $ok=true;
-  if(!preg_match_all("/^[a-z]+[a-z]+(-_\/)*(1-9)*\i{2,35}$/",$nomUsu)){
+  if(!preg_match_all("/^[a-z]+[a-z]+(-_@)*(1-9)*\i{2,35}$/",$nomUsu)){
   } 
   return $ok;
 }
@@ -101,6 +105,5 @@ function emailValido($email){
   $ok=true;
 
 }*/
-
 
 ?>

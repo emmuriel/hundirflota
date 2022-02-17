@@ -62,12 +62,20 @@
         extract($_POST, EXTR_PREFIX_ALL, 'f');
         $ok=validaFormReg();
         if ($ok==false){ //Error
-            echo "<p>Usuario no registrado</p>";
+            echo "<p><span>Usuario no registrado</span></p>";
         }
         else{
+            if ($f_pwd===$f_confirmacion){
+             //Encriptar contraseña
+            $hash=password_hash($f_pwd, CRYPT_SHA256);
             //Crea Usuario
-            $nuevoUsu= new Usuario($f_nombre, );
+            $nuevoUsu= new Usuario(0,$f_nombre,$_email,$hash,0,0);
             //Registra Usuario
+            }
+            else{
+                echo "<p><span>Error:Las contraseñas no coinciden</span></p>";
+            }
+        
         }
 
 }

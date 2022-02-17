@@ -97,15 +97,17 @@ class BatallaDual extends Batalla{
 class Usuario{
     Private $cod_usu; //Integer
     Private $nombre; //String
+    Private $email; //string
     Private $contrasenia; //String
-    Private $puntuacion;//Integer
-    Private $estado; //Integer
+    Private $puntuacion = 0;//Integer
+    Private $estado = 0; //Integer
 
     /*Constructores */
-    public function __construct($codUsu,$nombre,$pwd,$puntuacion,$estado){
+    public function __construct($codUsu,$nombre,$mail,$pwd,$puntuacion,$estado){
 
         $this->cod_usu=$codUsu;
         $this->nombre=$nombre;
+        $this->email=$mail;
         $this->contrasenia=$pwd;
         $this->puntuacion=$puntuacion;
         $this->estado=$estado;
@@ -118,6 +120,9 @@ class Usuario{
     }
     public function getNombre(){
         return $this->nombre;
+    }
+    public function getEmail(){
+        return $this->email;
     }
     public function getPwd(){
         return $this->contrasenia;
@@ -135,6 +140,9 @@ class Usuario{
     }
     public function setNombre($nombre){
         $this->nombre=$nombre;
+    }
+    public function setEmail($email){
+        $this->email=$email;
     }
     public function setPwd($pwd){
         $this->contrasenia=$pwd;

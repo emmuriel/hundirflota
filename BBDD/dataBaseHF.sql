@@ -5,12 +5,15 @@ USE `HundirFlota`;
 CREATE TABLE IF NOT EXISTS `HF_usuario` (
 `codUsu` int(3) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
 `usuario` varchar(35) NOT NULL COMMENT 'nombre usuario',
+`email` varchar(50) NOT NULL COMMENT 'email usuario',
 `pwd` char(64) NOT NULL COMMENT 'hash contraseña sha256',
 `victorias` int(4) NOT NULL COMMENT 'partidas ganadas',
 `estado` int(1) NOT NULL COMMENT '0=no conectado, 1=conectado sin partida, 2=conectado en partida',
 `conexiones` int(3) NOT NULL DEFAULT 0 COMMENT 'total de sesiones iniciadas',
+`activacion` int (1) NULL DEFAULT null COMMENT 'Activacion mail'
   PRIMARY KEY (`codUsu`),
-  UNIQUE KEY `usuario` (`usuario`)
+  UNIQUE KEY `usuario` (`usuario`),
+  UNIQUE KEY `email` (`email`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tabla de usuarios';
 
 

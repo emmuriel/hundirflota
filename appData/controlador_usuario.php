@@ -14,9 +14,9 @@ class ControlUsuario{
         $conexion=conexionBBDD();
         mysqli_set_charset($conexion, "utf8");  
         $hash=password_hash($nuevoUsuario->getPwd(), CRYPT_SHA256); 
-        $consulta = 'INSERT INTO (nombre, pwd, victorias) FROM hf_usuario VALUES (?,?,?)';
+        $consulta = 'INSERT INTO (usuario,email, pwd, victorias,conexiones) FROM hf_usuario VALUES (?,?,?,?,?)';
         $resultado = mysqli_prepare($conexion , $consulta);       
-        $ok=mysqli_stmt_bind_param($resultado,"ssi",$nuevoUsuario->getNombre(),$hash,$nuevoUsuario->getPuntuacion());    
+        $ok=mysqli_stmt_bind_param($resultado,"ssi",$nuevoUsuario->getNombre(),$nuevoUsuario->getEmail,$nuevoUsuario->getPwd(),$nuevoUsuario->getPuntuacion());    
         $ok_exe= mysqli_stmt_execute($resultado);                 
 
         if ($ok_exe==false){
@@ -45,7 +45,7 @@ class ControlUsuario{
         }
         else{
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyeccion SQL
-        $consulta = "SELECT codUsu,usuario,pwd,victorias,estado FROM hf_usuario WHERE usuario=?";   
+        $consulta = "SELECT codUsu,usuario,email,pwd,victorias,estado,activacion FROM hf_usuario WHERE usuario=?";   
         $resultado = mysqli_prepare ($conexion , $consulta);  
         $ok = mysqli_stmt_bind_param($resultado ,"s", $cadena_escapada);    
         $ok_exe= mysqli_stmt_execute($resultado);                 
@@ -54,7 +54,7 @@ class ControlUsuario{
               echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error
           }
           else{ 
-              $ok=mysqli_stmt_bind_result($resultado, $db_codUsu,$db_usu,$db_hash,$db_victorias, $db_estado);
+              $ok=mysqli_stmt_bind_result($resultado, $db_codUsu,$db_usu,$db_mail,$db_hash,$db_victorias, $db_estado, $db_act);
                 if ($ok==false){ //Controlar error
                       echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error          
                     }
@@ -64,20 +64,20 @@ class ControlUsuario{
                               $busqueda=true;
                               //Comprueba contraseña   
                               if (password_verify($pwd,$db_hash)){ //éxito-->Cargamos los datos en memoria con un objeto Usuario
-                                $objUsuario= new Usuario($db_codUsu,$db_usu,$db_hash,$db_victorias,$db_estado);
+                                $objUsuario= new Usuario($db_codUsu,$db_usu,$db_mail,$db_hash,$db_victorias,$db_estado,$db_act);
                                 echo "Password verify=true<br />";
                                 $cod=$objUsuario->getCodUsu();
                                 echo   "EL codigo es $cod <br />";
                                 
                                 
                               }
-                              else{ $objUsuario= new Usuario(-1, null, null, null,null); #esto es una solucion cutre a la no sobrecarga de constructores.
+                              else{ $objUsuario= new Usuario(-1, null, null,null, null,null); #esto es una solucion cutre a la no sobrecarga de constructores.
                                 echo "Password verify=false<br />";
                                }         
                           }
                           if ($busqueda==false){
                                 //echo "<br><span>El usuario no existe </span>";
-                                $objUsuario= new Usuario(0,null, null, null,null);
+                                $objUsuario= new Usuario(0,null, null, null,null, null, null);
                                 echo "Usuario no existe<br />";
                           }
                           mysqli_stmt_close($resultado);
@@ -100,7 +100,7 @@ class ControlUsuario{
         $conexion=conexionBBDD();
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
-        $consulta = "SELECT codUsu,nombre, pwd, victoria FROM hf_usuario WHERE nombre =?";   
+        $consulta = "SELECT codUsu FROM hf_usuario WHERE nombre =?";   
         $resultado = mysqli_prepare ($conexion , $consulta);       
         $ok = mysqli_stmt_bind_param($resultado ,"s", $cadena_escapada);    
         $ok_exe= mysqli_stmt_execute($resultado);                 
@@ -127,7 +127,45 @@ class ControlUsuario{
           $conexion->close(); //cerrar conexion
         return $registrado;
     }
-  
+      /* '---------------------------------------------------------------------------------------------------
+    ' Nombre: emailRegistrado
+    ' Proceso: Comprueba si una doreccion de email de un usuario ya esta registrado
+    ' Entradas: Una cadena que contenga la direccion de email
+    ' Salidas: Devuelve un booleano (True si la direccion ya esta registrado, False de lo contrario)
+    '--------------------------------------------------------------------------------------------------- */
+    public function emailRegistrado($email)
+    {
+        $entradaSanitizada=htmlspecialchars($email);
+        $conexion=conexionBBDD();
+        $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
+
+        $consulta = "SELECT codUsu FROM hf_usuario WHERE email =?";   
+        $resultado = mysqli_prepare ($conexion , $consulta);       
+        $ok = mysqli_stmt_bind_param($resultado ,"s", $cadena_escapada);    
+        $ok_exe= mysqli_stmt_execute($resultado);                 
+      
+          if ($ok_exe==false){
+              echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error
+          }
+          else{ 
+              $ok=mysqli_stmt_bind_result($resultado, $db_codUsu);
+                if ($ok==false){ //Controlar error
+                      echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error          
+                    }
+                    else{  
+                        $registrado=false;
+                          while (mysqli_stmt_fetch($resultado)) { 
+                            $registrado=true;       
+                          }
+                          if ($registrado==false){
+                                //echo "<br><span>El usuario no existe </span>";
+                          }
+                          mysqli_stmt_close($resultado);
+                        }
+          }
+          $conexion->close(); //cerrar conexion
+        return $registrado;
+    }
     /*'-------------------------------------------------------------------------------------
     ' Nombre: delUsuario 
     ' Proceso: Elimina un usuario existente en la base de datos.
@@ -137,7 +175,7 @@ class ControlUsuario{
     public function delUsuario($nomUsu)
     {
         $entradaSanitizada=htmlspecialchars($nomUsu);
-        $conexion=cconexionBBDD();
+        $conexion=conexionBBDD();
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
         $consulta = "DELETE FROM hf_usuario WHERE nombre =?";   

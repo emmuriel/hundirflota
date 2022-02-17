@@ -1,6 +1,7 @@
-﻿body
-{
-    background-color:rgb(31, 29, 29);
+﻿
+html, body {
+	min-height: 100%;
+	background-color:rgb(31, 29, 29);
 }
 
 .lbl_error_intro

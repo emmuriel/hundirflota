@@ -1,6 +1,6 @@
 <?php
 
-class Partida{
+class Batalla{
 
     Private $jug1;   //Integer
     Private $tablero1;  //String
@@ -46,7 +46,7 @@ class Partida{
     }
 } 
 
-class PartidaMultiple extends Partida{
+class BatallaDual extends Batalla{
     Private $sesion; //String Variable de sesión
     Private $codPartida; //Integer
     Private $jug2; //Integer
@@ -99,23 +99,19 @@ class Usuario{
     Private $nombre; //String
     Private $contrasenia; //String
     Private $puntuacion;//Integer
+    Private $estado; //Integer
 
     /*Constructores */
-    public function __construct0($codUsu,$nombre,$pwd,$puntuacion){
+    public function __construct($codUsu,$nombre,$pwd,$puntuacion,$estado){
 
         $this->cod_usu=$codUsu;
         $this->nombre=$nombre;
         $this->contrasenia=$pwd;
         $this->puntuacion=$puntuacion;
+        $this->estado=$estado;
     
     }
-    /*Constructores */
-    public function __construct1($codUsu){
 
-        $this->cod_usu=$codUsu;
-    
-    
-    }
     //GETERS
     public function getCodUsu(){
         return $this->cod_usu;
@@ -128,6 +124,9 @@ class Usuario{
     }
     public function getPuntuacion(){
         return $this->puntuacion;
+    }
+    public function getEstado(){
+        return $this->estado;
     }
 
     //SETTERS
@@ -142,6 +141,9 @@ class Usuario{
     }
     public function setTurno($ptos){
         $this->puntuacion=$ptos;
+    }
+    public function setEstado($estado){
+        $this->estado=$estado;
     }
 } 
 ?>

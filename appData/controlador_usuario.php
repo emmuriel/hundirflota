@@ -1,5 +1,6 @@
 <?php
-require("moduloConexion.php");
+require_once("moduloConexion.php");
+require_once("clases.php");
 class ControlUsuario{
 
     /*--------------------------------------------------------------------------------------------------------
@@ -10,7 +11,7 @@ class ControlUsuario{
     -------------------------------------------------------------------------------------------------------- */
     public function registrarUsuario (Usuario $nuevoUsuario){
         
-        $conexion=conexion();
+        $conexion=conexionBBDD();
         mysqli_set_charset($conexion, "utf8");  
         $hash=password_hash($nuevoUsuario->getPwd(), CRYPT_SHA256); 
         $consulta = 'INSERT INTO (nombre, pwd, victorias) FROM hf_usuario VALUES (?,?,?)';
@@ -32,14 +33,20 @@ class ControlUsuario{
     ' Proceso:  Busca un usuario dado de alta en la BBDD
     ' Entradas: Dos cadenas (nombre usuario y contraseña)
     ' Salidas:  Devuelve un objeto usuario en caso de encontrarse en la BBDD  o un objeto
-    '            usuario con código_usuario 0 en caso contrario.
+    '            usuario con código_usuario 0 en caso contrario, o código_usuario -1 en caso
+                de que el usuario exista pero la contraseña sea incorrecta
+                
     '----------------------------------------------------------------------------------------- */
-    public function Login(String $nomUsu,String $pwd){
+    public function login(String $nomUsu,String $pwd){
         $entradaSanitizada=htmlspecialchars($nomUsu);
-        $conexion=conexion();
+        $conexion = new mysqli('127.0.0.1', "dewes", "dewes", "hundirflota");
+        if ($conexion->connect_errno) {
+            echo "Fallo al conectar a MySQL: " . $conexion->connect_error;
+        }
+        else{
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyeccion SQL
-        $consulta = "SELECT codUsu,nombre, pwd, victorias FROM hf_usuario WHERE nombre =?";   
-        $resultado = mysqli_prepare ($conexion , $consulta);       
+        $consulta = "SELECT codUsu,usuario,pwd,victorias,estado FROM hf_usuario WHERE usuario=?";   
+        $resultado = mysqli_prepare ($conexion , $consulta);  
         $ok = mysqli_stmt_bind_param($resultado ,"s", $cadena_escapada);    
         $ok_exe= mysqli_stmt_execute($resultado);                 
       
@@ -47,7 +54,7 @@ class ControlUsuario{
               echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error
           }
           else{ 
-              $ok=mysqli_stmt_bind_result($resultado, $db_codUsu,$db_usu,$db_hash,$db_victorias);
+              $ok=mysqli_stmt_bind_result($resultado, $db_codUsu,$db_usu,$db_hash,$db_victorias, $db_estado);
                 if ($ok==false){ //Controlar error
                       echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error          
                     }
@@ -57,17 +64,26 @@ class ControlUsuario{
                               $busqueda=true;
                               //Comprueba contraseña   
                               if (password_verify($pwd,$db_hash)){ //éxito-->Cargamos los datos en memoria con un objeto Usuario
-                                $objUsuario= new Usuario($db_codUsu,$db_usu,$db_hash,$db_victorias);
+                                $objUsuario= new Usuario($db_codUsu,$db_usu,$db_hash,$db_victorias,$db_estado);
+                                echo "Password verify=true<br />";
+                                $cod=$objUsuario->getCodUsu();
+                                echo   "EL codigo es $cod <br />";
+                                
+                                
                               }
-                              else{ $error=1; }         
+                              else{ $objUsuario= new Usuario(-1, null, null, null,null); #esto es una solucion cutre a la no sobrecarga de constructores.
+                                echo "Password verify=false<br />";
+                               }         
                           }
                           if ($busqueda==false){
                                 //echo "<br><span>El usuario no existe </span>";
-                                $objUsuario= new Usuario(0);
+                                $objUsuario= new Usuario(0,null, null, null,null);
+                                echo "Usuario no existe<br />";
                           }
                           mysqli_stmt_close($resultado);
                         }
           }
+        }
           $conexion->close(); //cerrar conexion
         return $objUsuario;
     }
@@ -81,7 +97,7 @@ class ControlUsuario{
     public function usuarioRegistrado($nomUsu)
     {
         $entradaSanitizada=htmlspecialchars($nomUsu);
-        $conexion=conexion();
+        $conexion=conexionBBDD();
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
         $consulta = "SELECT codUsu,nombre, pwd, victoria FROM hf_usuario WHERE nombre =?";   
@@ -121,7 +137,7 @@ class ControlUsuario{
     public function delUsuario($nomUsu)
     {
         $entradaSanitizada=htmlspecialchars($nomUsu);
-        $conexion=conexion();
+        $conexion=cconexionBBDD();
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
         $consulta = "DELETE FROM hf_usuario WHERE nombre =?";   
@@ -161,7 +177,7 @@ class ControlUsuario{
     '-------------------------------------------------------------------------------------*/
     public function getRanking(){
         
-        $conexion=conexion();
+        $conexion=conexionBBDD();
         $resultado = $conexion->query("SELECT nombre, victorias FROM hf_usuario ORDER BY victorias DES");
         $resultado->data_seek(0);
 
@@ -180,13 +196,13 @@ class ControlUsuario{
     ' Entradas: El código de un usuario existente y los puntos que ha ganado.
     ' Salidas: Un booleano (False si la operación se realiza con exito, True si hay error)
     '------------------------------------------------------------------------------------- */
-    public function upVictorias($nomUsu)
+    public function upVictorias($codUsu)
     {
         //Select del numero de victorias
-        $entradaSanitizada=htmlspecialchars($nomUsu);
-        $conexion=conexion();
+        $entradaSanitizada=htmlspecialchars($codUsu);
+        $conexion=conexionBBDD();
         $nombreUsu=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
-        $resultado = $conexion->query("SELECT victorias FROM hf_usuario WHERE nombre=$nombreUsu");
+        $resultado = $conexion->query("SELECT victorias FROM hf_usuario WHERE codUsu=$nombreUsu");
         $resultado->data_seek(0);
         while ($fila = $resultado->fetch_assoc()) {
             $victorias=$fila['victorias'];
@@ -194,8 +210,8 @@ class ControlUsuario{
         
         //Actualiza el numero de victorias
         $victorias++;
-        $conexion=conexion();
-        $resultado = $conexion->query("UPDATE hf_usuario SET victorias=$victorias FROM hf_usuario WHERE nombre=$nomUsu");
+        $conexion=conexionBBDD();
+        $resultado = $conexion->query("UPDATE hf_usuario SET victorias=$victorias FROM hf_usuario WHERE codUsu=$codUsu");
         $resultado->data_seek(0);
         while ($fila = $resultado->fetch_assoc()) {
             //Partidas actualizadas
@@ -204,4 +220,37 @@ class ControlUsuario{
         $conexion->close(); //cerrar conexion
         return $error;
     }
-}
+
+    /*  '---------------------------------------------------------------------------------------------------
+    ' Nombre: cambiarEstado
+    ' Proceso: Busca el estado del usuario en la Base de Datos y si el usuario es correcto lo cambia.
+    ' Entradas: El código de usuario.
+    ' Salidas: codigo de error: 0--todo ok, 1--error al actualizar, 2--Numero de estado incorrecto.
+    '--------------------------------------------------------------------------------------------------- */
+    public function cambiarEstado ($codUsu,$estado)
+    {
+          if ($estado<0 || $estado > 2){
+            $error=2;
+          }
+          else{
+
+            //Actualiza el estado
+            $conexion=conexionBBDD();
+            $resultado = $conexion->query("UPDATE hf_usuario SET estado=$estado FROM hf_usuario WHERE codUsu=$codUsu");
+            $resultado->data_seek(0);
+            $error=1;
+            while ($fila = $resultado->fetch_assoc()) {
+              
+              $error=0; //estado actualizado, no hay errores
+            }
+            $conexion->close(); //cerrar conexion
+                  
+        }
+      }
+   
+
+
+
+
+
+  }

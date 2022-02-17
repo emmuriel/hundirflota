@@ -1,5 +1,4 @@
 <?php
-session_name('HF');
 session_start();
 ?>
 <!DOCTYPE html>
@@ -33,19 +32,19 @@ session_start();
 <?php
 /************************************************************************************************************ */
   require_once("appData/clases.php");
-  require_once("appData/controlador_partida.php");
+  //require_once("appData/controlador_partida.php");
   require_once("appData/controlador_usuario.php");
   require_once("appData/moduloConexion.php");
 
   //Controlar que el usuario esté logeado
-  if ($_SESSION['token']&&$_SESSION['usu']){
-    echo "<p>Total de conexiones:". $_SESSION['tconex'] ." </p><br>";
-    echo "<form id='logout' action='validado.php' method='POST'><input type='submit' class='submit' name='salir' value='Cerrar sesion'></form><br><br><br>";
-    echo "<div><p class='titulo'>Bienvenid@  ". $_SESSION['usu']."!!</p></div>";
+  if ($_SESSION['usuario']){
+    $obUsu=unserialize($_SESSION['usuario']); # Deserializacion del objeto.
+    echo "<form id='logout' action='index.php' method='POST'><input type='submit' class='submit' name='salir' value='Cerrar sesion'></form><br><br><br>";
+    echo "<div><p class='titulo'>Bienvenid@  ".$obUsu->getNombre()."!!</p></div>";
    
  }
   else {
-    header("Location: https://localhost/HF/error.php");
+    header("Location: https://localhost/HF/Error.php");
   }
 
   if(isset($_POST['salir'])) {

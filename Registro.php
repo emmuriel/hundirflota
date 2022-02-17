@@ -9,34 +9,45 @@
     <script src="JS/Formulario.js" type="text/javascript"></script>
 </head>
 <body id= "cuerpo" class="fondo_pag">
-<form id="form1" method="POST" action="Registro.php">
-    <div>
+<form id="form1" class="formulario_registro" method="POST" action="Registro.php">
+    <div class="text_box">
+
+    <!--email -->
+    <p>
+        <label id="lbl_email">Correo electronico: </label> 
+        <input type="email" name="email" id="txt_email">
+    </p> 
+    <p>
+        <span id="lbl_error_email" visible="false"></span>
+    </p> 
+
     <!--nombre de usuario -->
     <p>
-        <label id="lbl_nombre">Tu nombre de usuario: </label>
-    </p>  
-        <input type="text" id="txt_nombre"> 
-    </p>  
-        <label id="lbl_error_nombre" visible="false"></label>
+        <label id="lbl_nombre">Nombre de usuario: </label> 
+        <input type="text" name="nombre" id="txt_nombre">
+    </p> 
+    <p>
+        <span id="lbl_error_nombre" visible="false"></span>
     </p>  
      <!--contraseña -->
     <p>
         <label id="lbl_password">Tu contraseña: </label>
     </p>  
-        <input type="password" id="txt_password">
-        <label id="lbl_error_password" visible="false"></label>
+        <input type="password" name="password" id="txt_password">
+        <span id="lbl_error_password" visible="false"></span>
     </p>  
      <!--Confirmación contraseña --> 
         <p>
         <label id="lbl_conf_pass" >Confirma tu contraseña:</label>
-        <input type="password" id="txt_conf_pass">
-        <label id="lbl_error_confpass" visible="false"></label>
+        <input type="password" name="confirmacion" id="txt_conf_pass">
+        <span id="lbl_error_confpass" visible="false"></span>
     </p> 
-         <!--boton registrar ahora--> 
-        <p>
-            <input type="submit" id="btn_registro" value="Registrar" />
-    </p>   
     </div>
+         <!--boton registrar ahora--> 
+    <p>
+        <input type="submit" name="registrar" id="btn_registro" class="btn_registrar_2" value="" />
+    </p>   
+    
     </form>
 </body>
 </html>
@@ -44,7 +55,21 @@
 <?php
 /*************************************************************************************************************************** */
   require_once("appData/clases.php");
-  require_once("appData/controlador_partida.php");
   require_once("appData/controlador_usuario.php");
   require_once("appData/moduloConexion.php");
+
+    if(isset($_POST['registrar'])) {
+        extract($_POST, EXTR_PREFIX_ALL, 'f');
+        $ok=validaFormReg();
+        if ($ok==false){ //Error
+            echo "<p>Usuario no registrado</p>";
+        }
+        else{
+            //Crea Usuario
+            $nuevoUsu= new Usuario($f_nombre, );
+            //Registra Usuario
+        }
+
+}
+
 ?>

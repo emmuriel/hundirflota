@@ -69,7 +69,7 @@
              //Encriptar contraseña
             $hash=password_hash($f_pwd, CRYPT_SHA256);
             //Crea Usuario
-            $nuevoUsu= new Usuario(0,$f_nombre,$_email,$hash,0,0);
+            $nuevoUsu= new Usuario(0,$f_nombre,$_email,$hash,0,0,null);
             //Registra Usuario
             }
             else{

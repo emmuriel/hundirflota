@@ -12,7 +12,6 @@
 <div>
 <form id="form1" class="formulario_registro" method="POST" action="Registro2.php">
   
-
     <!--email -->
     <p>
         <label id="lbl_email">Correo electronico: </label> 
@@ -45,9 +44,8 @@
     </p> 
     
          <!--boton registrar ahora--> 
-    <p>
         <input type="submit" name="registrar" id="registrar"  value="Registrarse" />
-    </p>   
+   
     
     </form>
     </div>
@@ -68,12 +66,15 @@
            // echo "<p><span>Usuario no registrado</span></p>";
         }
         else{
-            if ($f_pwd===$f_confirmacion){
-             //Encriptar contraseña
-            $hash=password_hash($f_pwd, CRYPT_SHA256);
+            if ($f_password===$f_confirmacion){
+            //Encriptar contraseña
+            $hash=password_hash($f_password, CRYPT_SHA256);
             //Crea Usuario
-            $nuevoUsu= new Usuario(0,$f_nombre,$_email,$hash,0,0,null);
+            $nuevoUsu= new Usuario(null,$f_nombre,$f_email,$hash,0,0,0);
             //Registra Usuario
+            $ctrlUsu= new ControlUsuario();
+            $ctrlUsu->registrarUsuario($nuevoUsu);
+
             }
             else{
                 echo "<p><span>Error:Las contraseñas no coinciden</span></p>";

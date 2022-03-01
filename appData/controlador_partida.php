@@ -12,6 +12,7 @@ class controlPartida{
     ''------------------------------------------------------------------------------------- */
     public function dispara_señr_servidor ()
     {
+
         return $cadTabl;
     }
 
@@ -58,7 +59,7 @@ class controlPartida{
     ' Entradas: El codigo de usuario, 2 enteros (coordenadas)
     ' Salidas:  Cambia la cadena tablero de la BBDD y actualiza turno
     '------------------------------------------------------------------------------------- */
-    public public function tomaBombazo ($codUsu, $x, $y){
+    public function tomaBombazo ($codUsu, $x, $y){
 
     }
     

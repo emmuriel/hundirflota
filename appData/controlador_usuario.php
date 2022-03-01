@@ -14,18 +14,19 @@ class ControlUsuario{
         $conexion=conexionBBDD();
         mysqli_set_charset($conexion, "utf8");  
         $hash=password_hash($nuevoUsuario->getPwd(), CRYPT_SHA256); 
-        $consulta = 'INSERT INTO (usuario,email, pwd, victorias,conexiones) FROM hf_usuario VALUES (?,?,?,?,?)';
+        $consulta = 'INSERT INTO hf_usuario (usuario,email, pwd, victorias,estado,conexiones) VALUES (?,?,?,?,?,?)';
         $resultado = mysqli_prepare($conexion , $consulta);       
-        $ok=mysqli_stmt_bind_param($resultado,"ssi",$nuevoUsuario->getNombre(),$nuevoUsuario->getEmail,$nuevoUsuario->getPwd(),$nuevoUsuario->getPuntuacion());    
+        $ok=mysqli_stmt_bind_param($resultado,"sssiii",$nuevoUsuario->getNombre(),$nuevoUsuario->getEmail(),$nuevoUsuario->getPwd(),$nuevoUsuario->getPuntuacion(),$nuevoUsuario->getEstado(), $nuevoUsuario->getConexion());    
         $ok_exe= mysqli_stmt_execute($resultado);                 
 
         if ($ok_exe==false){
             echo "<div class='parrafada'><p class='error'>Ha ocurrido un error al registrar el formulario en la BBDD.Registro no guardado</p></div>";  //Controla el error
         }
         else{ //ASOCIAR VARIABLES A LOS VALORES DEVUELTOS DE LA CONSULTA EN EL RESULT_SET
-            echo "<div class='parrafada'><p class='exito'>Comercial registrado</p></div>";  
+            header("Location:Registrado.html");  
         }
         $conexion->close(); //cerrar conexion
+        
     }
 
     /*-----------------------------------------------------------------------------------------
@@ -71,7 +72,7 @@ class ControlUsuario{
                                 
                                 
                               }
-                              else{ $objUsuario= new Usuario(-1, null, null,null, null,null); #esto es una solucion cutre a la no sobrecarga de constructores.
+                              else{ $objUsuario= new Usuario(-1, null, null,null, null,null,0,0); #esto es una solucion cutre a la no sobrecarga de constructores.
                                 echo "Password verify=false<br />";
                                }         
                           }
@@ -100,7 +101,7 @@ class ControlUsuario{
         $conexion=conexionBBDD();
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
-        $consulta = "SELECT codUsu FROM hf_usuario WHERE nombre =?";   
+        $consulta = "SELECT codUsu FROM hf_usuario WHERE usuario =?";   
         $resultado = mysqli_prepare ($conexion , $consulta);       
         $ok = mysqli_stmt_bind_param($resultado ,"s", $cadena_escapada);    
         $ok_exe= mysqli_stmt_execute($resultado);                 
@@ -178,7 +179,7 @@ class ControlUsuario{
         $conexion=conexionBBDD();
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
-        $consulta = "DELETE FROM hf_usuario WHERE nombre =?";   
+        $consulta = "DELETE FROM hf_usuario WHERE usuario =?";   
         $resultado = mysqli_prepare ($conexion , $consulta);       
         $ok = mysqli_stmt_bind_param($resultado ,"s", $cadena_escapada);    
         $ok_exe= mysqli_stmt_execute($resultado);   
@@ -216,7 +217,7 @@ class ControlUsuario{
     public function getRanking(){
         
         $conexion=conexionBBDD();
-        $resultado = $conexion->query("SELECT nombre, victorias FROM hf_usuario ORDER BY victorias DES");
+        $resultado = $conexion->query("SELECT usuario, victorias FROM hf_usuario ORDER BY victorias DES");
         $resultado->data_seek(0);
 
         while ($fila = $resultado->fetch_assoc()) {
@@ -285,10 +286,4 @@ class ControlUsuario{
                   
         }
       }
-   
-
-
-
-
-
   }

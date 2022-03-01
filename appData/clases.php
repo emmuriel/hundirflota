@@ -93,6 +93,10 @@ class BatallaDual extends Batalla{
         $this->turno=$trn;
     }
 } 
+/********************************************************************************
+ * Clase Usuario-> define una clase Usuario cuyos atributos coinciden
+ * con los campos de la tabla hf_usuario de la BBDD
+********************************************************************************/
 
 class Usuario{
     Private $cod_usu; //Integer
@@ -100,16 +104,18 @@ class Usuario{
     Private $email; //string
     Private $contrasenia; //String
     Private $puntuacion = 0;//Integer
+    Private $conexiones = 0; 
     Private $estado = 0; //Integer
 
     /*Constructores */
-    public function __construct($codUsu,$nombre,$mail,$pwd,$puntuacion,$estado){
+    public function __construct($codUsu,$nombre,$mail,$pwd,$puntuacion,$estado, $numconex){
 
         $this->cod_usu=$codUsu;
         $this->nombre=$nombre;
         $this->email=$mail;
         $this->contrasenia=$pwd;
         $this->puntuacion=$puntuacion;
+        $this->conexiones=$numconex;
         $this->estado=$estado;
     
     }
@@ -133,6 +139,9 @@ class Usuario{
     public function getEstado(){
         return $this->estado;
     }
+    public function getConexion(){
+        return $this->conexiones;
+    }
 
     //SETTERS
     public function setCodUsu($codUsu){
@@ -147,7 +156,7 @@ class Usuario{
     public function setPwd($pwd){
         $this->contrasenia=$pwd;
     }
-    public function setTurno($ptos){
+    public function setPuntuacion($ptos){
         $this->puntuacion=$ptos;
     }
     public function setEstado($estado){

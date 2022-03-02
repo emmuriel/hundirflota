@@ -12,7 +12,7 @@ class controlPartida{
     ''------------------------------------------------------------------------------------- */
     public function dispara_señr_servidor ()
     {
-
+        $cadTabl;
         return $cadTabl;
     }
 
@@ -23,7 +23,7 @@ class controlPartida{
     '' Salidas: Una cadena que representa a la matriz de tablero
     ''------------------------------------------------------------------------------------- */
     public function generarTablero (){
-
+        $cadTabl;
         return $cadTabl;
     }
     /*
@@ -36,7 +36,7 @@ class controlPartida{
     '------------------------------------------------------------------------------------- */
     public function crearPartidaBoot()
     {
-
+        $exito;
         return $exito;
     }
     /*  '-------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ class controlPartida{
     ' Salidas: Un boolean (True si la partida se ha creado con exito y False delo contrario)
     '-------------------------------------------------------------------------------------*/
     public function regPartidaBoot($codUsu, $cadTablUsu, $cadTabBoot){
-
+        $exito;
         return $exito;
     }
     /*   '-------------------------------------------------------------------------------------
@@ -75,6 +75,7 @@ class controlPartida{
     '------------------------------------------------------------------------------------- */
     public function ejecutarDisparo (&$cadTabl, $x, $y)
     {
+        $diana;
         return $diana;
     }
     /* '-------------------------------------------------------------------------------------
@@ -85,7 +86,7 @@ class controlPartida{
     '-------------------------------------------------------------------------------------*/
     public function getCoordenada ($num)
     {
-
+        $num2;
         return $num2;
     }
     /*    '-------------------------------------------------------------------------------------
@@ -95,7 +96,7 @@ class controlPartida{
     ' Salidas: Un booleano, True si el usuario ya esta juagndo una partida, false sino
     '------------------------------------------------------------------------------------- */
     public function partidaExiste ($codUsu){
-
+        $existe;
         return $existe;
     }
 
@@ -121,7 +122,7 @@ class controlPartida{
     '------------------------------------------------------------------------------------- */
     public function comprobarGanador($cadTabl)
     {
-        
+        $ganador;
         return $ganador;
 
     }
@@ -135,6 +136,7 @@ class controlPartida{
     '-------------------------------------------------------------------------------------*/
     public function obtenerPartida ($codUsu)
     {
+        $obPartida;
         return $obPartida;
     }
     /* */

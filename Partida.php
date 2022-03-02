@@ -28,10 +28,10 @@
 
 <?php
 /************************************************************************************************************ */
-  require_once("appData/clases.php");
-  //require_once("appData/controlador_partida.php");
-  require_once("appData/controlador_usuario.php");
-  require_once("appData/moduloConexion.php");
+  require_once("modelo/clases.php");
+  //require_once("modelo/controlador_partida.php");
+  require_once("modelo/controlador_usuario.php");
+  require_once("modelo/moduloConexion.php");
 
   //Controlar que el usuario esté logeado
   if ($_SESSION['usuario']){

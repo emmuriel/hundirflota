@@ -54,10 +54,10 @@
 
 <?php
 /*************************************************************************************************************************** */
-  require_once("appData/clases.php");
-  require_once("appData/funciones.php");
-  require_once("appData/controlador_usuario.php");
-  require_once("appData/moduloConexion.php");
+  require_once("control/clases.php");
+  require_once("modelo/funciones.php");
+  require_once("modelo/controlador_usuario.php");
+  require_once("modelo/moduloConexion.php");
 
     if(isset($_POST['registrar'])) {
         extract($_POST, EXTR_PREFIX_ALL, 'f');

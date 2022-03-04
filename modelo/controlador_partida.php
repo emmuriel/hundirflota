@@ -1,5 +1,6 @@
 <?php
-
+require_once("moduloConexion.php");
+require_once("clases.php");
 class controlPartida{
 
     /*
@@ -12,18 +13,63 @@ class controlPartida{
     ''------------------------------------------------------------------------------------- */
     public function dispara_señr_servidor ()
     {
-        $cadTabl;
-        return $cadTabl;
+       # $cadTabl;
+        #return $cadTabl;
     }
 
-    /*''-------------------------------------------------------------------------------------
+        /*''-------------------------------------------------------------------------------------
     '' Nombre: generarTablero
-    '' Proceso: Genera automáticamente las posiciones en el tablero de los barcos
+    '' Proceso: 
     '' Entradas: Ninguna
     '' Salidas: Una cadena que representa a la matriz de tablero
     ''------------------------------------------------------------------------------------- */
     public function generarTablero (){
-        $cadTabl;
+        
+    }
+    
+        /*''-------------------------------------------------------------------------------------
+    '' Nombre: totalTableros
+    '' Proceso: Hace una cosulta a la tabla HF_tablero en la BBDD para contar el numero de registros.
+    '' Entradas: Ninguna
+    '' Salidas: Un entero que corresponde al total de registros de la tabla HF_tableros
+    ''------------------------------------------------------------------------------------- */
+    public function totalTableros (){
+        $conexion=conexionBBDD();
+        $resultado=$conexion->query ("SELECT COUNT(*) FROM hf_tablero");   
+        if ($resultado) {
+            $fila = $resultado->fetch_row();
+            $total=$fila[0];
+            
+            $resultado->close(); // cerrar el resultset 
+        }
+          $conexion->close(); //cerrar conexion
+
+        return $total;
+    }
+    /*''-------------------------------------------------------------------------------------
+    '' Nombre: getTablero
+    '' Proceso: Hace una consulta a la BBDD y extrae una cadena aleatoria de la tabla HF_tableros
+    '' Entradas: Ninguna
+    '' Salidas: Una cadena que representa a la matriz de tablero o null si el rango si ocurre error
+    ''------------------------------------------------------------------------------------- */
+    public function getTablero (){
+        $cadTabl=null;
+        $numReg=self::totalTableros();  //Obtenermos el rango del aleatorio
+        $aleatorio= rand(1,$numReg);    //Genera un aletorio dentro del rango
+        $conexion=conexionBBDD();
+        $resultado=$conexion->query ("SELECT tablero FROM hf_tablero WHERE codTablero=$aleatorio");   
+        if ($resultado) {
+            $fila = $resultado->fetch_row();
+            $cadTabl=$fila[0]; 
+            
+            $resultado->close(); // cerrar el resultset 
+        }
+        else {
+            echo "El tablero mandado está fuera de rango o la consulta está generando error\n";
+            echo "El codTablero = $aleatorio ";
+        }
+          $conexion->close(); //cerrar conexion
+
         return $cadTabl;
     }
     /*
@@ -139,6 +185,9 @@ class controlPartida{
         $obPartida;
         return $obPartida;
     }
+
+
+
     /* */
     /* */
 }

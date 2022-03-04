@@ -35,11 +35,11 @@ CREATE TABLE IF NOT EXISTS `HF_tablero` (
 )ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='cadena de tableros';
 
 --hay que modificar las contraseñas en planoi por los hashes
-INSERT INTO `HF_usuario`(`estado`,`usuario`,`pwd`,`victorias`) VALUES   (0,'Eli','Eli',389),
-																(1,'Juanito','Traga',100),
-																(0,'JJ','JJ',99),
-																(1,'Eze','kiel',200),
-																(0,'Loco','loco',200);
+INSERT INTO `HF_usuario`(`estado`,`usuario`,`pwd`,`victorias`, `estado`,`conexiones`) VALUES   (0,'Eli','Eli',389,0,0,1),
+																(1,'Juanito','Traga',100,0,0,1),
+																(0,'JJ','JJ',99,0,0,1),
+																(1,'Eze','kiel',200,0,0,1),
+																(0,'Loco','loco',200,0,0,1);
 
 																
 

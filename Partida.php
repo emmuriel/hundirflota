@@ -41,11 +41,15 @@
    
  }
   else {
-    header("Location: https://localhost/HF/Error.php");
+    
   }
 
-  if(isset($_POST['salir'])) {
-      logout();
+  if(isset($_POST['salir'])) {  
+    
+    $obUsu=unserialize($_SESSION['usuario']);
+    $ctrlUsu= new ControlUsuario ();
+    $ctrlUsu->cambiarEstado($obUsu->getCodUsu(), 0); //Cambiar estado en BBDD a no conectado
+    logout(); 
   
 }
 ?>

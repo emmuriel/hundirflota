@@ -63,6 +63,6 @@
         }
     
     if (isset($_POST['registrar'])){ #Registro
-        header("Location: https://localhost/HF/Registro2.php");
+        header("Location: https://localhost/HF/Registro.php");
     }
 ?>

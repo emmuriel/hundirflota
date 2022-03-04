@@ -40,11 +40,7 @@ class ControlUsuario{
     '----------------------------------------------------------------------------------------- */
     public function login(String $nomUsu,String $pwd){
         $entradaSanitizada=htmlspecialchars($nomUsu);
-        $conexion = new mysqli('127.0.0.1', "dewes", "dewes", "hundirflota");
-        if ($conexion->connect_errno) {
-            echo "Fallo al conectar a MySQL: " . $conexion->connect_error;
-        }
-        else{
+        $conexion=conexionBBDD();
         $cadena_escapada=mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyeccion SQL
         $consulta = "SELECT codUsu,usuario,email,pwd,victorias,estado,activacion FROM hf_usuario WHERE usuario=?";   
         $resultado = mysqli_prepare ($conexion , $consulta);  
@@ -66,6 +62,8 @@ class ControlUsuario{
                               //Comprueba contraseña   
                               if (password_verify($pwd,$db_hash)){ //éxito-->Cargamos los datos en memoria con un objeto Usuario
                                 $objUsuario= new Usuario($db_codUsu,$db_usu,$db_mail,$db_hash,$db_victorias,$db_estado,$db_act);
+                                 
+                                self::cambiarEstado($db_codUsu,1);  //Actualiza el estado del usuario
                                 echo "Password verify=true<br />";
                                 $cod=$objUsuario->getCodUsu();
                                 echo   "EL codigo es $cod <br />";
@@ -84,7 +82,7 @@ class ControlUsuario{
                           mysqli_stmt_close($resultado);
                         }
           }
-        }
+        
           $conexion->close(); //cerrar conexion
         return $objUsuario;
     }
@@ -262,7 +260,10 @@ class ControlUsuario{
 
     /*  '---------------------------------------------------------------------------------------------------
     ' Nombre: cambiarEstado
-    ' Proceso: Busca el estado del usuario en la Base de Datos y si el usuario es correcto lo cambia.
+    ' Proceso: Actualiza el valor del campo estado en la BBDD. Este campo puede tomar 3 valores
+          -0 no conectado
+          -1 conectado sin partida en curso
+          - 2 Conectado con partida en curso
     ' Entradas: El código de usuario.
     ' Salidas: codigo de error: 0--todo ok, 1--error al actualizar, 2--Numero de estado incorrecto.
     '--------------------------------------------------------------------------------------------------- */
@@ -285,5 +286,6 @@ class ControlUsuario{
             $conexion->close(); //cerrar conexion
                   
         }
+        return $error;
       }
   }

@@ -8,11 +8,45 @@ class controlPartida{
     '' Nombre: dispara_señr_servidor
     '' Proceso: Simula un sistema de inteligencia...recorre la matriz del tablero del
     ''          usuario leyendo los valores # y X.
+                dE MOMENTO DIAPARA ALEATORIAMENTE. PROXIMAMENTE IMPLEMENTAREMOS UN ARBOL DE DECISIONES
     '' Entradas: Ninguna
     '' Salidas: Una cadena que representa a la matriz de tablero
     ''------------------------------------------------------------------------------------- */
-    public function dispara_señr_servidor ()
+    public function dispara_señr_servidor ($codUsu)
     {
+        $i=0;
+        $j=0;
+        $posicion_correcta=false; //bool
+        $matriz= Array (10,10);
+        $arr_cad= Array (100);
+
+        #OBTENER MATRIZ-Tablero DE USUARIO
+        $partida = self::obtenerPartida($codUsu);
+        //Pasar la cadena a array de caracteres
+        $arr_cad = str_split($partida->getTablero1());
+
+        //Recorrer array pasandolo a tablero
+        /*Hablando de posiciones,en el array unidimensional, el contador i establece el valor de la unidad y el contador
+        j el valor de la decena,juntos (j*10 + i)obtienen la posicion en el array_cadena que corresponde insertar en la matriz
+        de (i)(j) que viene siendo el tablero*/
+        for ($i=0;$i<9;$i++){
+            for ($j=0;$j<9;$j++){
+                $matriz[$i][$j] = $arr_cad[$i * 10 + $j];
+            }
+        }
+
+        while ($posicion_correcta==false){
+            $x = self::getCoordenada(10);
+            $y = self::getCoordenada(10);
+                if ($matriz[$x][$y] =="#" || $matriz[$x][$y] == "x"){
+                    $posicion_correcta = false;
+                }   
+                else{
+                    $posicion_correcta=true;
+                }
+        }
+        self::tomaBombazo($codUsu, $x, $y);
+    
        # $cadTabl;
         #return $cadTabl;
     }

@@ -50,15 +50,7 @@
     </form>
     </div>
     <div>
-        <?php
-          require_once("modelo/controlador_partida.php");
-          require_once("modelo/moduloConexion.php");
-        
-            echo "pruebas\n";
-            $ctrl=new controlPartida();
-            $cadTablero=$ctrl->getTablero();
-            echo "cadena resultado=\n $cadTablero";
-        ?>
+
     </div>
 </body>
 </html>

@@ -10,8 +10,54 @@
     function logout(){
         session_destroy();
         unset($_SESSION['usuario']);
-        header('Location:https://localhost/index.php'); //redirige a index.php
+        header('Location:http://localhost/index.php'); //redirige a index.php
     }
+
+
+  /*'-------------------------------------------------------------------------------------
+    ' Nombre: crearCadena
+    ' Proceso:  Concatena los datos de usuario y de la partida para mandar una respuesta http 
+    ' Entradas: un objeto Usuario, Un objeto partida, y un entero que indica quien es el ganador.
+    ' Salidas: no tiene, envia la cadena por http al cliente en background
+    '-------------------------------------------------------------------------------------*/
+    function crearCadena($usu, $partida, $ganador){
+
+        $respuesta = "".$usu->getCod(). "|".$usu->getNombre(). "|". $usu->getPuntuacion() ."|".$partida->getTablero1()."|".$partida->getTablero2()."|".$partida->getTurno()."|".$ganador."|";
+        json_encode($respuesta);
+      }
+    /*   '-------------------------------------------------------------------------------------
+    ' Nombre: procesar_comprobacion_disparo
+    ' Proceso: Consulta con el codigo de usuario, recoge la partida , y pide las coordenadas
+    '           
+    ' Entradas: un cls_usuario
+    ' Salidas: No tiene
+    '-------------------------------------------------------------------------------------*/
+    function procesarComprobacionDisparo($usu){
+
+        $ctrlPartida= new controlPartida();
+        $ganador=false;
+   
+        /*Decrementar las coordenadas para situarlas en la matriz (en el tablero del cliente van de 1 a 10 y en 
+        tablero del servidor va de 0 a 9*/
+        $x = json_decode($_POST['x']) - 1;   //String
+        $y = json_decode($_POST['y']) - 1;  //String
+
+        #Comprobar tiros
+        $ctrlPartida->tomaBombazo($usu->getCod(), $x, $y);
+        $partida = $ctrlPartida->obtenerPartida($usu->getCod());
+
+        #Comprobar si el usuario ha ganado
+        $ganador = $ctrlPartida->comprobarGanador($partida->getTablero2());
+        if($ganador==true){
+          $car_gan="1";
+        }
+        else{
+          $car_gan="0";
+        }
+        //Crear la cadena con los datos del usuario y de la partida actualizados
+        crearCadena($usu,$partida,$car_gan);
+
+      }
 
   /*'-------------------------------------------------------------------------------------
     ' Nombre: validaFormReg

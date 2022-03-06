@@ -1,6 +1,6 @@
 <?php
 
-class Batalla{
+class Partida{
 
     Private $jug1;   //Integer
     Private $tablero1;  //String
@@ -46,7 +46,7 @@ class Batalla{
     }
 } 
 
-class BatallaDual extends Batalla{
+class BatallaDual extends Partida{
     Private $sesion; //String Variable de sesión
     Private $codPartida; //Integer
     Private $jug2; //Integer

@@ -17,11 +17,10 @@
 <div id="Conectados">
 <form id="formulario" class="formulario_principal" action="Principal.php"  method="POST">
     <!--Div para la cabecera -->
-        <div id= "cabecera" class="cabecera">
-        <span id="datos_usuario" visible="false" class="datos_usu"></span>
-        </div>
+        <div></div>
+
       <!--Div para la botones --> 
-            <input id="Jugar" type="submit" value="Jugar" />
+            <input id="peticion" type="submit" value="Peticion" />
 </form>
 </div>
 
@@ -30,3 +29,7 @@
   
 </body>
 </html>
+<?php
+/***************************************************************************************************/
+
+ ?>

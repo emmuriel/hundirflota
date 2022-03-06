@@ -19,10 +19,10 @@ function getTransport() {
     }
     else if (window.ActiveXObject) {
         try {
-            transport = new ActiveXObject('Msxml2.XMLHTTP');
+            transport = new ActiveXObject('Msxml2.XMLHTTP');  //Para el resto de navegadores
         }
         catch (err) {
-            transport = new ActiveXObject('Microsoft.XMLHTTP');
+            transport = new ActiveXObject('Microsoft.XMLHTTP'); //Para intenet explorer
         }
     }
 }
@@ -98,13 +98,10 @@ function Carga_datos(){
  getTransport(); 
         if (transport) {
             
-            transport.open('POST','Partida.aspx');
-
+            transport.open('POST','Partida.php');
             transport.onreadystatechange = procesaPeticion_1;
             //cabecera
             transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-             
             transport.send("peticion=1");//Enviar peticion
         }
 }
@@ -118,7 +115,6 @@ function procesaPeticion_1(){
 if (transport.readyState == 1) {
 
     }
-
     //Si ya se ha llegao al estado 4, en el que ya ha habido una respuesta del sevridor
     if (transport.readyState == 4) {
 
@@ -131,9 +127,7 @@ if (transport.readyState == 1) {
             var cadena_datos= transport.responseText;
             alert(transport.responseText)
              document.getElementById("Abandonar").visibility='hidden';
-             
              cargar_datos_usu(cadena_datos);
-
             
         }
     }
@@ -166,7 +160,7 @@ function Empezar_partida(){
 
 //            transport.open('GET', 'Default.aspx?opcion='+ opcion +'&random=' + Math.random()); //Manda por el metodo get, en el query la opcion seleccionada en el evento onchange del DDL
             
-            transport2.open('POST','Partida.aspx');
+            transport2.open('POST','Partida.php');
 
             transport2.onreadystatechange = procesaPeticion_2;
             //cabecera
@@ -196,11 +190,9 @@ function procesaPeticion_2(){
         var respuesta_server = transport2.responseText;
         if (respuesta_server.substring(0,5)=="Error")
         {
-            
-                //Redirecciona a la página de error
-               //  location.href = "http://localhost:49306/HF%20usuarioVSboot/Error.htm";  //url k pilla en casa
-                  location.href = "Error.htm";    //url que pilla en clase
-                  //   window.location = "http://localhost:1186/HF usuarioVSboot/Error.htm";
+            //Redirecciona a la página de error
+            location.href = "http://localhost/HF/Error.php";    
+                
         }
             else
             {
@@ -274,146 +266,7 @@ Nombre: obtener_tablero
 Proceso: A partir de una cadena de 100 caracteres inicializa una matriz de caracteres
 ------------------------------------------------------------------------------------*/
 
-/*    function obtener_tablero(cadena_tab,jugador){
-var i,j;
-var arr_cad= new Array();
-var cadena = new String(cadena_tab);
 
-//Pasar la cadena a array de caracteres
-arr_cad= cadena.split("");
-// Crear <tbody> y añadirla como hijo de <table>
-var miTbody = document.createElement("tbody");
-	
-
-//Recorrer cadena
-for(i=0;i<=9;i++){
-  
-var nuevo_fila = document.createElement("tr");
-   
-var indice= i+1;
-nuevo_fila.setAttribute("id",indice.toString());
-        
-for (j=0;j<=9;j++){
-                  
-/*Hablando de posiciones, en el array unidimensional, el contador i establece el valor de la unidad y el contador
-j el valor de la decena,juntos (j*10 + i)obtienen la posicion en el array_cadena que corresponde insertar en la matriz
-de (i)(j)
-var nueva_celda = document.createElement("td");
-                 
-nueva_celda.name= ((j+1) * 10 + (i+1));
-                 
-                 
-if (jugador==2){  //Si el tablero es el de tirar dle jugador
-              
-//asignar estilo segun el contenido del array para esa casilla
-switch (arr_cad[j * 10 + i]){
-                 
-case '0': //agua no explotada
-                     
-var nuevo_boton = document.createElement("input");
-nuevo_boton.type= "button";
-nuevo_boton.value= "";
-nuevo_boton.name= ((j+1) * 10 + (i+1));
-nuevo_boton.setAttribute("class", "btn_0");
-nuevo_boton.onclick = function() { Enviar_jugada(this.name) };
-nueva_celda.appendChild(nuevo_boton);
-//Crear boton con los atributos y el manejador
-//  nuevo_boton.onclick = function () {Enviar_jugada(this.name)}; //En el evento onclick le enviamos 
-break;
-                     
-                     
-case '1': //barco no explotado
-                     
-//Crear boton con los atributos y el manejador
-var nuevo_boton = document.createElement("input");
-nuevo_boton.type= "button";
-nuevo_boton.value= "";
-nuevo_boton.name= ((j+1) * 10 + (i+1));
-nuevo_boton.setAttribute("class", "btn_0");
-nuevo_boton.onclick = function() { Enviar_jugada(this.name) };
-nueva_celda.appendChild(nuevo_boton);
-//  nuevo_boton.onclick = function () {Enviar_jugada(this.name)}; //En el evento onclick le enviamos 
-break;
-                     
-case '#': //agua explotada
-var nuevo_imagen = document.createElement("img");
-nuevo_imagen.src= "~/images/btn_agua.png";
-nuevo_imagen.alt= ((j+1) * 10 + (i+1));
-nuevo_imagen.setAttribute("class","img_agua");
-nueva_celda.appendChild(nuevo_imagen);
-break;
-                     
-case 'x': //barco explotado
-                                         
-var nuevo_imagen = document.createElement("img");
-nuevo_imagen.src= "~/images/btn_x.png";
-nuevo_imagen.alt= ((j+1) * 10 + (i+1));
-                     
-nuevo_imagen.setAttribute("class","img_x");
-nueva_celda.appendChild(nuevo_imagen);
-break;
-}
-//añadir celda a fila
-                  
-}
-else if (jugador==1){ //La tabla pertenece al boo
-                
-switch (arr_cad[j * 10 + i]){
-case '0': //agua no explotada
-var nuevo_imagen = document.createElement("img");
-nuevo_imagen.src= "~/images/btn_0.png";
-nuevo_imagen.alt= ((j+1) * 10 + (i+1));
-nuevo_imagen.setAttribute("class","img_0");
-nueva_celda.appendChild(nuevo_imagen);
-break;
-                     
-case '1': //barco no explotado
-                     
-var nuevo_imagen = document.createElement("img");
-nuevo_imagen.src= "~/images/btn_1.png";
-nuevo_imagen.alt= ((j+1) * 10 + (i+1));
-nuevo_imagen.setAttribute("class","img_1");
-nueva_celda.appendChild(nuevo_imagen);
-break;
-                     
-case '#': //agua explotada
-var nuevo_imagen = document.createElement("img");
-nuevo_imagen.src= "~/images/btn_agua.png";
-nuevo_imagen.alt= ((j+1) * 10 + (i+1));
-nuevo_imagen.setAttribute("class","img_agua");
-nueva_celda.appendChild(nuevo_imagen);
-break;
-                     
-case 'x': //barco explotado
-var nuevo_imagen = document.createElement("img");
-nuevo_imagen.src= "~/images/btn_x.png";
-                     
-nuevo_imagen.alt= ((j+1) * 10 + (i+1));
-nuevo_imagen.setAttribute("class","img_x");
-nueva_celda.appendChild(nuevo_imagen);
-break;
-}
-                 
-}//fin stwic
-nuevo_fila.appendChild(nueva_celda);       
-}//fin for j
-            
-miTbody.appendChild(nuevo_fila);
-            
-
-} //for i
-        
-if (jugador==1){
-//añadir fila a tabla usuario
-         
-document.getElementById("tbl_usuario").appendChild(miTbody);    
-}
-else if (jugador==2){
-document.getElementById("tbl_boot").appendChild(miTbody); 
-}
-recorre_nodos_tabla();
-}*/
- 
  
  function obtener_tablero(cadena_tab,jugador){
         var i,j;
@@ -746,7 +599,7 @@ coordenadas=id_boton.split("|");
 
 //            transport.open('GET', 'Default.aspx?opcion='+ opcion +'&random=' + Math.random()); //Manda por el metodo get, en el query la opcion seleccionada en el evento onchange del DDL
             
-            transport3.open('POST','Partida.aspx');
+            transport3.open('POST','Partida.php');
 
             transport3.onreadystatechange = procesaPeticion_3;
             //cabecera
@@ -812,7 +665,6 @@ function procesaPeticion_3(){
                                                 
 ################################################################################################################*/
 
-
 /*------------------------------------------------------------------------------------
 Nombre: turno_servidor
 Proceso: Le hace una peticion al servidor de tipo 4 ( Servidor tira y devuelve el
@@ -823,7 +675,7 @@ function turno_servidor(){
  getTransport4(); //Abrir transport
         if (transport4) {
             
-            transport4.open('POST','Partida.aspx');
+            transport4.open('POST','Partida.php');
 
             transport4.onreadystatechange = procesaPeticion_4;
             //cabecera
@@ -853,8 +705,6 @@ function procesaPeticion_4(){
             alert("error");
         }
         else if (transport4.status == 200) {
-
-                
         //LIMPIAR TABLA DE POSIBLES NODOS YA CREADOS
         eliminar_tablero();
         //Cargar nueva distribucion del tablero
@@ -865,7 +715,6 @@ function procesaPeticion_4(){
     }
 
 }
-
 
 /*################################################################################################################
 
@@ -883,21 +732,16 @@ function terminar_partida(){
  getTransport(); //Abrir transport
  
         if (transport) {
-
-//            transport.open('GET', 'Default.aspx?opcion='+ opcion +'&random=' + Math.random()); //Manda por el metodo get, en el query la opcion seleccionada en el evento onchange del DDL
-            
             transport.open('POST','Partida.aspx');
 
             transport.onreadystatechange = procesaRespuesta_peticion_5;
             //cabecera
             transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-             //Enviar opcion
+             //Enviar opcion 5
             transport.send("peticion=5");
         }
 }
-
-
 
 /*------------------------------------------------------------------------------------
 Nombre: procesaRespuesta_peticion5()
@@ -912,20 +756,15 @@ function procesaRespuesta_peticion_5(){
         if (transport.status == 404) {
             alert("error");
         }
-        else if (transport.status == 200) {
-        //Si la peticion se ha realizado con exito,recargar la página
-        window.location="Partida.htm"; //URL clase
-        //window.location = "http://localhost:49306/HF%20usuarioVSboot/Partida.htm";  //URL casa
-       // window.location = "http://localhost:1186/HF usuarioVSboot/Partida.htm";
-    
+        else if (transport.status == 200) {  //Si la peticion se ha realizado con exito,recargar la página 
+        window.location="http://localhost/HF/Partida.php"; 
         }
     }
 }
 
-
 /*################################################################################################################
 
-                      PETICION 7   : TERMINAR PARTIDA Y SUMAR VICTORIA AL USUARIO
+                      PETICION 6   : CIERRA USUARIO
                                                 
 ################################################################################################################*/
 
@@ -940,7 +779,7 @@ function cierra_usuario(){
  getTransport(); //Abrir transport
         if (transport) {
             
-            transport.open('POST','Partida.aspx');
+            transport.open('POST','Partida.php');
 
             //cabecera
             transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -968,14 +807,12 @@ function victoria_usuario(){
  getTransport(); //Abrir transport
         if (transport) {
             
-            transport.open('POST','Partida.aspx');
-
+            transport.open('POST','Partida.php');
             transport.onreadystatechange = procesaPeticion_7;
-            //cabecera
+            //Recoge la cabecera
             transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             
-             transport.send("peticion=7");
-           
+             transport.send("peticion=7");        
         }
 }
 /*------------------------------------------------------------------------------------
@@ -987,17 +824,11 @@ function procesaPeticion_7(){
 
     //Si ya se ha llegao al estado 4, en el que ya ha habido una respuesta del sevridor
     if (transport.readyState == 4) {
-
         if (transport.status == 404) {
             alert("error");
         }
-        else if (transport.status == 200) {
-
-                //Recarga la pagina 
-                // location.href = "http://localhost:49306/HF%20usuarioVSboot/Partida.htm";  //url k pilla en casa
-          location.href = "Partida.htm";    //url que pilla en clase
-        //window.location = "http://localhost:1186/HF usuarioVSboot/Partida.htm";
+        else if (transport.status == 200) {   
+        location.href = "http://localhost/HF/Partida.php";    //Recarga la pagina 
     }
-
 }
 }

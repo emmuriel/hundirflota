@@ -57,6 +57,7 @@
                     
                         #Cargar usuario en Session serializando y redireccionar a partida
                         $_SESSION['usuario']= serialize($obUsu) ;
+                        
                         header("Location: https://localhost/HF/Partida.php");
                     }
                 }

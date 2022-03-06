@@ -266,8 +266,6 @@ Nombre: obtener_tablero
 Proceso: A partir de una cadena de 100 caracteres inicializa una matriz de caracteres
 ------------------------------------------------------------------------------------*/
 
-
- 
  function obtener_tablero(cadena_tab,jugador){
         var i,j;
         var arr_cad= new Array();

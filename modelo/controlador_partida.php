@@ -140,9 +140,50 @@ class controlPartida{
     ' Salidas:  Cambia la cadena tablero de la BBDD y actualiza turno
     '------------------------------------------------------------------------------------- */
     public function tomaBombazo ($codUsu, $x, $y){
+        $cadena_tablero="";
+        #Comprobar turno
+
+            #abrir conexion
+            $conexion=conexionBBDD();
+            $resultado = $conexion->query("SELECT turno, tablero1, tablero2 FROM hf_partidaBoot WHERE codUsu=$codUsu");
+            $resultado->data_seek(0);
+            while ($fila = $resultado->fetch_assoc()) { //Si el usuario tiene partida. Carga tableros y turno
+                $turno  = $fila['turno'];
+                $tableroUsu   = $fila['tablero1'];
+                $tableroBoot   = $fila ['tablero2'];
+            }
+
+            #SI EL TURNO ERA DEL JUGADOR comprobar coordenadas en tablero2 
+            if ($turno==true){
+
+                $acierto= self::ejecutarDisparo($tableroBoot,$x,$y);
+                if ($acierto==true){
+                    $nuevo_turno=1;
+                }
+                else{
+                    $nuevo_turno=0;
+                }
+            }
+            else{ #TURNO DE SERVIDOR: comprobar coodenadas en $tableroUsu
+                $acierto= self::ejecutarDisparo($tableroUsu,$x,$y);
+                if ($acierto==true){
+                    $nuevo_turno=1;
+                }
+                else{
+                    $nuevo_turno=0;
+                }
+            }
+            $conexion->close();
+
+
+            #abrir conexion, actualizar la partida
+            $conexion=conexionBBDD();
+            $resultado = $conexion->query("UPDATE hf_partidaBoot SET tablero1=" .$tableroUsu. " , tablero2 = ". $tableroBoot . ", turno=" . $nuevo_turno . " WHERE codUsu=$codUsu" );
+            $resultado->data_seek(0);
+            $conexion->close();
 
     }
-    
+
     /* '-------------------------------------------------------------------------------------
     ' Nombre: ejecutarDisparo
     ' Proceso: A partir de una cadena de 100 caracteres crea una matriz de caracteres, comprueba
@@ -155,7 +196,60 @@ class controlPartida{
     '------------------------------------------------------------------------------------- */
     public function ejecutarDisparo (&$cadTabl, $x, $y)
     {
-        $diana;
+        $matriz= Array(10, 10); //char
+        $acierto=False;
+        $cadena=""; //String
+        $arr_cad= Array (100); //char
+        #Pasar la cadena a array de caracteres
+        $arr_cad = str_split($cadTabl); 
+
+        #Generar tablero $matriz
+        for ($i=0;$i<9;$i++){
+            for ($j=0;$j<9;$j++){
+                $matriz[$i][$j] = $arr_cad[$i * 10 + $j];
+            }
+        }
+
+        #COMPROBAR DISPARO
+        switch ($matriz[$x][$y]){
+            case "0":
+                $matriz[$x][$y] = "#";  //AGUA
+                $diana = False;
+                break;
+
+            case "1" :
+                $matriz[$x][$y] = "x"; //TOCADO'
+                $diana = True;
+                break;
+            case "2" :
+                $matriz[$x][$y] = "x"; //TOCADO'
+                $acierto = True;
+                break;
+            case "N" :
+                $matriz[$x][$y] = "x"; //TOCADO'
+                $diana = True;
+                break;
+
+            case "S" :
+                $matriz[$x][$y] = "x"; //TOCADO'
+                $diana = True;
+                break;
+            case "W" :
+                $matriz[$x][$y] = "x"; //TOCADO'
+                $diana = True;
+                break;
+            case "E" :
+                $matriz[$x][$y] = "x"; //TOCADO'
+                $diana = True;
+                break;        }
+
+        #VOLVER A PASAR MATRIZ A CADENA contatenando caracteres
+        for ($i=0;$i<9;$i++){
+            for ($j=0;$j<9;$j++){
+                $cadena=$cadena.$matriz[$i][$j];
+            }
+        }
+        $cadena_tablero = $cadena;  #SOBRESCRIBIR LA CADENA DE ENTRADA/SALIDA (* pasada por referencia)
         return $diana;
     }
     /* '-------------------------------------------------------------------------------------

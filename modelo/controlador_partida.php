@@ -270,7 +270,15 @@ class controlPartida{
     ' Salidas: Un booleano, True si el usuario ya esta juagndo una partida, false sino
     '------------------------------------------------------------------------------------- */
     public function partidaExiste ($codUsu){
-        $existe;
+        $existe= false;
+
+        $conexion=conexionBBDD();
+        $resultado = $conexion->query("SELECT codUsu,tablero1,tablero2,turno FROM hf_partidaBoot WHERE codUsu=$codUsu");
+        $resultado->data_seek(0);
+        while ($fila = $resultado->fetch_assoc()) { //Si el usuario tiene partida. Carga tableros y turno
+            $existe=true;
+        }
+
         return $existe;
     }
 

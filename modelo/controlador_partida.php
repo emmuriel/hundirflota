@@ -260,8 +260,9 @@ class controlPartida{
     '-------------------------------------------------------------------------------------*/
     public function getCoordenada ($num)
     {
-        $num2;
-        return $num2;
+        $aleatorio= rand(1,$num);
+        $aleatorio=$aleatorio-1;
+        return $aleatorio;
     }
     /*    '-------------------------------------------------------------------------------------
     ' Nombre: partidaExiste
@@ -271,14 +272,12 @@ class controlPartida{
     '------------------------------------------------------------------------------------- */
     public function partidaExiste ($codUsu){
         $existe= false;
-
         $conexion=conexionBBDD();
         $resultado = $conexion->query("SELECT codUsu,tablero1,tablero2,turno FROM hf_partidaBoot WHERE codUsu=$codUsu");
         $resultado->data_seek(0);
         while ($fila = $resultado->fetch_assoc()) { //Si el usuario tiene partida. Carga tableros y turno
             $existe=true;
         }
-
         return $existe;
     }
 
@@ -304,7 +303,16 @@ class controlPartida{
     '------------------------------------------------------------------------------------- */
     public function comprobarGanador($cadTabl)
     {
-        $ganador;
+        $ganador=true;
+        $arr_cad= Array(100);
+
+         #Pasar la cadena a array de caracteres
+        $arr_cad = str_split($cadTabl);
+        for($i=0;$i<=99; $i++){
+            if($arr_cad[$i]=="1" || $arr_cad[$i]=="2" || $arr_cad[$i]=="N" || $arr_cad[$i]=="S" || $arr_cad[$i]=="W" || $arr_cad[$i]=="E"){
+                $ganador=false;
+            }
+        }
         return $ganador;
 
     }

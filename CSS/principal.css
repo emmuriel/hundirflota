@@ -1,469 +1,404 @@
-﻿
-html, body {
-	min-height: 100%;
-	background-color:rgb(31, 29, 29);
+﻿html,
+body {
+  min-height: 100%;
+  background-color: rgb(31, 29, 29);
 }
 
-.lbl_error_intro
-{
-	color : rgb(102,255,102);
-	float :left;
-	margin-left:1px;
-	font-size: 10pt;
-	font: Arial;
-	font-style: italic;
+.lbl_error_intro {
+  color: rgb(102, 255, 102);
+  float: left;
+  margin-left: 1px;
+  font-size: 10pt;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style:italic;
 }
 
-.txt_campo_intro
-{
-    color: Black;
-    background-color: White;
-    width: 70px;
-    margin-top:2px;
-
-    border-color:White;
-    height: 22px;
+.txt_campo_intro {
+  color: Black;
+  background-color: White;
+  width: 70px;
+  margin-top: 2px;
+  border-color: White;
+  height: 22px;
 }
 
-.txt_registro
-{
-    color: Black;
-    background-color: White;
-    width: 70px;
-    margin-top:6px;
-
-    border-color:White;
-    height:15px;
+.txt_registro {
+  color: Black;
+  background-color: White;
+  width: 70px;
+  margin-top: 6px;
+  border-color: White;
+  height: 15px;
 }
 
-.lbl_form
-{
-	background-color:Black;
-	font: Arial;
-	font-style: italic;
-	color: Lime;
-	width: 70px;
-    margin-top:4px;
-    font-size: 8pt;
-    z-index:3;
-    float:left;
-    height:20px;
-    margin-left:80px;
-   
+.lbl_form {
+  background-color: Black;
+  font: Arial;
+  font-style: italic;
+  color: Lime;
+  width: 70px;
+  margin-top: 4px;
+  font-size: 8pt;
+  z-index: 3;
+  float: left;
+  height: 20px;
+  margin-left: 80px;
 }
 
-.formulario_intro
-{
-
-    width: 634px;
-    height: 531px;
-    background-image: url('../images/INTRO.png');
-    border-style:outset;
-    border-bottom-width:8px;
-    margin: 0 auto;
-    z-index:1;   
+.formulario_intro {
+  width: 634px;
+  height: 531px;
+  background-image: url("../images/INTRO.png");
+  border-style: outset;
+  border-bottom-width: 8px;
+  margin: 0 auto;
+  z-index: 1;
 }
 
-.pag_error
-{
-
-    width: 634px;
-    height: 531px;
-    background-image: url('../images/error.png');
-    border-style:outset;
-    border-bottom-width:8px;
-    margin: 0 auto;
-    z-index:1;   
+.pag_error {
+  width: 634px;
+  height: 531px;
+  background-image: url("../images/error.png");
+  border-style: outset;
+  border-bottom-width: 8px;
+  margin: 0 auto;
+  z-index: 1;
 }
-.lbl_registro
-{
-background-color:Black;
-	font: Arial;
-	font-style: italic;
-	color: Lime;
-	width: 198px;
-    margin-top:4px;
-    font-size: 8pt;
-    z-index:3;
-    float:left;
-    height:20px;
-    margin-left:255px;
+.lbl_registro {
+  background-color: Black;
+  font: Arial;
+  font-style: italic;
+  color: Lime;
+  width: 198px;
+  margin-top: 4px;
+  font-size: 8pt;
+  z-index: 3;
+  float: left;
+  height: 20px;
+  margin-left: 255px;
 }
 
-.formulario_registro
-{
-    width: 634px;
-    height: 531px;
-    background-image: url('../images/registro.png');
-    border-style:outset;
-    border-bottom-width:8px;
-    margin: 0 auto;
-    z-index:1;    
+.formulario_registro {
+  width: 634px;
+  height: 531px;
+  background-image: url("../images/registro.png");
+  border-style: outset;
+  border-bottom-width: 8px;
+  margin: 0 auto;
+  z-index: 1;
 }
 
-.formulario_partida
-{
-
-    width: 987px;
-    height: 658px;
-    background-image: url('../images/fondo_partida.jpg');
-    border-style:outset;
-    border-bottom-width: 8px;
-    margin: 0 auto;
-    z-index:1;   
+.formulario_partida {
+  width: 987px;
+  height: 658px;
+  background-image: url("../images/fondo_partida.jpg");
+  border-style: outset;
+  border-bottom-width: 8px;
+  margin: 0 auto;
+  z-index: 1;
 }
 
+.btn_entrar {
+  width: 160px;
+  height: 48px;
+  background-image: url("../images/boton_entrar.bmp");
 
-.btn_entrar
-{
-       width:160px;
-    height: 48px;
-    background-image: url('../images/boton_entrar.bmp');
-
-    border-style:none;
-    margin-left:248px;
-    border-color: Black;
-    border-left-color:Black;
-    border-top-color:Black;
-    cursor:pointer;
- 
+  border-style: none;
+  margin-left: 248px;
+  border-color: Black;
+  border-left-color: Black;
+  border-top-color: Black;
+  cursor: pointer;
 }
 
-.btn_registrar
-{
-       width:122px;
-    height:26px;
-    background-image: url('../images/boton_registrar.bmp');
-    margin-top:40px;
-   border-style:none;
-    margin-left:263px;
+.btn_registrar {
+  width: 122px;
+  height: 26px;
+  background-image: url("../images/boton_registrar.bmp");
+  margin-top: 40px;
+  border-style: none;
+  margin-left: 263px;
 
-    border-color: Black;
-    border-left-color:Black;
-    border-top-color:Black;
-    cursor:pointer;
+  border-color: Black;
+  border-left-color: Black;
+  border-top-color: Black;
+  cursor: pointer;
 }
 
-.btn_registrar_2
-{
-       width:160px;
-    height:48px;
-    background-image: url('../images/boton_registrar_2.bmp');
-    margin-top:1px;
-   border-style:none;
-    margin-left:248px;
+.btn_registrar_2 {
+  width: 160px;
+  height: 48px;
+  background-image: url("../images/boton_registrar_2.bmp");
+  margin-top: 1px;
+  border-style: none;
+  margin-left: 248px;
 
-    border-color: Black;
-    border-left-color:Black;
-    border-top-color:Black;
-    cursor:pointer;
+  border-color: Black;
+  border-left-color: Black;
+  border-top-color: Black;
+  cursor: pointer;
 }
 
+.btn_aceptar {
+  width: 122px;
+  height: 26px;
+  background-image: url("../images/boton_aceptar.bmp");
 
-.btn_aceptar
-{
-    width:122px;
-    height: 26px;
-    background-image: url('../images/boton_aceptar.bmp');
-
-    border-style:none;
-    margin-left:263px;
-    margin-top:354px;
-    border-color: Black;
-    border-left-color:Black;
-    border-top-color:Black;
-    cursor:pointer;
+  border-style: none;
+  margin-left: 263px;
+  margin-top: 354px;
+  border-color: Black;
+  border-left-color: Black;
+  border-top-color: Black;
+  cursor: pointer;
 }
 
-.text_box
-{
-    margin-left: 288px;
-    margin-top:289px;
-    width: 220px;
-    height: 80px;
-    z-index: 2;
+.text_box {
+  margin-left: 288px;
+  margin-top: 289px;
+  width: 220px;
+  height: 80px;
+  z-index: 2;
 }
 
-.formulario_empezar
-{
-    width: 900px;
-    height: 531px;
-    background-color: White;
-    border-style:groove;
-    border-bottom-width:8px;
-    margin: 0 auto;
-    z-index:1;
+.formulario_empezar {
+  width: 900px;
+  height: 531px;
+  background-color: White;
+  border-style: groove;
+  border-bottom-width: 8px;
+  margin: 0 auto;
+  z-index: 1;
 }
-.cabecera
-{
-    width: 987px;
-    height: 200px; 
-    background-image: url('../images/Cabecera.jpg');
-    z-index:1;
+.cabecera {
+  width: 987px;
+  height: 200px;
+  background-image: url("../images/Cabecera.jpg");
+  z-index: 1;
+ text-align: center;
 }
-.datos
-{
+.datos {
   float: left;
   width: 200px;
-  height:200px;
-  font-family: Banco;
-  font-size:14pt;
-  background-image:url('../images/fondo-datos.gif');
+  height: 200px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14pt;
+  background-image: url("../images/fondo-datos.gif");
 }
 
-
-
-.cargando
-{
-	margin-top:215px;
-	margin-left:172px;
-	width:298px;
-	height:298px;
-	display:none; /*No ocupa lugar, para hacerlo visible se ha de cambiar a 'inline'*/
-      z-index:4;/*Se colocaria ya en la 4ªcapa*/
+.cargando {
+  /*margin-top:215px;
+	margin-left:172px;*/
+  width: 298px;
+  height: 298px;
+  display: none; /*No ocupa lugar, para hacerlo visible se ha de cambiar a 'inline'*/
+  z-index: 4; /*Se colocaria ya en la 4ªcapa*/
 }
 
-.div_tabla_usu
-{
-	margin-top:250px;
-	margin-left:120px;
-	width:300px;
-	height:300px;
-	background-image: url('../images/marco_tabla.jpg');
-	z-index:3;	
+.div_tabla_usu {
+  margin-top: 250px;
+  margin-left: 120px;
+  width: 300px;
+  height: 300px;
+  background-image: url("../images/marco_tabla.jpg");
+  z-index: 3;
 }
 
-.div_tabla_boot
-{
-
-	margin-top:250px;
-	margin-left:120px;
-	width:300px;
-	height:300px;
-	 background-image: url('../images/marco_tabla.jpg');
-	z-index:2;	
+.div_tabla_boot {
+  margin-top: 250px;
+  margin-left: 120px;
+  width: 300px;
+  height: 300px;
+  background-image: url("../images/marco_tabla.jpg");
+  z-index: 2;
 }
 
-.tabla_usu
-{
-	margin-top:55px;
-	margin-left:70px;
-	width:343px;
-	height:343px;
- background-image: url('../images/marco_tabla.jpg');
-	z-index:2;	
-	float:left;	
+.tabla_usu {
+  margin-top: 55px;
+  margin-left: 70px;
+  width: 343px;
+  height: 343px;
+  background-image: url("../images/marco_tabla.jpg");
+  z-index: 2;
+  float: left;
 }
 
-.tabla_boot
-{
-	margin-top:55px;
-	margin-left:35px;
-	width:343px;
-	height:343px;
-	  background-image: url('../images/marco_tabla.jpg');
-	z-index:2;
-	float:left;
+.tabla_boot {
+  margin-top: 55px;
+  margin-left: 35px;
+  width: 343px;
+  height: 343px;
+  background-image: url("../images/marco_tabla.jpg");
+  z-index: 2;
+  float: left;
 }
 
-.btn_0
-{
-	border-style:none;
-	 background-image: url('../images/btn_0.png');
-	 width:30px;
-	 height:30px;
-	 cursor:crosshair;
-	 z-index:3;	
-	/* cursor: url('../images/crosshair.jpeg');*/
+.btn_0 {
+  border-style: none;
+  background-image: url("../images/btn_0.png");
+  width: 30px;
+  height: 30px;
+  cursor: crosshair;
+  z-index: 3;
+  /* cursor: url('../images/crosshair.jpeg');*/
 }
 
-.btn_agua
-{
-	border-style:none;
-	 background-image: url('../images/btn_agua.png');
-	 width:30px;
-	 height:30px;
-	z-index:3;
+.btn_agua {
+  border-style: none;
+  background-image: url("../images/btn_agua.png");
+  width: 30px;
+  height: 30px;
+  z-index: 3;
 }
 
-.btn_x
-{
-	border-style:none;
-	 background-image: url('../images/btn_x.png');
-	 width:30px;
-	 height:30px;
-	 z-index:3;
+.btn_x {
+  border-style: none;
+  background-image: url("../images/btn_x.png");
+  width: 30px;
+  height: 30px;
+  z-index: 3;
 }
-.btn_1
-{
-	border-style:none;
-	 background-image: url('../images/med_1.png');
-	 width:30px;
-	 height:30px;
+.btn_1 {
+  border-style: none;
+  background-image: url("../images/med_1.png");
+  width: 30px;
+  height: 30px;
 
-	/* cursor: url('../images/crosshair.jpeg');*/
-	 z-index:3;
+  /* cursor: url('../images/crosshair.jpeg');*/
+  z-index: 3;
 }
 
+.btn_2 {
+  border-style: none;
+  background-image: url("../images/med_2.png");
+  width: 30px;
+  height: 30px;
 
-.btn_2
-{
-	border-style:none;
-	 background-image: url('../images/med_2.png');
-	 width:30px;
-	 height:30px;
-
-	/* cursor: url('../images/crosshair.jpeg');*/
-	 z-index:3;
+  /* cursor: url('../images/crosshair.jpeg');*/
+  z-index: 3;
 }
 
-.btn_N
-{
-	border-style:none;
-	 background-image: url('../images/esq_N.png');
-	 width:30px;
-	 height:30px;
+.btn_N {
+  border-style: none;
+  background-image: url("../images/esq_N.png");
+  width: 30px;
+  height: 30px;
 
-	/* cursor: url('../images/crosshair.jpeg');*/
-	 z-index:3;
+  /* cursor: url('../images/crosshair.jpeg');*/
+  z-index: 3;
 }
 
-.btn_S
-{
-	border-style:none;
-	 background-image: url('../images/esq_S.png');
-	 width:30px;
-	 height:30px;
+.btn_S {
+  border-style: none;
+  background-image: url("../images/esq_S.png");
+  width: 30px;
+  height: 30px;
 
-	/* cursor: url('../images/crosshair.jpeg');*/
-	 z-index:3;
+  /* cursor: url('../images/crosshair.jpeg');*/
+  z-index: 3;
 }
-.btn_W
-{
-	border-style:none;
-	 background-image: url('../images/esq_W.png');
-	 width:30px;
-	 height:30px;
+.btn_W {
+  border-style: none;
+  background-image: url("../images/esq_W.png");
+  width: 30px;
+  height: 30px;
 
-	/* cursor: url('../images/crosshair.jpeg');*/
-	 z-index:3;
+  /* cursor: url('../images/crosshair.jpeg');*/
+  z-index: 3;
 }
-.btn_E
-{
-	border-style:none;
-	 background-image: url('../images/esq_E.png');
-	 width:30px;
-	 height:30px;
+.btn_E {
+  border-style: none;
+  background-image: url("../images/esq_E.png");
+  width: 30px;
+  height: 30px;
 
-	/* cursor: url('../images/crosshair.jpeg');*/
-	 z-index:3;
+  /* cursor: url('../images/crosshair.jpeg');*/
+  z-index: 3;
 }
 
-
-
-
-.btn_0
-{
-	border-style:none;
-	 background-image: url('../images/btn_0.png');
-	 width:30px;
-	 height:30px;
-	 cursor:crosshair;
-	 z-index:3;	
-	/* cursor: url('../images/crosshair.jpeg');*/
+.btn_0 {
+  border-style: none;
+  background-image: url("../images/btn_0.png");
+  width: 30px;
+  height: 30px;
+  cursor: crosshair;
+  z-index: 3;
+  /* cursor: url('../images/crosshair.jpeg');*/
 }
 
-.img_agua
-{
-	
-	border-style:none;
-	 width:30px;
-	 height:30px;
-	 background-image:url(~/images/btn_agua.png);
-	z-index:3;
-	
+.img_agua {
+  border-style: none;
+  width: 30px;
+  height: 30px;
+  background-image: url(~/images/btn_agua.png);
+  z-index: 3;
 }
 
-.img_x
-{
-	
-	border-style:none;
-	 width:30px;
-	 height:30px;
-	 background-image:url(~/images/btn_x.png);
-	 z-index:3;
+.img_x {
+  border-style: none;
+  width: 30px;
+  height: 30px;
+  background-image: url(~/images/btn_x.png);
+  z-index: 3;
 }
-.img_1
-{
-
-	border-style:none;
-	 width:30px;
-	 height:30px;
-	 	background-image:url(~/images/btn_1.png);
-	 z-index:3;
+.img_1 {
+  border-style: none;
+  width: 30px;
+  height: 30px;
+  background-image: url(~/images/btn_1.png);
+  z-index: 3;
 }
 
-.img_0
-{
-	
-	border-style:none;
-	 width:30px;
-	 height:30px;
-	 src:url(~/images/btn_0.png);
-	 z-index:3;	
+.img_0 {
+  border-style: none;
+  width: 30px;
+  height: 30px;
+  src: url(~/images/btn_0.png);
+  z-index: 3;
 }
-.datos_usu
-{
-	margin-top:100px;
-	margin-left:240px;
-	height: 87px;
-	width: 332px;
-	font-family:Arial;
-	font-size:12pt;
-	color: Lime;
-	background-color: Black;
-	background-image: url('../images/Pergamino.jpg');
-	z-index:2;
+.datos_usu {
+  margin-top: 100px;
+  margin-left: 240px;
+  height: 87px;
+  width: 332px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12pt;
+  color: Lime;
+  background-color: none;
+  /*background-image: url('../images/Pergamino.jpg');*/
+  z-index: 2;
 }
 
-
-.btn_empezar
-{
-	border-style:none;
-	margin-top:250px;
-	margin-left:30px;
-	width:100px;
-	height:60px;
-	cursor:pointer;
-	background-image: url('../images/boton_jugar.png');
-	float:left;
-	
-
-	
+.btn_empezar {
+  border-style: none;
+  margin-top: 250px;
+  margin-left: 30px;
+  width: 100px;
+  height: 60px;
+  cursor: pointer;
+  background-image: url("../images/boton_jugar.png");
+  float: left;
 }
 
-.btn_abandonar
-{
-	border-style:none;
-		margin-top:250px; 
-	margin-left:30px;
-	width:100px;
-	height:60px;
-	cursor: pointer;
-	background-image: url('../images/boton_abandonar.png');
-	float:left;
-	display: none;
-	/*float:left;*/
+.btn_abandonar {
+  border-style: none;
+  margin-top: 250px;
+  margin-left: 30px;
+  width: 100px;
+  height: 60px;
+  cursor: pointer;
+  background-image: url("../images/boton_abandonar.png");
+  float: left;
+  display: none;
+  /*float:left;*/
 }
 
-
-.btn_nuevo
-{
-	border-style:none;
-	width:35px;
-	height:38px;
-	margin-top:1px;
-	margin-left:8px;
-	background-image: url('../images/btn_nuevo.png');
-	cursor:pointer;
+.btn_nuevo {
+  border-style: none;
+  width: 35px;
+  height: 38px;
+  margin-top: 1px;
+  margin-left: 8px;
+  background-image: url("../images/btn_nuevo.png");
+  cursor: pointer;
 }

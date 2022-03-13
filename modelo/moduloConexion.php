@@ -8,4 +8,3 @@ function conexionBBDD(){
         return $mysqli;
     }
 }
-?>

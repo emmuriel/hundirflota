@@ -124,8 +124,8 @@ if (transport.readyState == 1) {
         }
         else if (transport.status == 200) {
         //Recoge el taxto que envie el servidor y llama a carga datos()
-            let cadena_datos= transport.responseText;
-            alert(transport.responseText);
+            var cadena_datos= transport.responseText;
+            alert(transport.responseText)
              document.getElementById("Abandonar").visibility='hidden';
              cargar_datos_usu(cadena_datos);
             
@@ -135,7 +135,7 @@ if (transport.readyState == 1) {
 
 
 function cargar_datos_usu(cadena){
- 
+ document.getElementById("datos_usuario").innerHTML=cadena;
   
 }
 
@@ -155,7 +155,6 @@ Proceso : hace una peticion al servidor para que genere una partida
 ------------------------------------------------------------------------------------*/
 
 function Empezar_partida(){
-   
  getTransport2(); //Abrir transport
         console.log("estamos en la peticion2");
         if (transport2) {
@@ -832,5 +831,3 @@ function procesaPeticion_7(){
     }
 }
 }
-
-/*****************MNEJADORES DE EVENTOS******************** */

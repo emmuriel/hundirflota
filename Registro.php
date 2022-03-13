@@ -7,11 +7,11 @@
     <title>Registro Usuario</title>
     <link href="CSS/registro.css" rel="stylesheet" type="text/css" />
     <script src="JS/Formulario.js" type="text/javascript"></script>
+    <link  rel="icon"   href="images/favicon.ico" type="image/png" />
 </head>
 <body>
 <div>
-<form id="form1" class="formulario_registro" method="POST" action="Registro2.php">
-  
+<form id="form1" class="formulario_registro" method="POST" action="Registro.php">
     <!--email -->
     <p>
         <label id="lbl_email">Correo electronico: </label> 
@@ -81,10 +81,7 @@
             }
             else{
                 echo "<p><span>Error:Las contraseñas no coinciden</span></p>";
-            }
-        
+            }      
         }
-
-}
-
+    }
 ?>

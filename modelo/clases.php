@@ -162,5 +162,4 @@ class Usuario{
     public function setEstado($estado){
         $this->estado=$estado;
     }
-} 
-?>
+}

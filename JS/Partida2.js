@@ -46,23 +46,18 @@ function cargaDatosUsu(){   //Es llamada en la petición 1
 Nombre: cargarPartida()
 Proceso: A partir de la cadena de respuesta del servidor manda las cadenas que obtiene a las funcion para pintar los
 *******************************************************************************************************************************/
-function cargarPartida(respuesta_server) {
+function reloadPartida(cadTabl, turno_tiro, ganador) {
 
-    var cadena_datos_usuario;
-    //forma un array de cadenas del cual solo nos interesa las 7 primeras (cod_usu, nombre_usu, partidas ganadas, tablero usu, tablero boot, turno)
-    var array_respuestas = respuesta_server.split("|");
+    
+    let arrTabl = cadTabl.split("|");
     
     /*cargar usuario 
     cadena_datos_usuario= "BIENVENIDO " + array_respuestas[1] + " Partidas Ganadas:" + array_respuestas[2] ;
     cargar_datos_usu(cadena_datos_usuario);*/
     
     //Cargar tableros
-    obtener_tablero(array_respuestas[3],1); //tablero_usuario
-    obtener_tablero(array_respuestas[4],2); //tablero_boot
-    
-    //Cambiar el valor de la variable global turno tiro
-    turno_tiro= array_respuestas[5];
-    ganador= array_respuestas[6];
+    obtener_tablero(arrTabl[0],1); //tablero_usuario
+    obtener_tablero(arrTabl[1],2); //tablero_boot
     document.querySelector("#Empezar").style.display='none';
     document.querySelector("#Abandonar").style.display='inline';
     
@@ -80,9 +75,9 @@ function cargarPartida(respuesta_server) {
             break;
             case '1':
                 //Mostrar mensaje de victoria
-                alert ("ENORABUENA!!! Has ganado!!");
+                alert ("ENORABUENA!!! Has ganado !!");
                 
-                //Ejecutar la peticion 7 (Sumar victoria a la cuenta de usuario y terminar partida)
+                //############### peticion 7 #################### (Sumar victoria a la cuenta de usuario y terminar partida)
                 victoria_usuario();
                 
             break;
@@ -242,7 +237,7 @@ function cargarPartida(respuesta_server) {
                        //añadir celda a fila
                     nueva_celda.appendChild(nuevo_boton);  
                     }
-                    else if (jugador==1){ //La tabla pertenece al boo
+                    else if (jugador==1){ //La tabla pertenece al boot
                     
                     switch (arr_cad[i * 10 + j]){
                          case '0': //agua no explotada
@@ -445,8 +440,11 @@ cargaDatosUsu();
                 })
                 .then(response => response.json()) // parsea la respuesta en texto plano
                 .then(datos => {
-                    let partida = JSON.stringify(datos.partida);
-                    cargarPartida(partida.split("\"").join('')); //Manda la cadena sin ""
+                    let ganador = JSON.stringify(datos.ganador);
+                    let turno = JSON.stringify(datos.turno);
+                    let cadT =JSON.stringify(datos.partida);
+
+                    reloadPartida(cadT.split("\"").join(''),turno.split("\"").join(''),ganador.split("\"").join('')); //Manda la cadena sin ""
                 })
                 .catch(error => {
                     console.error(error);

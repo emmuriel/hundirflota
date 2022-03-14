@@ -289,15 +289,15 @@ Proceso: A partir de una cadena de 100 caracteres inicializa una matriz de carac
         
             for (j=0;j<=9;j++){
                   
-                /*Hablando de posiciones, en el array unidimensional, el contador i establece el valor de la unidad y el contador
-                j el valor de la decena,juntos (j*10 + i)obtienen la posicion en el array_cadena que corresponde insertar en la matriz
-                 de (i)(j)*/
+                //Hablando de posiciones, en el array unidimensional, el contador i establece el valor de la unidad y el contador
+                //j el valor de la decena,juntos (j*10 + i)obtienen la posicion en el array_cadena que corresponde insertar en la matriz
+                //de (i)(j)*/
                  var nueva_celda = document.createElement("td");
                  
                  nueva_celda.name= ((j+1)+"|"+(i+1));
                  
                  
-                 if (jugador==2){  //Si el tablero es el de tirar dle jugador
+                 if (jugador==2){  // Esta tabla pertenece al Boot. Se añade el disparador del evento "click" para que el jugador pueda Enviar disparos
               
                  //asignar estilo segun el contenido del array para esa casilla
                  switch (arr_cad[i * 10 + j]){
@@ -407,7 +407,7 @@ Proceso: A partir de una cadena de 100 caracteres inicializa una matriz de carac
                    //añadir celda a fila
                 nueva_celda.appendChild(nuevo_boton);  
                 }
-                else if (jugador==1){ //La tabla pertenece al boo
+                else if (jugador==1){ //La tabla pertenece al jugador. No se le añaden disparadores de eventos al click
                 
                 switch (arr_cad[i * 10 + j]){
                      case '0': //agua no explotada

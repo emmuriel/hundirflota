@@ -80,7 +80,7 @@ function reloadPartida(cadTabl, ganador) {
         break;
       case "2":
         //Mostrar mensaje de victoria
-        alert("GAME OVER! Perdedor!!");
+        alert("ERES UN LOOSER DE SECANO!!");
         //Ejecutar peticion 5 (Terminar partida)
   
         break;
@@ -114,13 +114,36 @@ function Enviar_jugada(name_btn_pulsado) {
   let id_boton = new String(name_btn_pulsado);
   let coordenadas = new Array();
   coordenadas = id_boton.split("|");
+
+  alert ("entra en envia jugada. el nombr edle boton pulsado es "+coordenadas[0]+"|"+coordenadas[1]);
   let json = {
     peticion: 3,
     x: coordenadas[0],
     y: coordenadas[1],
   };
 
-  if (turno_tiro == true) {  //Si el turno es del Jugador se hace la petición al server
+  alert(JSON.stringify(json));
+  alert ("turno: " +turno_tiro);
+
+  if (turno_tiro==true) {  //Si el turno es del Jugador se hace la petición al server
+    alert("es true");
+  }
+  else{
+    if (turno_tiro==1){
+      alert("es entero");
+
+    }
+    else{
+      if(turno_tiro=="1"){
+        alert("es cadena");
+      }
+      else{
+        alert("nosé que coño es ya");
+      }
+    }
+  }
+    alert("entramos en turno tiro");
+
     fetch("Partida.php", {
       method: "POST",
       body: JSON.stringify(json), // convierte el objeto json a un Json de texto de verdad
@@ -155,7 +178,7 @@ function Enviar_jugada(name_btn_pulsado) {
         //console.log(json.datosUsu);
         return null;
       });
-  }
+ // }
 }
 
 
@@ -201,47 +224,48 @@ function obtener_tablero(cadena_tab, jugador) {
           case "0": //agua no explotada
           
             nuevo_boton.setAttribute("id", "btnTabServer");
-            nuevo_boton.onclick = function () {Enviar_jugada(this.name);}; //Añadir manejador de evento onclick
+            nuevo_boton.addEventListener('click', (evt)=>{Enviar_jugada(evt.target.name)}); //Añadir manejador de evento click
+           
             break;
 
           case "1": //barco no explotado
 
             nuevo_boton.setAttribute("id", "btnTabServer");
-            nuevo_boton.onclick = function () {Enviar_jugada(this.name);}; //Añadir manejador de evento onclick
+            nuevo_boton.addEventListener('click', (evt)=>{Enviar_jugada(evt.target.name)}); //Añadir manejador de evento click
             break;
 
           case "N": //barco no explotado -popa-proa NORTE
 
             nuevo_boton.setAttribute("id", "btnTabServer");
-            nuevo_boton.onclick = function () {Enviar_jugada(this.name);}; //Añadir manejador de evento onclick
+            nuevo_boton.addEventListener('click', (evt)=>{Enviar_jugada(evt.target.name)}); //Añadir manejador de evento click
 
             break;
 
           case "S": //barco no explotado -popa-proa SUR
          
             nuevo_boton.setAttribute("id", "btnTabServer");
-            nuevo_boton.onclick = function () {Enviar_jugada(this.name);}; //Añadir manejador de evento onclick
+            nuevo_boton.addEventListener('click', (evt)=>{Enviar_jugada(evt.target.name)}); //Añadir manejador de evento click
 
             break;
 
           case "W": //barco no explotado -popa-proa WEST
 
             nuevo_boton.setAttribute("id", "btnTabServer");
-            nuevo_boton.onclick = function () {Enviar_jugada(this.name);}; //Añadir manejador de evento onclick
+            nuevo_boton.addEventListener('click', (evt)=>{Enviar_jugada(evt.target.name)}); //Añadir manejador de evento click
 
             break;
 
           case "E": //barco no explotado -popa-proa EAST
 
             nuevo_boton.setAttribute("id", "btnTabServer");
-            nuevo_boton.onclick = function () {Enviar_jugada(this.name);}; //Añadir manejador de evento onclick
+            nuevo_boton.addEventListener('click', (evt)=>{Enviar_jugada(evt.target.name)}); //Añadir manejador de evento click
 
             break;
 
           case "2": //barco no explotado -cuerpocentral
 
             nuevo_boton.setAttribute("id", "btnTabServer");
-            nuevo_boton.onclick = function () {Enviar_jugada(this.name);}; //Añadir manejador de evento onclick
+            nuevo_boton.addEventListener('click', (evt)=>{Enviar_jugada(evt.target.name)}); //Añadir manejador de evento click
 
             break;
 

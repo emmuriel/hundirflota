@@ -20,12 +20,12 @@ function logout()
 
 
 /*'-------------------------------------------------------------------------------------
-    ' Nombre: crearCadena
+    ' Nombre: responseJson
     ' Proceso:  Concatena los datos de usuario y de la partida para mandar una respuesta http 
     ' Entradas: un objeto Usuario, Un objeto partida, y un entero que indica quien es el ganador.
     ' Salidas: no tiene, envia la cadena por http al cliente en background
     '-------------------------------------------------------------------------------------*/
-function crearCadena($usu, $partida, $ganador)
+function responseJson($usu, $partida, $ganador)
 {
   
   //$respuesta = "'partida' : " . $usu->getCodUsu() . "|" . $usu->getNombre() . "|" . $usu->getPuntuacion() . "|" . $partida->getTablero1() . "|" . $partida->getTablero2() . "|" . $partida->getTurno() . "|" . $ganador . "|";
@@ -48,30 +48,29 @@ function crearCadena($usu, $partida, $ganador)
     ' Entradas: un cls_usuario
     ' Salidas: No tiene
     '-------------------------------------------------------------------------------------*/
-function procesarComprobacionDisparo($usu)
+function procesarComprobacionDisparo($usu,$x,$y)
 {
-
   $ctrlPartida = new controlPartida();
   $ganador = false;
 
   /*Decrementar las coordenadas para situarlas en la matriz (en el tablero del cliente van de 1 a 10 y en 
         tablero del servidor va de 0 a 9*/
-  $x = json_decode($_POST['x']) - 1;   //String
-  $y = json_decode($_POST['y']) - 1;  //String
+  $x = $x - 1;   //String
+  $y = $y - 1;  //String
 
   #Comprobar tiros
-  $ctrlPartida->tomaBombazo($usu->getCod(), $x, $y);
+  $ctrlPartida->tomaBombazo($usu->getCodUsu(), $x, $y);
   $partida = $ctrlPartida->obtenerPartida($usu->getCodUsu());
 
   #Comprobar si el usuario ha ganado
-  $ganador = $ctrlPartida->comprobarGanador($partida->getTablero2());
+  $ganador = $ctrlPartida->comprobarGanador($partida->getTablero2());   //Envia el tablero del server
   if ($ganador == true) {
     $car_gan = "1";
   } else {
     $car_gan = "0";
   }
-  //Crear la cadena con los datos del usuario y de la partida actualizados
-  crearCadena($usu, $partida, $car_gan);
+  
+  responseJson($usu, $partida, $car_gan);   #Response server
 }
 
 /*'-------------------------------------------------------------------------------------

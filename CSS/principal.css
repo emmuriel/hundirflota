@@ -318,7 +318,7 @@ body {
 
 .btn_0 {
   border-style: none;
-  background-image: url("../images/btn_0.png");
+  /*background-image: url("../images/btn_0.png");*/
   width: 30px;
   height: 30px;
   cursor: crosshair;
@@ -326,6 +326,22 @@ body {
   /* cursor: url('../images/crosshair.jpeg');*/
 }
 
+#btnTabServer{
+  border-style: none;
+  background-color: rgb(53, 52, 52);
+  width: 30px;
+  height: 30px;
+  cursor: crosshair;
+  z-index: 3;
+}
+#btnTabServer:hover{
+  transition: 1s;
+  background-color: rgb(228, 68, 68);
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+}
 .img_agua {
   border-style: none;
   width: 30px;

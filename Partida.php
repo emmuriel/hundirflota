@@ -35,17 +35,20 @@ if ($_SESSION['usuario']) {
           //Empieza partida
           $ctrlPartida->crearPartidaBoot($obUsu->getCodUsu());
           $partida = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
-          //Crear el XML /JSONcon los datos del usuario y de la partida y si el usuario es ganador 
-          crearCadena($obUsu, $partida, "0");
+           
+          responseJson($obUsu, $partida, "0");
         }else{
           $partida = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
-          //Crear el XML /JSONcon los datos del usuario y de la partida y si el usuario es ganador 
-          crearCadena($obUsu, $partida, "0");
+        
+          responseJson($obUsu, $partida, "0");
         }
         break;
 
       case "3": #PROCESAR DISPARO USUARIO
-        procesarComprobacionDisparo($obUsu);
+        
+        $x=$json['x'];   //Recoge las coodenadas mandadas x json
+        $y=$json['y'];
+        procesarComprobacionDisparo($obUsu,$x,$y);
         break;
 
 
@@ -64,13 +67,15 @@ if ($_SESSION['usuario']) {
         } else {
           $car_gan = "0";  //No hay ganador
         }
-        crearCadena($obUsu, $partidaActualizada, $car_gan);  //Crear httpResponse
+        responseJson($obUsu, $partidaActualizada, $car_gan);  #Response server
 
         break;
 
       case "5": #ABANDONAR PARTIDA
         $ctrlPartida->borraPartida($obUsu->getCodUsu());
-
+        $ok=1;
+        $oka= array ("ok"=>$ok);
+          echo json_encode($oka, JSON_FORCE_OBJECT,3);  #Response server
         break;
 
       case "6": #ABANDONAR PARTIDA  Y CERRAR SESION
@@ -78,8 +83,8 @@ if ($_SESSION['usuario']) {
         $ctrlUsu = new ControlUsuario();
         $erro = $ctrlUsu->cambiarEstado($obUsu->getCodUsu(), 0);
         logout();
-        json_encode("bye");
-
+        json_encode("bye");    #response server
+ 
         break;
 
       case "7": #TERMINAR PARTIDA Y SUMAR VICTORIA AL USUARIO

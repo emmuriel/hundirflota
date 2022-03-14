@@ -257,11 +257,12 @@ class controlPartida
     public function ejecutarDisparo(&$cadTabl, $x, $y)
     {
         $matriz = array(10, 10); //char
-        $acierto = False;
+        $diana = False;
         $cadena = ""; //String
         $arr_cad = array(100); //char
         #Pasar la cadena a array de caracteres
-        $arr_cad = str_split($cadTabl);
+        $cpCadTabl=$cadTabl;
+        $arr_cad = str_split($cpCadTabl);
 
         #Generar tablero $matriz
         for ($i = 0; $i < 9; $i++) {
@@ -283,7 +284,7 @@ class controlPartida
                 break;
             case "2":
                 $matriz[$x][$y] = "x"; //TOCADO'
-                $acierto = True;
+                $diana = True;
                 break;
             case "N":
                 $matriz[$x][$y] = "x"; //TOCADO'
@@ -310,7 +311,7 @@ class controlPartida
                 $cadena = $cadena . $matriz[$i][$j];
             }
         }
-        $cadena_tablero = $cadena;  #SOBRESCRIBIR LA CADENA DE ENTRADA/SALIDA (* pasada por referencia)
+        $cadTabl = $cadena;  #SOBRESCRIBIR LA CADENA DE ENTRADA/SALIDA (* pasada por referencia)
         return $diana;
     }
     /* '-------------------------------------------------------------------------------------

@@ -60,10 +60,13 @@ function procesarComprobacionDisparo($usu,$x,$y)
 
   #Comprobar tiros
   $ctrlPartida->tomaBombazo($usu->getCodUsu(), $x, $y);
+
+  #Obtener partida actuializada
   $partida = $ctrlPartida->obtenerPartida($usu->getCodUsu());
 
   #Comprobar si el usuario ha ganado
   $ganador = $ctrlPartida->comprobarGanador($partida->getTablero2());   //Envia el tablero del server
+
   if ($ganador == true) {
     $car_gan = "1";
   } else {

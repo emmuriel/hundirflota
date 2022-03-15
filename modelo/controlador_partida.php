@@ -15,11 +15,7 @@ class controlPartida
     ''------------------------------------------------------------------------------------- */
     public function dispara_señr_servidor($codUsu)
     {
-        $i = 0;
-        $j = 0;
-        $posicion_correcta = false; //bool
-        $matriz = array(10, 10);
-        $arr_cad = array(100);
+        $posicion_correcta = 0; //bool
 
         #OBTENER MATRIZ-Tablero DE USUARIO
         $partida = self::obtenerPartida($codUsu);
@@ -28,21 +24,22 @@ class controlPartida
 
         //Recorrer array pasandolo a tablero
         /*Hablando de posiciones,en el array unidimensional, el contador i establece el valor de la unidad y el contador
-        j el valor de la decena,juntos (j*10 + i)obtienen la posicion en el array_cadena que corresponde insertar en la matriz
-        de (i)(j) que viene siendo el tablero*/
+        j el valor de la decena,juntos (j*10 + i) establece lo que en una matriz con 2 for seria:
+
         for ($i = 0; $i < 9; $i++) {
             for ($j = 0; $j < 9; $j++) {
                 $matriz[$i][$j] = $arr_cad[$i * 10 + $j];
             }
-        }
+        }   Pero con un array dimesional y el calculo del indice mencionado podemos solucionar el problema sin necesidad de 
+            darle más carga de trabajo al servidor, aunque nosotros los humanos entendamos mejor las coordenadas en una matriz */
 
-        while ($posicion_correcta == false) {
+        while ($posicion_correcta == 0) {
             $x = self::getCoordenada(10);
             $y = self::getCoordenada(10);
-            if ($matriz[$x][$y] == "#" || $matriz[$x][$y] == "x") {
-                $posicion_correcta = false;
+            if ($arr_cad[$x * 10 + $y] == "#" || $arr_cad[$x * 10 + $y] == "x") {   //No es correcto si la posición ha sido bombardeada
+                $posicion_correcta = 0;
             } else {
-                $posicion_correcta = true;
+                $posicion_correcta = 1;
             }
         }
         self::tomaBombazo($codUsu, $x, $y);
@@ -116,7 +113,7 @@ class controlPartida
             $cadTUsu =  self::getTablero();
             $cadTBoot = self::getTablero();
         }
-        echo "Tablero Usu: ". $cadTUsu . "Tablero Boot: ". $cadTBoot."\n";
+        //echo "Tablero Usu: ". $cadTUsu . "Tablero Boot: ". $cadTBoot."\n";
 
         $exito = self::regPartidaBoot($codUsu, $cadTUsu, $cadTBoot);
         return $exito;
@@ -130,7 +127,7 @@ class controlPartida
     public function regPartidaBoot($codUsu, $cadTablUsu, $cadTabBoot)
     {
         $exito = false;
-        $turnoAleario =$aleatorio = rand(0, 1); //Turno aleatorio
+        $turnoAleario =1; //$aleatorio = rand(0, 1); //Turno aleatorio
         $conexion = conexionBBDD();
         $resultado = $conexion->query("INSERT INTO hf_partidaBoot (codUsu,tablero1,tablero2,turno) VALUES ('".$codUsu."','".$cadTablUsu."','".$cadTabBoot."','".$turnoAleario."')");
         if ($resultado) {
@@ -200,7 +197,8 @@ class controlPartida
     '           Si el contenido de la coordenada es agua, actualiza el valor turno de la
     '           tabla de partida
     ' Entradas: El codigo de usuario, 2 enteros (coordenadas)
-    ' Salidas:  Cambia la cadena tablero de la BBDD y actualiza turno
+    ' Salidas:  Cambia la cadena tablero de la BBDD y actualiza turno segun se acierte o no y el
+                jugador que esté jugando.
     '------------------------------------------------------------------------------------- */
     public function tomaBombazo($codUsu, $x, $y)
     {
@@ -212,35 +210,35 @@ class controlPartida
         $resultado = $conexion->query("SELECT turno, tablero1, tablero2 FROM hf_partidaBoot WHERE codUsu=$codUsu");
         $resultado->data_seek(0);
         while ($fila = $resultado->fetch_assoc()) { //Si el usuario tiene partida. Carga tableros y turno
-            $turno  = $fila['turno'];
+            $turno  = intval($fila['turno'],10);
             $tableroUsu   = $fila['tablero1'];
             $tableroBoot   = $fila['tablero2'];
         }
-
-        #SI EL TURNO ERA DEL JUGADOR comprobar coordenadas en tablero2 
-        if ($turno == true) {
-
-            $acierto = self::ejecutarDisparo($tableroBoot, $x, $y);
-            if ($acierto == true) {
-                $nuevo_turno = 1;
-            } else {
-                $nuevo_turno = 0;
-            }
-        } else { #TURNO DE SERVIDOR: comprobar coodenadas en $tableroUsu
-            $acierto = self::ejecutarDisparo($tableroUsu, $x, $y);
-            if ($acierto == true) {
-                $nuevo_turno = 1;
-            } else {
-                $nuevo_turno = 0;
-            }
-        }
         $conexion->close();
 
+        #SI EL TURNO ERA DEL JUGADOR comprobar coordenadas en tablero2 
+        if ($turno == 1) {
+
+            $acierto = self::ejecutarDisparo($tableroBoot, $x, $y);
+            if ($acierto == 1) {
+                $nuevo_turno = 1;  //Turno sigue en jugador
+            } else {
+                $nuevo_turno = 0; //Turno pasa a señor_servidor
+            }
+        } else { # turno==0 TURNO DE SERVIDOR: comprobar coodenadas en $tableroUsu
+            $acierto = self::ejecutarDisparo($tableroUsu, $x, $y);
+            if ($acierto == 1) {
+                $nuevo_turno = 0;  //Turno sigue en señor_servidor
+            } else {
+                $nuevo_turno = 1; //Turno pasa a jugador
+            }
+        }
+        
+        //echo "el turno es". $nuevo_turno;
 
         #abrir conexion, actualizar la partida
         $conexion = conexionBBDD();
-        $resultado = $conexion->query("UPDATE hf_partidaBoot SET tablero1=" . $tableroUsu . " , tablero2 = " . $tableroBoot . ", turno=" . $nuevo_turno . " WHERE codUsu=$codUsu");
-        $resultado->data_seek(0);
+        $resultado = $conexion->query("UPDATE hf_partidaBoot SET tablero1='" . $tableroUsu . "' , tablero2 = '" . $tableroBoot . "', turno='" . $nuevo_turno . "' WHERE codUsu=$codUsu");
         $conexion->close();
     }
 
@@ -256,62 +254,62 @@ class controlPartida
     '------------------------------------------------------------------------------------- */
     public function ejecutarDisparo(&$cadTabl, $x, $y)
     {
-        $matriz = array(10, 10); //char
-        $diana = False;
+        $diana = 0;
         $cadena = ""; //String
-        $arr_cad = array(100); //char
         #Pasar la cadena a array de caracteres
         $cpCadTabl=$cadTabl;
         $arr_cad = str_split($cpCadTabl);
 
-        #Generar tablero $matriz
-        for ($i = 0; $i < 9; $i++) {
-            for ($j = 0; $j < 9; $j++) {
-                $matriz[$i][$j] = $arr_cad[$i * 10 + $j];
-            }
-        }
+        /*echo "\nel valor de cadena argumento es; ".$cadTabl;
+        echo "\nLa longitud del array unidimensional generado es ; ". count($arr_cad);
+        echo "\nLos valores contenido en el array arr_cad son ; ";
+        var_dump($arr_cad);*/ // ------------- ---------------------------------------- TEST CONDUCTOR
 
-        #COMPROBAR DISPARO
-        switch ($matriz[$x][$y]) {
+        $posicion= $arr_cad[$x * 10 + $y];
+        switch ($posicion){
+             #COMPROBAR DISPARO
             case "0":
-                $matriz[$x][$y] = "#";  //AGUA
-                $diana = False;
+                $arr_cad[$x * 10 + $y] = "#";  //AGUA
+                $diana = 0;
                 break;
 
             case "1":
-                $matriz[$x][$y] = "x"; //TOCADO'
-                $diana = True;
+                $arr_cad[$x * 10 + $y] = "x"; //TOCADO'
+                $diana = 1;
                 break;
             case "2":
-                $matriz[$x][$y] = "x"; //TOCADO'
-                $diana = True;
+                $arr_cad[$x * 10 + $y] = "x"; //TOCADO'
+                $diana = 1;
                 break;
             case "N":
-                $matriz[$x][$y] = "x"; //TOCADO'
-                $diana = True;
+                $arr_cad[$x * 10 + $y] = "x"; //TOCADO'
+                $diana = 1;
                 break;
 
             case "S":
-                $matriz[$x][$y] = "x"; //TOCADO'
-                $diana = True;
+                $arr_cad[$x * 10 + $y] = "x"; //TOCADO'
+                $diana = 1;
                 break;
             case "W":
-                $matriz[$x][$y] = "x"; //TOCADO'
-                $diana = True;
+                $arr_cad[$x * 10 + $y] = "x"; //TOCADO'
+                $diana = 1;
                 break;
             case "E":
-                $matriz[$x][$y] = "x"; //TOCADO'
-                $diana = True;
+                $arr_cad[$x * 10 + $y] = "x"; //TOCADO'
+                $diana = 1;
                 break;
         }
 
-        #VOLVER A PASAR MATRIZ A CADENA contatenando caracteres
-        for ($i = 0; $i < 9; $i++) {
-            for ($j = 0; $j < 9; $j++) {
-                $cadena = $cadena . $matriz[$i][$j];
+             #VOLVER A PASAR MATRIZ A CADENA contatenando caracteres
+             for ($i = 0; $i <100; $i++) { 
+                
+                    $cadena .= $arr_cad[$i];
             }
-        }
         $cadTabl = $cadena;  #SOBRESCRIBIR LA CADENA DE ENTRADA/SALIDA (* pasada por referencia)
+
+       // echo "\nLa cadena generada al final es :".$cadTabl;
+       // echo "\n Diana es == a :". $diana; //--------------------------------   TEST COONDUCTOR
+
         return $diana;
     }
     /* '-------------------------------------------------------------------------------------

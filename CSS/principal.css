@@ -222,14 +222,42 @@ body {
   z-index: 2;
   float: left;
 }
-
 .tabla_boot {
   margin-top: 55px;
   margin-left: 35px;
   width: 343px;
   height: 343px;
+  /*background-color: rgba(228, 68, 68,08);*/
   background-image: url("../images/marco_tabla.jpg");
   z-index: 2;
+  float: left;
+}
+.tU_red {
+  margin-top: 55px;
+  margin-left: 70px;
+  width: 343px;
+  height: 343px;
+  background-color: rgba(228, 68, 68,08);
+  z-index: 2;
+  float: left;
+}
+
+.tB_block {
+  margin-top: 55px;
+  margin-left: 35px;
+  width: 343px;
+  height: 343px;
+  background-color:rgba(255,255,255, 0.5);
+  z-index: 5;
+  float: left;
+}
+.tB_red {
+  margin-top: 55px;
+  margin-left: 35px;
+  width: 343px;
+  height: 343px;
+  background-color: rgba(228, 68, 68,08);
+  z-index: 5;
   float: left;
 }
 
@@ -238,7 +266,7 @@ body {
   background-image: url("../images/btn_0.png");
   width: 30px;
   height: 30px;
-  cursor: crosshair;
+ /* cursor: crosshair;*/
   z-index: 3;
   /* cursor: url('../images/crosshair.jpeg');*/
 }
@@ -321,7 +349,7 @@ body {
   /*background-image: url("../images/btn_0.png");*/
   width: 30px;
   height: 30px;
-  cursor: crosshair;
+  /*cursor: crosshair;*/
   z-index: 3;
   /* cursor: url('../images/crosshair.jpeg');*/
 }

@@ -43,12 +43,63 @@ function cargaDatosUsu() {
       return null;
     });
 }
+ //################################### PETICION 4  : Tira usuario ###################################################*/
+/*---------------------------------------------------------------------------------------------------------------------
+Nombre: turno_servidor
+Proceso: Le hace una peticion al servidor de tipo 4 ( Servidor tira y devuelve el resultado de su maniobra).
+-----------------------------------------------------------------------------------------------------------------------*/
+function turno_servidor(){
+
+  let json = {
+    peticion: 4,
+  };
+
+  fetch("Partida.php", {
+    method: "POST",
+    body: JSON.stringify(json),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response);
+      }
+      if (response.status == 404) {
+          document.getElementById("lbl_error_usuario").innerHTML =
+            "ERROR SERVIDOR";
+          alert("error");
+        }
+      return Promise.reject(new Error(response.statusText));
+
+    })
+    .then((response) => response.json()) // parsea la respuesta en texto plano
+    .then((datos) => {
+
+      //Machacamos variables globales con los valores devueltos, paseandolos a enteros porque las cadenas me estan dando problemas
+      let gan=JSON.stringify(datos.ganador);
+      let turno =JSON.stringify(datos.turno);
+      ganador=  parseInt(gan.split('"').join(""),10);
+      turno_tiro= parseInt(turno.split('"').join(""),10);
+      //Eliminar tableros
+      eliminar_tablero();
+      //Cargar partida
+      let cadT = JSON.stringify(datos.partida);
+      reloadPartida(cadT.split('"').join("")); //Manda la cadena sin ""
+    })
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
+ 
+ }
 
 /**************************************************************************************************************************
 Nombre: reloadPartida()
-Proceso: A partir de la cadena de respuesta del servidor manda las cadenas que obtiene a las funcion para pintar los
+Proceso: A partir de la cadena de respuesta del servidor manda las cadenas que obtiene a las funcion para pintar los tablero.
+        Tambien es quien gestiona el turno de los jugadores y cambia los estilos.
 *******************************************************************************************************************************/
-function reloadPartida(cadTabl, ganador) {
+function reloadPartida(cadTabl) {
     let arrTabl = cadTabl.split("|");
  
     //Cargar tableros
@@ -58,19 +109,22 @@ function reloadPartida(cadTabl, ganador) {
     //Cambiar visibilidad de los botones
     document.querySelector("#Empezar").style.display = "none";
     document.querySelector("#Abandonar").style.display = "inline";
-  
-    //Comprobar ganador
+   
+    //Comprobar ganador --variables globales parseadas a enteros
     switch (ganador) {
-      case "0":
+      case 0:
         if (turno_tiro == 0) {
-          //Espera 4 segundos y hacer peticion a la pagina para recargar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          setTimeout("turno_servidor()", 1000);
+          //Aqui deberiamos gestionar el tema de los estilos
+            //-->Añadir transparencia sobre la tabla servidor y marco rojo sobre la de usuario
+          //Espera 2 segundos y hacer peticion a la pagina para recargar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          setTimeout("turno_servidor()", 2000);               //  RECARGA PARTIDA HASTA QUE EL TURNO SEA DEL USUArio
         } else {
           //limpia el intervalo
           clearTimeout();
+          //Quitar estilo de tabla usuario y ponerlo sobre la tabal boot
         }
         break;
-      case "1":
+      case 1:
         //Mostrar mensaje de victoria
         alert("ENORABUENA!!! Has ganado !!");
   
@@ -78,7 +132,7 @@ function reloadPartida(cadTabl, ganador) {
         victoria_usuario();
   
         break;
-      case "2":
+      case 2:
         //Mostrar mensaje de victoria
         alert("ERES UN LOOSER DE SECANO!!");
         //Ejecutar peticion 5 (Terminar partida)
@@ -116,34 +170,17 @@ function Enviar_jugada(name_btn_pulsado) {
   coordenadas = id_boton.split("|");
 
   alert ("entra en envia jugada. el nombr edle boton pulsado es "+coordenadas[0]+"|"+coordenadas[1]);
-  let json = {
-    peticion: 3,
-    x: coordenadas[0],
-    y: coordenadas[1],
-  };
 
-  alert(JSON.stringify(json));
-  alert ("turno: " +turno_tiro);
+  alert("ganador = "+typeof(ganador));
+  alert("turno_tiro = "+typeof(turno_tiro));
 
-  if (turno_tiro==true) {  //Si el turno es del Jugador se hace la petición al server
-    alert("es true");
-  }
-  else{
-    if (turno_tiro==1){
-      alert("es entero");
 
-    }
-    else{
-      if(turno_tiro=="1"){
-        alert("es cadena");
-      }
-      else{
-        alert("nosé que coño es ya");
-      }
-    }
-  }
-    alert("entramos en turno tiro");
-
+  if (turno_tiro==1) {  //Si el turno es del Jugador se hace la petición al server
+    let json = {
+      peticion: 3,
+      x: coordenadas[0],
+      y: coordenadas[1],
+    };
     fetch("Partida.php", {
       method: "POST",
       body: JSON.stringify(json), // convierte el objeto json a un Json de texto de verdad
@@ -165,8 +202,10 @@ function Enviar_jugada(name_btn_pulsado) {
       .then((response) => response.json()) 
       .then((datos) => {
         
-        ganador = JSON.stringify(datos.ganador);    //Actualiza variables globales
-        turno_tiro = JSON.stringify(datos.turno);
+        let gan=JSON.stringify(datos.ganador);       //Actualizar las variables globales
+        let turno =JSON.stringify(datos.turno);
+        ganador=  parseInt(gan.split('"').join(""),10);
+        turno_tiro= parseInt(turno.split('"').join(""),10);
 
         eliminar_tableros();                        //Elimina los tableros y carga partida con nueva respuesta
         let cadT = JSON.stringify(datos.partida);
@@ -175,10 +214,9 @@ function Enviar_jugada(name_btn_pulsado) {
       .catch((error) => {
         // common error
         console.error(error);
-        //console.log(json.datosUsu);
         return null;
       });
- // }
+ }
 }
 
 
@@ -435,9 +473,12 @@ document.querySelector("#Empezar").addEventListener("click", (e) => {
       .then((response) => response.json()) // parsea la respuesta en texto plano
       .then((datos) => {
 
-        //Machacamos variables globales con los valores devueltos
-        ganador=JSON.stringify(datos.ganador);
-        turno_tiro =JSON.stringify(datos.turno);
+        //Machacamos variables globales con los valores devueltos, paseandolos a enteros porque las cadenas me estan dando problemas
+        let gan=JSON.stringify(datos.ganador);
+        let turno =JSON.stringify(datos.turno);
+        ganador=  parseInt(gan.split('"').join(""),10);
+        turno_tiro= parseInt(turno.split('"').join(""),10);
+
         //Cargar partida
         let cadT = JSON.stringify(datos.partida);
         reloadPartida(cadT.split('"').join("")); //Manda la cadena sin ""
@@ -449,8 +490,8 @@ document.querySelector("#Empezar").addEventListener("click", (e) => {
   });
 
 /*############################### peticion : 5 Abandonar partida sin salir de la sesion ###############################*/
-  document.querySelector("#Abandonar").addEventListener("click", (e) => {
-    e.preventDefault(); //Cortamos el envio del formulario
+  document.querySelector("#Abandonar").addEventListener("click", (evt) => {
+    evt.preventDefault(); //Cortamos el envio del formulario
     let json = {
       peticion: 5,
     };

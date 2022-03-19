@@ -241,8 +241,11 @@ function reloadPartida(cadTabl) {
       case 0:
         if (turno_tiro == 0) {
           //Aqui deberiamos gestionar el tema de los estilos
-            //-->Añadir transparencia sobre la tabla servidor y marco rojo sobre la de usuario
-
+          //-->Añadir transparencia sobre la tabla servidor y marco rojo sobre la de usuario
+          document.querySelector("#tbl_usuario").classList.remove("tabla_usu");
+          document.querySelector("#tbl_usuario").classList.add("tU_red");
+          document.querySelector("#tbl_boot").classList.remove("tB_red");
+          document.querySelector("#tbl_boot").classList.add("tabla_boot");
 
           //Espera 2 segundos y hacer peticion a la pagina para recargar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           setTimeout("turno_servidor()", 2000);               //  RECARGA PARTIDA HASTA QUE EL TURNO SEA DEL USUArio
@@ -250,6 +253,12 @@ function reloadPartida(cadTabl) {
           //limpia el intervalo
           clearTimeout();
           //Quitar estilo de tabla usuario y ponerlo sobre la tabal boot
+          document.querySelector("#tbl_usuario").classList.remove("tU_red");
+          document.querySelector("#tbl_usuario").classList.add("tabla_usu");
+          document.querySelector("#tbl_boot").classList.remove("tabla_boot");
+          document.querySelector("#tbl_boot").classList.add("tB_red");
+
+
         }
         break;
       case 1:
@@ -366,7 +375,6 @@ function obtener_tablero(cadena_tab, jugador) {
 
       if (jugador == 2) {  // JUGADOR 2--> TABLA SERVIDOR. Se añade el disparador del evento "click" para que el jugador pueda Enviar disparos
 
-        //Si el tablero es el de tirar dle jugador
         let nuevo_boton = document.createElement("input");
         nuevo_boton.type = "button";
         nuevo_boton.value = "";
@@ -433,8 +441,8 @@ function obtener_tablero(cadena_tab, jugador) {
         }
         //añadir celda a fila
         nueva_celda.appendChild(nuevo_boton);
-      } else if (jugador == 1) {
-        //La tabla pertenece al boot
+      } else if (jugador == 1) {    //=> TABLERO DE USUARIO. NO TIENE EVENTOS
+        
         let nuevo_boton = document.createElement("input");
         nuevo_boton.type = "button";
         nuevo_boton.value = "";

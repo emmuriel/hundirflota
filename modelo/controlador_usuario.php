@@ -234,23 +234,21 @@ class ControlUsuario
     $conexion = conexionBBDD();
     $nombreUsu = mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
     $resultado = $conexion->query("SELECT victorias FROM hf_usuario WHERE codUsu=$nombreUsu");
-    $resultado->data_seek(0);
+    if ($resultado->data_seek(0)){
     while ($fila = $resultado->fetch_assoc()) {
       $victorias = $fila['victorias'];
     }
+    echo "Victorias actualizadas : ".$victorias;
 
     //Actualiza el numero de victorias
     $victorias++;
+    echo "Victorias actualizadas : ".$victorias;
+
     $conexion = conexionBBDD();
-    $resultado = $conexion->query("UPDATE hf_usuario SET victorias=$victorias FROM hf_usuario WHERE codUsu=$codUsu");
-    $resultado->data_seek(0);
-    while ($fila = $resultado->fetch_assoc()) {
-      //Partidas actualizadas
-      $error = false;
-    }
+    $resultado = $conexion->query("UPDATE hf_usuario SET victorias=$victorias WHERE codUsu=$codUsu");
     $conexion->close(); //cerrar conexion
-    return $error;
   }
+}
 
   /*  '---------------------------------------------------------------------------------------------------
     ' Nombre: cambiarEstado

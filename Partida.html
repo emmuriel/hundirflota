@@ -23,3 +23,8 @@
   </form>
 </body>
 </html>
+<?php
+//Controlar que el usuario esté logeado-- sino redireccionar a página de error
+if (!$_SESSION['usuario']) {
+  header("Location: https://localhost/HF/Error.php");
+?>

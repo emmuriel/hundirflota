@@ -73,11 +73,17 @@ $ctrlPartida->borraPartida(1);
 
 
 
- //PROBANDO EJECUTAR DISPARO  >>> Solucionado <<<
+/* //PROBANDO EJECUTAR DISPARO  >>> Solucionado <<<
                $ctrlPartida= new controlPartida();
                $cadenaRef="W111E000000000000000WE0000000000000000000000000000N00000000020000N000020N00S00N02020000020S0S00000S0"; //Un tablero cualquiera
                $cadOriginal=$cadenaRef;
                
                $acierto=$ctrlPartida->ejecutarDisparo($cadenaRef,0,7);  //Probar coodenadas
+*/
+
+//PROBANDO peticion 7  incrementar victoria
+        //$ctrlPartida->borraPartida(7);
+        $ctrlUsu = new ControlUsuario();
+        $ctrlUsu->upVictorias(7);
 
 ?>

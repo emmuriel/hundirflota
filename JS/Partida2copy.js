@@ -60,6 +60,51 @@ function cargaDatosUsu() {
     });
 }
 
+/**************************************************************************************************************************
+Nombre: abandonarPartida(){
+Proceso: Manda una peticion 5 al servidor. Abandonar partida. Esta funcion es llamada desde el evento click del boton abandonar
+        y desde la funcion cuando el servidor gana la partida.
+*******************************************************************************************************************************/
+function abandonarPartida(){
+  let json = {
+    peticion: 5,
+  };
+
+  fetch("Partida.php", {
+    method: "POST",
+    body: JSON.stringify(json),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response);
+      }
+      if (response.status == 404) {
+          document.getElementById("lbl_error_usuario").innerHTML =
+            "ERROR SERVIDOR";
+          alert("error");
+        }
+      return Promise.reject(new Error(response.statusText));
+
+    })
+    .then((response) => response.json()) // parsea la respuesta en texto plano
+    .then((datos) => {
+      let ok = JSON.stringify(datos.ok);
+      if (ok==1){
+
+        window.location="http://localhost/HF/Partida.html"; 
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+
+}
+
 /*------------------------------------------------------------------------------------
     Nombre: eliminar_tableros
     Proceso: Elimina todos los nodos hijos de las tablas
@@ -219,7 +264,7 @@ function reloadPartida(cadTabl) {
         //Mostrar mensaje de victoria
         alert("ERES UN LOOSER DE SECANO!!");
         //Ejecutar peticion 5 (Terminar partida)
-  
+        abandonarPartida();
         break;
     }
   }
@@ -561,43 +606,8 @@ document.addEventListener("DOMContentLoaded", () => {
   /*############################### peticion : 5 Abandonar partida sin salir de la sesion ###############################*/
   document.querySelector("#Abandonar").addEventListener("click", (evt) => {
     evt.preventDefault(); //Cortamos el envio del formulario
-    let json = {
-      peticion: 5,
-    };
-
-    fetch("Partida.php", {
-      method: "POST",
-      body: JSON.stringify(json),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          return Promise.resolve(response);
-        }
-        if (response.status == 404) {
-            document.getElementById("lbl_error_usuario").innerHTML =
-              "ERROR SERVIDOR";
-            alert("error");
-          }
-        return Promise.reject(new Error(response.statusText));
-
-      })
-      .then((response) => response.json()) // parsea la respuesta en texto plano
-      .then((datos) => {
-        let ok = JSON.stringify(datos.ok);
-        if (ok==1){
-
-          window.location="http://localhost/HF/Partida.html"; 
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      });
-
-
+    abandonarPartida();
+    
 
   });
   /*------------------------------------------------------------------------------------

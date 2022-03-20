@@ -26,11 +26,11 @@ function logout()
     ' Salidas: no tiene, envia la cadena por http al cliente en background
     '-------------------------------------------------------------------------------------*/
 function responseJson($usu, $partida, $ganador)
-{
-  
+{ 
+
   //$respuesta = "'partida' : " . $usu->getCodUsu() . "|" . $usu->getNombre() . "|" . $usu->getPuntuacion() . "|" . $partida->getTablero1() . "|" . $partida->getTablero2() . "|" . $partida->getTurno() . "|" . $ganador . "|";
   $respuesta= array("usuario"=>$usu->getCodUsu(),
-                    "partida"=>$partida->getTablero1() . "|" . $partida->getTablero2() . "|",
+                    "partida"=>$partida->getTablero1() . "|" . $partida->getTablero2(). "|",
                     "turno"=>$partida->getTurno(),
                     "ganador"=>$ganador);
   /*                  $respuesta= array("usuario"=>$usu->getCodUsu(),
@@ -63,7 +63,7 @@ function procesarComprobacionDisparo($usu,$x,$y)
 
   #Obtener partida actuializada
   $partida = $ctrlPartida->obtenerPartida($usu->getCodUsu());
-
+ 
   #Comprobar si el usuario ha ganado
   $ganador = $ctrlPartida->comprobarGanador($partida->getTablero2());   //Envia el tablero del server
 
@@ -72,7 +72,9 @@ function procesarComprobacionDisparo($usu,$x,$y)
   } else {
     $car_gan = "0";
   }
-  
+  #Enmascara el tablero del boot 
+  $mascara= $ctrlPartida->mascaraTablero($partida->getTablero2());
+  $partida->setTablero2($mascara);
   responseJson($usu, $partida, $car_gan);   #Response server
 }
 

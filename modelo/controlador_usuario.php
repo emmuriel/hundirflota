@@ -238,12 +238,8 @@ class ControlUsuario
     while ($fila = $resultado->fetch_assoc()) {
       $victorias = $fila['victorias'];
     }
-    echo "Victorias actualizadas : ".$victorias;
-
     //Actualiza el numero de victorias
     $victorias++;
-    echo "Victorias actualizadas : ".$victorias;
-
     $conexion = conexionBBDD();
     $resultado = $conexion->query("UPDATE hf_usuario SET victorias=$victorias WHERE codUsu=$codUsu");
     $conexion->close(); //cerrar conexion

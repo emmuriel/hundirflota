@@ -365,4 +365,27 @@ class controlPartida
         }
         return $ganador;
     }
+    /* '-------------------------------------------------------------------------------------
+    ' Nombre: mascaraTablero
+    ' Proceso: Recorre un array generado con la cadena del tablero, e inicializa otro solo con 
+                casilla explotadas y sin explotar. Este array es el que se envia al cliente como
+                array contrincante, evitando revelar las posiciones reales de los objetivos.
+    ' Entradas: una cadena
+    ' Salidas: Una cadena
+    '------------------------------------------------------------------------------------- */
+    public function mascaraTablero($cadTabl){
+        $arrBD= str_split($cadTabl);
+        $mascara="";
+ 
+    
+        for ($i=0;$i<100;$i++){
+            if ($arrBD[$i]=="x"||$arrBD[$i]=="0"||$arrBD[$i]=="#"){
+                $mascara .=$arrBD[$i];           
+            }
+            else{
+                $mascara .="0";   //Lo mmarcará todo como sin explotar
+            }
+        }
+        return $mascara;
+    }
 }

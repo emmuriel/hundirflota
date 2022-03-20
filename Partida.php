@@ -35,11 +35,17 @@ if ($_SESSION['usuario']) {
           //Empieza partida
           $ctrlPartida->crearPartidaBoot($obUsu->getCodUsu());
           $partida = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
+          #Enmascarar tablero boot
+          $tablero2=$ctrlPartida->mascaraTablero($partida->getTablero2());
+          $partida->setTablero2($tablero2);
            
           responseJson($obUsu, $partida, "0");
         }else{
+          #Enmascarar tablero boot
           $partida = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
-        
+          $tablero2=$ctrlPartida->mascaraTablero($partida->getTablero2());
+          $partida->setTablero2($tablero2);
+          
           responseJson($obUsu, $partida, "0");
         }
         break;
@@ -67,6 +73,9 @@ if ($_SESSION['usuario']) {
         } else {
           $car_gan = "0";  //No hay ganador
         }
+        #Enmascarar tablero boot
+        $tablero2=$ctrlPartida->mascaraTablero($partidaActualizada->getTablero2());
+        $partidaActualizada->setTablero2($tablero2);
         responseJson($obUsu, $partidaActualizada, $car_gan);  #Response server
 
         break;
@@ -84,14 +93,13 @@ if ($_SESSION['usuario']) {
         $erro = $ctrlUsu->cambiarEstado($obUsu->getCodUsu(), 0);
         logout();
         json_encode("bye");    #response server
- 
+        
         break;
 
       case "7": #TERMINAR PARTIDA Y SUMAR VICTORIA AL USUARIO
         $ctrlPartida->borraPartida($obUsu->getCodUsu());
         $ctrlUsu = new ControlUsuario();
         $ctrlUsu->upVictorias($obUsu->getCodUsu());
-
         break;
     }
   } else { # Peticiones NO Ajax

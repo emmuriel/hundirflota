@@ -622,14 +622,11 @@ document.addEventListener("DOMContentLoaded", () => {
   Nombre: cierra_usuario()
   Proceso: Le hace una peticion al servidor de tipo 6 (Elimina la partida d ela base de 
   datos si la hubiera, cambia el estado de conexion y borra la sesion de usuario).
+  No espera ninguna promesa pq el navegador se habrá cerrado. al volver a abrirlo nos daria
+   un error de red
   ------------------------------------------------------------------------------------*/
-  document.querySelector("body").addEventListener('unload',(evt)=>{
-    let confirmacion= prompt("Estás seguro de que desea cerrar la aplicación?");
-    if (confirmacion==false){
-      evt.preventDefault(); //Cortamos el envio del formulario
-    }
-    else{
-      alert ("HASTA LA PRÓXIMA PARTIDA !! ");  
+  window.addEventListener('beforeunload', (evt)=>{
+      evt.preventDefault();
       let json = {
         peticion: 6,
       };
@@ -641,30 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "Content-Type": "application/json",
         },
       })
-        .then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            return Promise.resolve(response);
-          }
-          if (response.status == 404) {
-              document.getElementById("lbl_error_usuario").innerHTML =
-                "ERROR SERVIDOR";
-              alert("error");
-            }
-          return Promise.reject(new Error(response.statusText));
-
-        })
-        .then((response) => response.json()) //Aki no deberia llegar
-        .then((datos) => {
-          let ok = JSON.stringify(datos.ok);
-          if (ok==1){
-            
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        return null;
-      });
-    }
+        
   });
 
 }); //DOMContentLoaded

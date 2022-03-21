@@ -63,6 +63,7 @@ if ($_SESSION['usuario']) {
         $ganador;
         $car_gan;
         $ctrlPartida->dispara_señr_servidor($obUsu->getCodUsu());
+    
         $partidaActualizada = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
 
         #Comprobar ganador

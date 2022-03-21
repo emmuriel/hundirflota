@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_name("HundirFlota");
 session_start(); ?>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ session_start(); ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="CSS/principal.css" rel="stylesheet" type="text/css" />
-    <link  rel="icon"   href="images/favicon.ico" type="image/png" />
+    <link rel="icon" href="images/favicon.ico" type="image/png" />
     <script defer type="text/javascript" src="JS/Formulario.js"></script>
 
     <title>Login</title>
@@ -17,11 +17,11 @@ session_start(); ?>
 
 <body>
     <form id="form1" class="formulario_intro" method="POST" action="index.php">
-
+        
         <div id="mensaje_carga" class="text_box">
             <div id="div_carga" class="cargando">
                 <img alt="loading" src="images/loading.gif" />
-            </div>
+            </div></div>
             <input name="txt_usuario" type="text" class="txt_campo_intro" />
             <span id="lbl_error_usuario" class="lbl_form" visible="false"></span><br />
             <input name="txt_password" type="password" class="txt_campo_intro" />
@@ -29,8 +29,8 @@ session_start(); ?>
 
         </div>
         <p>
-            <input name="entrar" class="btn_entrar" type="submit" value=""  />
-            <input name="registrar" class="btn_nuevo" type="submit" value=""  />
+            <input name="entrar" class="btn_entrar" type="submit" value="" />
+            <input name="registrar" class="btn_nuevo" type="submit" value="" />
         </p>
     </form>
 </body>

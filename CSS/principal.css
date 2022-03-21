@@ -1,7 +1,10 @@
-﻿html,
+﻿
 body {
   min-height: 100%;
-  background-color: rgb(31, 29, 29);
+  background-color:  rgb(39, 39, 39);
+  color:white;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
 }
 
 .lbl_error_intro {
@@ -49,7 +52,7 @@ body {
   width: 634px;
   height: 531px;
   background-image: url("../images/INTRO.png");
-  border-style: outset;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
   border-bottom-width: 8px;
   margin: 0 auto;
   z-index: 1;
@@ -59,7 +62,7 @@ body {
   width: 634px;
   height: 531px;
   background-image: url("../images/error.png");
-  border-style: outset;
+   box-shadow: 0 0 20px rgba(255,255,255,0.3);
   border-bottom-width: 8px;
   margin: 0 auto;
   z-index: 1;
@@ -78,15 +81,21 @@ body {
   margin-left: 255px;
 }
 
-.formulario_registro {
+/*.formulario_registro {
   width: 634px;
   height: 531px;
   background-image: url("../images/registro.png");
-  border-style: outset;
+  border-radius: 1rem;
+  border-style: none;
+  box-shadow: 0 0 0 20px rgb(50, 111, 168);
   border-bottom-width: 8px;
   margin: 0 auto;
   z-index: 1;
-}
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+}*/
 
 .formulario_partida {
   width: 987px;

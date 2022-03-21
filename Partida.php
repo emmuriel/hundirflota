@@ -21,7 +21,7 @@ if ($_SESSION['usuario']) {
 
     switch ($peticion) {
       case 1:  #CARGAR DATOS USUARIO
-        $datosUsu = utf8_encode('BIENVENID@@ ' . $obUsu->getNombre() . '!!  Total Partidas Ganadas:  ' . $obUsu->getPuntuacion());
+        $datosUsu = utf8_encode('BIENVENID@ ' . $obUsu->getNombre() . '!!      Total Partidas Ganadas:  ' . $obUsu->getPuntuacion());
         $response = array ("datosUsu"=>$datosUsu);
         echo json_encode($response,JSON_FORCE_OBJECT,512); // al array hay que forzarlo a ser objeto
         break;
@@ -45,7 +45,7 @@ if ($_SESSION['usuario']) {
           $partida = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
           $tablero2=$ctrlPartida->mascaraTablero($partida->getTablero2());
           $partida->setTablero2($tablero2);
-          
+
           responseJson($obUsu, $partida, "0");
         }
         break;

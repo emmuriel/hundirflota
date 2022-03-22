@@ -260,11 +260,6 @@ class controlPartida
         $cpCadTabl=$cadTabl;
         $arr_cad = str_split($cpCadTabl);
 
-        /*echo "\nel valor de cadena argumento es; ".$cadTabl;
-        echo "\nLa longitud del array unidimensional generado es ; ". count($arr_cad);
-        echo "\nLos valores contenido en el array arr_cad son ; ";
-        var_dump($arr_cad);*/ // ------------- ---------------------------------------- TEST CONDUCTOR
-
         $posicion= $arr_cad[$x * 10 + $y];
         switch ($posicion){
              #COMPROBAR DISPARO

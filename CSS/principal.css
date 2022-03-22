@@ -51,7 +51,7 @@ body {
 .formulario_intro {
   width: 634px;
   height: 531px;
-  background-image: url("../images/INTRO.png");
+  background-image: url("../images/periscopio.png");
   box-shadow: 0 0 20px rgba(255,255,255,0.3);
   border-bottom-width: 8px;
   margin: 0 auto;
@@ -469,4 +469,14 @@ body {
   margin-left: 8px;
   background-image: url("../images/btn_nuevo.png");
   cursor: pointer;
+}
+.ghost{
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color:rgb(54, 54, 54);
 }

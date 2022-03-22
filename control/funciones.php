@@ -27,18 +27,10 @@ function logout()
     '-------------------------------------------------------------------------------------*/
 function responseJson($usu, $partida, $ganador)
 { 
-
-  //$respuesta = "'partida' : " . $usu->getCodUsu() . "|" . $usu->getNombre() . "|" . $usu->getPuntuacion() . "|" . $partida->getTablero1() . "|" . $partida->getTablero2() . "|" . $partida->getTurno() . "|" . $ganador . "|";
   $respuesta= array("usuario"=>$usu->getCodUsu(),
                     "partida"=>$partida->getTablero1() . "|" . $partida->getTablero2(). "|",
                     "turno"=>$partida->getTurno(),
                     "ganador"=>$ganador);
-  /*                  $respuesta= array("usuario"=>$usu->getCodUsu(),
-                    "ganador"=>$ganador,
-                    "partida"=>array(
-                            "t1"=>$partida->getTablero1(),
-                            "t2"=> $partida->getTablero2(),
-                            "turno"=> $partida->getTurno()));*/
   echo json_encode($respuesta,JSON_FORCE_OBJECT,512);
 }
 /*   '-------------------------------------------------------------------------------------
@@ -94,21 +86,19 @@ function validaFormReg()
   //Campos vacíos
   if (empty($f_nombre) || empty($f_email) || empty($f_password) || empty($f_confirmacion)) {
     $ok = false;
-    echo "<br /><br /><br />";
-    echo "<p><span class='errform'>**Error: Todos los campos son obligarios</span></p>";
+
+    echo "<div class='ghosti'><span class='error'>**Error: Todos los campos son obligarios</span></div>";
   } else {
     //Nombre de usuario válido
     if (!usuValido($f_nombre)) {
       $ok = false;
-      echo "<br /><br /><br />";
-      echo "<p><span class='errform'**Error:El nombre debe comenzar con dos letras. Solo se permiten caracteres especiales = - _ /</span></p>";
+      echo "<div class='ghosti'><span class='error'>**Error:El nombre debe comenzar con dos letras. Solo se permiten caracteres especiales = - _ /</span></div>";
     }
     //Formato de correo válido 
     //Contraseña segura
     if (!passSecure($f_password)) {
       $ok = false;
-      echo "<br /><br /><br />";
-      echo "<p><span class='errform'>**Error:La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico</span></p>";
+      echo "<div class='ghosti'><span class='error'>**Error:La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico</span></div>";
     }
 
 
@@ -117,13 +107,13 @@ function validaFormReg()
       $ctrl = new ControlUsuario();
       if ($ctrl->usuarioRegistrado($f_nombre)) {
         $ok = false;
-        echo "<br /><br /><br /><p><span class='errform'>**Error: El nombre de usuario ya existe</span></p>";
+        echo "<div class='ghosti'><span class='error'>**Error: El nombre de usuario ya existe</span></div>";
       }
 
       //Correo ya existe ya existe en la BBDD
       if ($ctrl->emailRegistrado($f_email)) {
         $ok = false;
-        echo "<br /><br /><br /><p><span class='errform'>**Error: La dirección de correo ya está registrada</span></p>";
+        echo "<div class='ghosti'><span class='error'>**Error: La dirección de correo ya está registrada</span></div>";
       }
     }
   }

@@ -76,7 +76,6 @@ class ControlUsuario
         if ($busqueda == false) {
           //echo "<br><span>El usuario no existe </span>";
           $objUsuario = new Usuario(0, null, null, null, null, null, null);
-          echo "<br /><div id='errorlog'><span id='loginError'>Usuario no existe</span></div>";
         }
         mysqli_stmt_close($resultado);
       }

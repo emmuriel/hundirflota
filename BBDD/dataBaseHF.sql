@@ -1,7 +1,7 @@
 ﻿
-/*CREATE DATABASE `HundirFlota`;*/
-CREATE DATABASE `HF`;
-USE `HF`;
+CREATE DATABASE `HundirFlota`;
+
+USE `HundirFlota`;
 
 CREATE TABLE IF NOT EXISTS `HF_usuario` (
 `codUsu` int(3) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',

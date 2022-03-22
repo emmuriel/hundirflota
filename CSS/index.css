@@ -1,0 +1,132 @@
+.cookies{
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    min-height: 50vh;
+    min-width: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:rgb(54, 54, 54);
+    z-index:3;
+
+}
+
+button{
+    width: 100%;
+    padding: 0.7em;
+    border: none;
+    background: #0e6bb7;
+    outline:0;
+    color: #ffff;
+    text-transform: uppercase;
+    font-size: 1em;
+    
+    
+ 
+}
+button:hover{
+    transition: 2s;
+    -webkit-transition: 2s;
+    -moz-transition: 2s;
+    -ms-transition: 2s;
+    -o-transition: 2s;
+    background-color: #4e97d3;
+    box-shadow: 0 0 10px #4e97d3;
+    cursor: pointer; /*Cambia el cursor flecha a la manita*/
+}
+
+
+
+body{
+    background-color: rgb(39, 39, 39);
+    color:white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding:0 1.5em;
+}
+.contenedor{
+    max-width: 100%;
+    max-height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20em;
+    padding-right: 20em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+input{
+    width: 96.5%;
+    padding: 0.5em;
+    border: none;
+    background: none;
+    outline:0;
+    border-bottom: 1px solid #4e97d3;
+    color: #ffff;
+
+}
+label{
+    color: #ffff;
+}
+
+.ghost{
+    padding: 0.5rem;
+    background-color: rgba(12, 12, 12, 0.9);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#ffff;
+    z-index: 1;
+    margin-left: 8rem;
+    margin-right: 8rem;
+    margin-top: 6rem;;
+
+
+}
+.ghosti{
+    padding: 0.5rem;
+    background-color: rgba(12, 12, 12, 0.9);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#ffff;
+    z-index: 1;
+    margin-left: 8rem;
+    margin-right: 8rem;
+    margin-top: 1rem;;
+
+    
+}
+.ghost a{
+    color:#0e6bb7;
+    font-weight: bolder;
+}
+.ghost a::selection{
+    color:#4e97d3;
+}
+
+
+.formulario_intro {
+    width: 634px;
+    height: 531px;
+    background-image: url("../images/periscopio.png");
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    border-bottom-width: 8px;
+    margin: 0;
+    z-index: 0;
+  }
+.login{
+    margin-top: 8rem;
+
+}
+.error{
+    color: red;
+    font-style: italic;
+}

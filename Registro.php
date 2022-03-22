@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Usuario</title>
     <link href="CSS/Formulario1.css" rel="stylesheet" type="text/css" />
-    <script src="JS/Formulario.js" type="text/javascript"></script>
     <link rel="icon" href="images/favicon.ico" type="image/png" />
 </head>
 
 <body>
-    <form id="form1" method="POST" action="Registro.php">
+    
         <div class="contenedor">
+        <form id="form1" method="POST" action="Registro.php">
             <h1 class="cabecera">Hundir<span>Flota</span></h1>
             <div class="contacto">
                 <div class="contact-form">
@@ -58,13 +58,12 @@
                     <ul>
                         <li>Escríbenos a <i>&raquo</i> hundirlaflotawm@gmail.com</li>
                     </ul>
-                    <p></p>
                     
                 </div>
             </div>
-
+            </form>
         </div>
-
+    
 </body>
 
 </html>
@@ -91,7 +90,7 @@ if (isset($_POST['registrar'])) {
             $ctrlUsu = new ControlUsuario();
             $ctrlUsu->registrarUsuario($nuevoUsu);
         } else {
-            echo "<p><span>Error:Las contraseñas no coinciden</span></p>";
+            echo "<div class='ghosti'><span class='error'>Error:Las contraseñas no coinciden</span></div>";
         }
     }
 }

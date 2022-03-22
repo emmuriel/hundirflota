@@ -1,6 +1,7 @@
 ﻿
-CREATE DATABASE `HundirFlota`;
-USE `HundirFlota`;
+/*CREATE DATABASE `HundirFlota`;*/
+CREATE DATABASE `HF`;
+USE `HF`;
 
 CREATE TABLE IF NOT EXISTS `HF_usuario` (
 `codUsu` int(3) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
@@ -9,8 +10,8 @@ CREATE TABLE IF NOT EXISTS `HF_usuario` (
 `pwd` char(64) NOT NULL COMMENT 'hash contraseña sha256',
 `victorias` int(4) NOT NULL COMMENT 'partidas ganadas',
 `estado` int(1) NOT NULL COMMENT '0=no conectado, 1=conectado sin partida, 2=conectado en partida',
-`conexiones` int(3) NOT NULL DEFAULT 0 COMMENT 'total de sesiones iniciadas',
-`activacion` int (1) NULL DEFAULT null COMMENT 'Activacion mail'
+/*`conexiones` int(3) NOT NULL DEFAULT 0 COMMENT 'total de sesiones iniciadas',
+`activacion` int (1) NULL DEFAULT null COMMENT 'Activacion mail'*/
   PRIMARY KEY (`codUsu`),
   UNIQUE KEY `usuario` (`usuario`),
   UNIQUE KEY `email` (`email`)
@@ -34,12 +35,9 @@ CREATE TABLE IF NOT EXISTS `HF_tablero` (
   UNIQUE KEY  `tablero`(`tablero`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='cadena de tableros';
 
---hay que modificar las contraseñas en planoi por los hashes
-INSERT INTO `HF_usuario`(`estado`,`usuario`,`pwd`,`victorias`, `estado`,`conexiones`) VALUES   (0,'Eli','Eli',389,0,0,1),
-																(1,'Juanito','Traga',100,0,0,1),
-																(0,'JJ','JJ',99,0,0,1),
-																(1,'Eze','kiel',200,0,0,1),
-																(0,'Loco','loco',200,0,0,1);
+/*hay que modificar las contraseñas en planoi por los hashes*/
+INSERT INTO `HF_usuario`(`usuario`,`email`,`pwd`,`victorias`,`estado`) VALUES   ('elisa','emartinm@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',389,0),
+																('pakito','emarmur108@g.educaand.es','$2y$10$0JT4hsxl0FcnDU2H6iGuFecsFUvWToDSh74p1vMmJgQDDFWrYX7gK',12,0);
 
 																
 

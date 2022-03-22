@@ -64,19 +64,19 @@ class ControlUsuario
             $objUsuario = new Usuario($db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado, $db_act);
 
             $errorEstado=self::cambiarEstado($db_codUsu, 1);  //Actualiza el estado del usuario
-            echo "<br>ErrorEstado".$errorEstado;
-            echo "Password verify=true<br />";
+           // echo "<br>ErrorEstado".$errorEstado;
+           // echo "Password verify=true<br />";
             $cod = $objUsuario->getCodUsu();
-            echo   "EL codigo es $cod <br />";
+            //echo   "EL codigo es $cod <br />";
           } else {
             $objUsuario = new Usuario(-1, null, null, null, null, null, 0, 0); #esto es una solucion cutre a la no sobrecarga de constructores.
-            echo "Password verify=false<br />";
+           // echo "Password verify=false<br />";
           }
         }
         if ($busqueda == false) {
           //echo "<br><span>El usuario no existe </span>";
           $objUsuario = new Usuario(0, null, null, null, null, null, null);
-          echo "Usuario no existe<br />";
+          echo "<br /><div id='errorlog'><span id='loginError'>Usuario no existe</span></div>";
         }
         mysqli_stmt_close($resultado);
       }

@@ -46,53 +46,6 @@ class Partida{
     }
 } 
 
-class BatallaDual extends Partida{
-    Private $sesion; //String Variable de sesión
-    Private $codPartida; //Integer
-    Private $jug2; //Integer
-    Private $tablero1;  //String
-    Private $tablero2; //String
-    Private $turno;  //Boolean
-
-
-    /*Constructores */
-    public function __construct($codJug1,$codJug2,$tablero1,$tablero2,$turno){
-        
-        $this->jug1=$codJug1;
-        $this->jug2=$codJug2;
-        $this->tablero1=$tablero1;
-        $this->tablero2=$tablero2;
-        $this->turno=$turno;
-    
-    }
-    //GETERS
-    public function getJug1(){
-        return $this->jug1;
-    }
-    public function getTablero1(){
-        return $this->tablero1;
-    }
-    public function getTablero2(){
-        return $this->tablero2;
-    }
-    public function getTurno(){
-        return $this->turno;
-    }
-
-    //SETTERS
-    public function setJug1($codJug){
-         $this->jug1=$codJug;
-    }
-    public function setTablero1($tablero){
-        $this->tablero1=$tablero;
-    }
-    public function setTablero2($tablero){
-        $this->tablero2=$tablero;
-    }
-    public function setTurno($trn){
-        $this->turno=$trn;
-    }
-} 
 /********************************************************************************
  * Clase Usuario-> define una clase Usuario cuyos atributos coinciden
  * con los campos de la tabla hf_usuario de la BBDD

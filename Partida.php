@@ -103,16 +103,18 @@ if ($_SESSION['usuario']) {
         $ctrlUsu->upVictorias($obUsu->getCodUsu());
         break;
     }
-  } else { # Peticiones NO Ajax
+  } /*else { # Peticiones NO Ajax
     if (isset($_POST['salir'])) {
       $ctrlUsu = new ControlUsuario();
       $ctrlUsu->cambiarEstado($obUsu->getCodUsu(), 0); //Cambiar estado en BBDD a no conectado
       logout();
     }
 
-  }
+  }*/
 } else {
-  header("Location: https://localhost/HF/Error.php");
+  session_destroy();
+  setcookie('HundirFlota','',time()-100);
+  header("Location: https://Error.php");
 }
 
 

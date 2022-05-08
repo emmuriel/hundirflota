@@ -94,7 +94,7 @@ function abandonarPartida(){
       let ok = JSON.stringify(datos.ok);
       if (ok==1){
 
-        window.location="http://localhost/HF/Partida.html"; 
+        window.location="Partida.html"; 
       }
     })
     .catch((error) => {
@@ -211,7 +211,7 @@ function victoria_usuario(){
         //Cambiar visibilidad de los botones
       document.querySelector("#Empezar").style.display = "inline";
       document.querySelector("#Abandonar").style.display = "none";
-        location.href = "http://localhost/HF/Partida.html";    //Recarga la pagina 
+        location.href = "Partida.html";    //Recarga la pagina 
       }
     })
     .catch((error) => {

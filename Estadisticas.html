@@ -7,20 +7,21 @@
   <title>Partida</title>
   <link href="CSS/principal.css" rel="stylesheet" type="text/css" />
   <link  rel="icon"   href="images/favicon.ico" type="image/png" />
-  <script src="JS/Partida.js" type="text/javascript"></script>
+  <script src="JS/datosUsu.js" type="text/javascript" defer></script>
+  <script src="JS/charts.js" type="text/javascript" defer></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
   <header class="cabecera">
     <span id="datos_usuario" visible="false" class="datos_usu"></span>
-    <a href="Estadisticas.html">Ver estadísticas</a>
+    <a href="Partida.html">Volver</a>
   </header>
-  <form id="formulario" class="formulario_partida" action="Partida.php" method="POST">
-    <!--Div para la botones -->
-    <table id="tbl_usuario" class="tabla_usu"></table>
-    <input id="Empezar" type="submit" class="btn_empezar" value=""/>
-    <input id="Abandonar" class="btn_abandonar" type="submit" value="" />
-    <table id="tbl_boot" class="tabla_boot"></table>
-  </form>
+  <div>
+      <button name="pdf">Descargar PDF</button>
+      <div id="datosUsu"></div>
+      <div id="ranking"></div>
+      <div id="ratio"></div>
+  </div>
   <footer>
     <p>Desarrollado por Elisabet Martin Muriel para la asignatura Desarrollo en Servidor</p>
   </footer>

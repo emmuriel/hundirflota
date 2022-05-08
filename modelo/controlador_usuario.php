@@ -206,14 +206,22 @@ class ControlUsuario
     '-------------------------------------------------------------------------------------*/
   public function getRanking()
   {
-
+    $ranking=array();
     $conexion = conexionBBDD();
-    $resultado = $conexion->query("SELECT usuario, victorias FROM hf_usuario ORDER BY victorias DES");
-    $resultado->data_seek(0);
-
-    while ($fila = $resultado->fetch_assoc()) {
-      $ranking = $fila;
+    
+    mysqli_set_charset($conexion, "utf8");
+    $consulta='SELECT usuario, victorias FROM hf_usuario ORDER BY victorias DESC';
+    $resultado = mysqli_query($conexion , $consulta);
+    if (mysqli_num_rows($resultado) > 0){   
+      $i=0;
+      while ($fila = mysqli_fetch_assoc($resultado)) {
+        $ranking[$i]=["nombre"=>$fila["usuario"], "victorias"=>$fila["victorias"]];
+        $i++;
+      }
     }
+      else{
+        $ranking[0]=["nombre"=>-1];
+      }
 
     $conexion->close(); //cerrar conexion
     return $ranking;
@@ -263,12 +271,6 @@ class ControlUsuario
       //Actualiza el estado
       $conexion = conexionBBDD();
       $resultado = $conexion->query("UPDATE hf_usuario SET estado=$estado WHERE codUsu=$codUsu");
-      /*$resultado->data_seek(0);
-      $error = 1;
-      while ($fila = $resultado->fetch_row()) {
-
-        $error = 0; //estado actualizado, no hay errores
-      }*/
       $conexion->close(); //cerrar conexion
 
     }

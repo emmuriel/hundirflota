@@ -127,16 +127,21 @@ function drawChart1(datos) {
       }
     };
      // Instantiate and draw our chart, passing in some options.
-     var chart = new google.visualization.BarChart(document.getElementById('ranking'));
-     chart.draw(data, options);
+     var chart1 = new google.visualization.BarChart(document.getElementById('ranking'));
+
+     chart1.draw(data, options);
+     //let imgOculta= document.getElementById["oculto"].innerHTML = '<img src="' + chart1.getImageURI() + '">';
    
-   }
+   } 
 
 document.addEventListener("DOMContentLoaded", () => {
     //Estadísticas
     ranking();
     //Victorias/conexiones
    // ratioVictorias();
+   datosUsu(); //Visualizar datos de usuario
+
+
 
 
 });

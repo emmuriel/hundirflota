@@ -10,17 +10,22 @@
   <script src="JS/datosUsu.js" type="text/javascript" defer></script>
   <script src="JS/charts.js" type="text/javascript" defer></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  
 </head>
 <body>
   <header class="cabecera">
     <span id="datos_usuario" visible="false" class="datos_usu"></span>
     <a href="Partida.html">Volver</a>
   </header>
-  <div>
+  
+    <form method="POST" action="CrearPDF.php">
       <button name="pdf">Descargar PDF</button>
+      <input type="hidden"  name="oculto" id="oculto"/> 
+    </form>
+    <div id="content">
       <div id="datosUsu"></div>
       <div id="ranking"></div>
-      <div id="ratio"></div>
+     
   </div>
   <footer>
     <p>Desarrollado por Elisabet Martin Muriel para la asignatura Desarrollo en Servidor</p>

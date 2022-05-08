@@ -65,13 +65,13 @@ require_once("modelo/moduloConexion.php");
 
                 #Cargar usuario en Session serializando y redireccionar a partida
                 $_SESSION['usuario'] = serialize($obUsu);
-                header("Location: https://localhost/HF/Partida.html");
+                header("Location: Partida.html");
             }
         }
     }
 
     if (isset($_POST['registrar'])) { #Registro
-        header("Location: https://localhost/HF/Registro.php");
+        header("Location: Registro.php");
     }
 
 

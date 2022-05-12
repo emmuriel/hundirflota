@@ -1,0 +1,8 @@
+:root{
+    --dark: #16191c;
+    --dark-x: #1e2116;
+    --light: #ffffff;
+}
+
+.bg-dark{background-color: var(--dark) !important;}
+.bg-dark-x{background-color: var(--dark-x) }

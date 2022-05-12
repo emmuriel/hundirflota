@@ -57,5 +57,5 @@ function datosUsu(){
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    datosUsu(); //Visualizar datos de usuario
+  
 });

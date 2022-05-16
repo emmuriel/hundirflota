@@ -21,7 +21,7 @@ if ($_SESSION['usuario']) {
 
     switch ($peticion) {
       case 1:  #CARGAR DATOS USUARIO
-        $datosUsu = utf8_encode('BIENVENID@ ' . $obUsu->getNombre() . '!!      Total Partidas Ganadas:  ' . $obUsu->getPuntuacion());
+        $datosUsu = utf8_encode("  Bienvenid@!  ". $obUsu->getNombre());
         $response = array ("datosUsu"=>$datosUsu);
         echo json_encode($response,JSON_FORCE_OBJECT,512); // al array hay que forzarlo a ser objeto
         break;

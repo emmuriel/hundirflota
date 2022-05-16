@@ -37,7 +37,19 @@ CREATE TABLE IF NOT EXISTS `HF_tablero` (
 
 /*hay que modificar las contraseñas en planoi por los hashes*/
 INSERT INTO `HF_usuario`(`usuario`,`email`,`pwd`,`victorias`,`estado`) VALUES   ('elisa','emartinm@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',389,0),
-																('pakito','emarmur108@g.educaand.es','$2y$10$0JT4hsxl0FcnDU2H6iGuFecsFUvWToDSh74p1vMmJgQDDFWrYX7gK',12,0);
+																('JJ','jj@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',244,0),
+																('eze','eze@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',453,0),
+																('lokito','lokitojuli@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',15,0),
+																('Jani','jbaña@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',482,0),
+																('juanito','tragaldabas@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',189,0),
+																('javi','marchenero@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',322,0),
+																('ercabeza','@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',185,0),
+																('lopera','lopawer@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',75,0),
+																('purificacion','purigarcia@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',88,0),
+																('Vero','verodlsm@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',58,0),
+																('Flo','floriland@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',62,0),
+																('chino','erchinorriderbarrio@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',113,0),
+																('pakito','emarmur108@g.educaand.es','$2y$10$0JT4hsxl0FcnDU2H6iGuFecsFUvWToDSh74p1vMmJgQDDFWrYX7gK',482,0);
 
 																
 

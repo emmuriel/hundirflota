@@ -27,8 +27,7 @@ if ($_SESSION['usuario']) {
             $pdf->Cell(0,10,utf8_decode('DATOS DE USUARIO'),1,40,'C');
             $pdf->SetFont('Arial','',11);
             $pdf->Cell(0,10,utf8_decode('Nombre de Usuario: '.$obUsu->getNombre()),0,10,'center');
-            $pdf->Cell(0,10,utf8_decode('Numero de victorias: '.$obUsu->getPuntuacion()),0,10,'center');
-            $pdf->Cell(0,10,utf8_decode('Total de conexiones: '.$obUsu->getConexion()),0,10,'center');
+            $pdf->Cell(0,10,utf8_decode('Numero de victorias: '.$obUsu->getPuntuacion()),0,10,'center');;
             $pdf->Cell(0,10,utf8_decode('Fecha de documento: '.date('d-m-Y H:i:s')),0,10,'center');
             $pdf->SetFont('Arial','B',16);
             $pdf->Ln(10);

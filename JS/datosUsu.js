@@ -44,9 +44,6 @@ function datosUsu(){
           let vict = document.createElement("p");
             vict.innerText = `Número de victorias: ${datos[0].victorias}`;
             articulo.appendChild(vict);
-          let con = document.createElement("p");
-            con.innerHTML=`Total de conexiones: ${datos[0].conexiones}`;
-            articulo.appendChild(con);
         
     })
         .catch((error) => {

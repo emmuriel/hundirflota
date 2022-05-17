@@ -134,11 +134,10 @@ function drawChart1(datos) {
    
    } 
 
+
 document.addEventListener("DOMContentLoaded", () => {
-    //Estadísticas
-    ranking();
-    //Victorias/conexiones
-   // ratioVictorias();
+    //Estadísticas, se actualizará cada 2 segundos
+    setInterval(ranking,1000);
    datosUsu(); //Visualizar datos de usuario
 
 

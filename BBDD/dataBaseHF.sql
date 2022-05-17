@@ -1,13 +1,13 @@
 ﻿
-CREATE DATABASE `hf`;
+CREATE DATABASE `HF`;
 
-USE `hf`;
+USE `HF`;
 
 CREATE TABLE IF NOT EXISTS `HF_usuario` (
 `codUsu` int(3) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
 `usuario` varchar(35) NOT NULL COMMENT 'nombre usuario',
 `email` varchar(50) NOT NULL COMMENT 'email usuario',
-`pwd` char(64) NOT NULL COMMENT 'hash contraseña sha256',
+`pwd` char(64) NOT NULL COMMENT 'hash contrase�a sha256',
 `victorias` int(4) NOT NULL COMMENT 'partidas ganadas',
 `estado` int(1) NOT NULL COMMENT '0=no conectado, 1=conectado sin partida, 2=conectado en partida',
 /*`conexiones` int(3) NOT NULL DEFAULT 0 COMMENT 'total de sesiones iniciadas',
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `HF_partidaBoot` (
 `codUsu` int(3) NOT NULL,
 `tablero1` char(100) NOT NULL Comment 'Tablero Usuario',
 `tablero2` char(100) NOT NULL COMMENT 'Tablero Boot',
-`turno` bit(1) NOT NULL,
+`turno` int(1) NOT NULL,
 	FOREIGN KEY (`codUsu`) references `HF_usuario` (`codUsu`) ON UPDATE NO ACTION ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tabla de partidas';
 
@@ -35,12 +35,12 @@ CREATE TABLE IF NOT EXISTS `HF_tablero` (
   UNIQUE KEY  `tablero`(`tablero`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='cadena de tableros';
 
-/*hay que modificar las contraseñas en planoi por los hashes*/
+/*hay que modificar las contrase�as en planoi por los hashes*/
 INSERT INTO `HF_usuario`(`usuario`,`email`,`pwd`,`victorias`,`estado`) VALUES   ('elisa','emartinm@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',389,0),
 																('JJ','jj@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',244,0),
 																('eze','eze@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',453,0),
 																('lokito','lokitojuli@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',15,0),
-																('Jani','jbaña@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',482,0),
+																('Jani','jba�a@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',482,0),
 																('juanito','tragaldabas@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',189,0),
 																('javi','marchenero@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',322,0),
 																('ercabeza','@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',185,0),

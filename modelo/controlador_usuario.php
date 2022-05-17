@@ -44,7 +44,7 @@ class ControlUsuario
     $entradaSanitizada = htmlspecialchars($nomUsu);
     $conexion = conexionBBDD();
     $cadena_escapada = mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyeccion SQL
-    $consulta = "SELECT codUsu,usuario,email,pwd,victorias,estado,activacion FROM hf_usuario WHERE usuario=?";
+    $consulta = "SELECT codUsu,usuario,email,pwd,victorias,estado FROM hf_usuario WHERE usuario=?";
     $resultado = mysqli_prepare($conexion, $consulta);
     $ok = mysqli_stmt_bind_param($resultado, "s", $cadena_escapada);
     $ok_exe = mysqli_stmt_execute($resultado);
@@ -52,7 +52,7 @@ class ControlUsuario
     if ($ok_exe == false) {
       echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error
     } else {
-      $ok = mysqli_stmt_bind_result($resultado, $db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado, $db_act);
+      $ok = mysqli_stmt_bind_result($resultado, $db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado);
       if ($ok == false) { //Controlar error
         echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error          
       } else {
@@ -61,7 +61,7 @@ class ControlUsuario
           $busqueda = true;
           //Comprueba contraseña   
           if (password_verify($pwd, $db_hash)) { //éxito-->Cargamos los datos en memoria con un objeto Usuario
-            $objUsuario = new Usuario($db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado, $db_act);
+            $objUsuario = new Usuario($db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado,null);
 
             $errorEstado=self::cambiarEstado($db_codUsu, 1);  //Actualiza el estado del usuario
            // echo "<br>ErrorEstado".$errorEstado;

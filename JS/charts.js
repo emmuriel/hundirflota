@@ -136,7 +136,7 @@ function drawChart1(datos) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    //Estadísticas, se actualizará cada 2 segundos
+    //Estadísticas, se actualizará cada 1 segundos
     setInterval(ranking,1000);
    datosUsu(); //Visualizar datos de usuario
 

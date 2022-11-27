@@ -21,32 +21,40 @@ if ($_SESSION['usuario']) {
 
     switch ($peticion) {
       case 1:  #CARGAR DATOS USUARIO
+       
         $datosUsu = utf8_encode("  Bienvenid@!  ". $obUsu->getNombre());
         $response = array ("datosUsu"=>$datosUsu);
         echo json_encode($response,JSON_FORCE_OBJECT,512); // al array hay que forzarlo a ser objeto
         break;
 
       case "2": #CREAR NUEVA PARTIDA
-      
+       #Variable sesion de Servidor
+       $serverBrain= new CerebroServidor();
+       $_SESSION['serverBrain'] = serialize($serverBrain);
         //Comprueba que ya no haya una partida jugandose
+        $server= unserialize($_SESSION['serverBrain']);
 
         $existePartida = $ctrlPartida->partidaExiste($obUsu->getCodUsu());
         if (!$existePartida) {
           //Empieza partida
           $ctrlPartida->crearPartidaBoot($obUsu->getCodUsu());
           $partida = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
+
+
+          
           #Enmascarar tablero boot
           $tablero2=$ctrlPartida->mascaraTablero($partida->getTablero2());
           $partida->setTablero2($tablero2);
            
-          responseJson($obUsu, $partida, "0");
+          responseJson($obUsu, $partida, "0",$server);
         }else{
+         
           #Enmascarar tablero boot
           $partida = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
           $tablero2=$ctrlPartida->mascaraTablero($partida->getTablero2());
           $partida->setTablero2($tablero2);
 
-          responseJson($obUsu, $partida, "0");
+          responseJson($obUsu, $partida, "0", $server);
         }
         break;
 
@@ -62,7 +70,8 @@ if ($_SESSION['usuario']) {
 
         $ganador;
         $car_gan;
-        $ctrlPartida->dispara_señr_servidor($obUsu->getCodUsu());
+        $logicaServidor= unserialize($_SESSION['serverBrain']);
+        $ctrlPartida->dispara_señr_servidor($obUsu->getCodUsu(), $logicaServidor);
     
         $partidaActualizada = $ctrlPartida->obtenerPartida($obUsu->getCodUsu());
 
@@ -77,12 +86,13 @@ if ($_SESSION['usuario']) {
         #Enmascarar tablero boot
         $tablero2=$ctrlPartida->mascaraTablero($partidaActualizada->getTablero2());
         $partidaActualizada->setTablero2($tablero2);
-        responseJson($obUsu, $partidaActualizada, $car_gan);  #Response server
+        responseJson($obUsu, $partidaActualizada, $car_gan, $logicaServidor);  #Response server
 
         break;
 
       case "5": #ABANDONAR PARTIDA
         $ctrlPartida->borraPartida($obUsu->getCodUsu());
+        unset($_SESSION['serverBrain']);
         $ok=1;
         $oka= array ("ok"=>$ok);
           echo json_encode($oka, JSON_FORCE_OBJECT,3);  #Response server
@@ -92,6 +102,7 @@ if ($_SESSION['usuario']) {
         $ctrlPartida->borraPartida($obUsu->getCodUsu());
         $ctrlUsu = new ControlUsuario();
         $erro = $ctrlUsu->cambiarEstado($obUsu->getCodUsu(), 0);
+        unset($_SESSION['serverBrain']);
         logout();
         json_encode("bye");    #response server
         
@@ -99,6 +110,7 @@ if ($_SESSION['usuario']) {
 
       case "7": #TERMINAR PARTIDA Y SUMAR VICTORIA AL USUARIO
         $ctrlPartida->borraPartida($obUsu->getCodUsu());
+        unset($_SESSION['serverBrain']);
         $ctrlUsu = new ControlUsuario();
         $ctrlUsu->upVictorias($obUsu->getCodUsu());
         break;

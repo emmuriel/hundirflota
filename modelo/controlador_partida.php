@@ -13,7 +13,7 @@ class controlPartida
     '' Entradas: Ninguna
     '' Salidas: Una cadena que representa a la matriz de tablero
     ''------------------------------------------------------------------------------------- */
-    public function dispara_señr_servidor($codUsu)
+    public function dispara_señr_servidor($codUsu,$cerebritoServidor)
     {
         $posicion_correcta = 0; //bool
 
@@ -33,7 +33,7 @@ class controlPartida
         }   Pero con un array dimesional y el calculo del indice mencionado podemos solucionar el problema sin necesidad de 
             darle más carga de trabajo al servidor, aunque nosotros los humanos entendamos mejor las coordenadas en una matriz */
 
-        while ($posicion_correcta == 0) {
+       /* while ($posicion_correcta == 0) {
             $x = self::getCoordenada(10);
             $y = self::getCoordenada(10);
             if ($arr_cad[$x * 10 + $y] == "#" || $arr_cad[$x * 10 + $y] == "x") {   //No es correcto si la posición ha sido bombardeada
@@ -42,7 +42,15 @@ class controlPartida
                 $posicion_correcta = 1;
             }
         }
-        self::tomaBombazo($codUsu, $x, $y);
+        self::tomaBombazo($codUsu, $x, $y);*/
+
+        /*Pongamosle talento al servidor */
+        
+        $posicion=$cerebritoServidor->ProximaJugada();
+        $x=intval($posicion/10);
+        $y=$posicion%10;
+        self::tomaBombazo($codUsu, $x, $y, $cerebritoServidor);
+
 
         # $cadTabl;
         #return $cadTabl;
@@ -196,11 +204,11 @@ class controlPartida
     '           Cambia el valor de la coordenada dependiendo de du contenido.
     '           Si el contenido de la coordenada es agua, actualiza el valor turno de la
     '           tabla de partida
-    ' Entradas: El codigo de usuario, 2 enteros (coordenadas)
+    ' Entradas: El codigo de usuario, 2 enteros (coordenadas), un objeto de tipo CerebroServidor.
     ' Salidas:  Cambia la cadena tablero de la BBDD y actualiza turno segun se acierte o no y el
                 jugador que esté jugando.
     '------------------------------------------------------------------------------------- */
-    public function tomaBombazo($codUsu, $x, $y)
+    public function tomaBombazo($codUsu, $x, $y, $SSerebritoSServidor)
     {
         $cadena_tablero = "";
         #Comprobar turno
@@ -227,12 +235,19 @@ class controlPartida
             }
         } else { # turno==0 TURNO DE SERVIDOR: comprobar coodenadas en $tableroUsu
             $acierto = self::ejecutarDisparo($tableroUsu, $x, $y);
+            
+            //Actualizamos la memoria del Objeto servidor pa q el pobreSSito "sepa" si ha acertado y pueda hacer sus cávalas
+            $SSerebritoSServidor->updtTlogico($x*10+$y, $acierto);
+            $_SESSION['serverBrain'] = serialize($SSerebritoSServidor);
+            //Actualizar turno
             if ($acierto == 1) {
                 $nuevo_turno = 0;  //Turno sigue en señor_servidor
             } else {
                 $nuevo_turno = 1; //Turno pasa a jugador
             }
+           
         }
+
         
         //echo "el turno es". $nuevo_turno;
 
@@ -307,18 +322,7 @@ class controlPartida
 
         return $diana;
     }
-    /* '-------------------------------------------------------------------------------------
-    ' Nombre: get coordenada
-    ' Proceso: genera aleatoriamente un numero entre 0 y 9
-    ' Entradas: un entero
-    ' Salidas: Un entero
-    '-------------------------------------------------------------------------------------*/
-    public function getCoordenada($num)
-    {
-        $aleatorio = rand(1, $num);
-        $aleatorio = $aleatorio - 1;
-        return $aleatorio;
-    }
+
     /*    '-------------------------------------------------------------------------------------
     ' Nombre: partidaExiste
     ' Proceso: Consulta en la BBDD si existe una partida creada con el codigo de jugador 

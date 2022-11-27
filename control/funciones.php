@@ -25,12 +25,19 @@ function logout()
     ' Entradas: un objeto Usuario, Un objeto partida, y un entero que indica quien es el ganador.
     ' Salidas: no tiene, envia la cadena por http al cliente en background
     '-------------------------------------------------------------------------------------*/
-function responseJson($usu, $partida, $ganador)
+function responseJson($usu, $partida, $ganador, $server)
 { 
+$str="";
+  $arr=$server->getTLogico();
+   for($i=0;$i<count($arr);$i++){
+    $str=$str . $arr[$i];
+  }
+
   $respuesta= array("usuario"=>$usu->getCodUsu(),
                     "partida"=>$partida->getTablero1() . "|" . $partida->getTablero2(). "|",
                     "turno"=>$partida->getTurno(),
-                    "ganador"=>$ganador);
+                    "ganador"=>$ganador,
+                    "server"=>"Tiro: ".$server->getUltima()."Acierto: ".$server->getAcierto()." Zona: " .$server->dondeEstoy($server->getUltima())." | Rumbo :".$server->getrumbo(). "|". $server->getSiguientePetardazo(). "|" . $str );
   echo json_encode($respuesta,JSON_FORCE_OBJECT,512);
 }
 /*   '-------------------------------------------------------------------------------------
@@ -51,7 +58,8 @@ function procesarComprobacionDisparo($usu,$x,$y)
   $y = $y - 1;  //String
 
   #Comprobar tiros
-  $ctrlPartida->tomaBombazo($usu->getCodUsu(), $x, $y);
+  $logicaServidor=unserialize($_SESSION['serverBrain']);
+  $ctrlPartida->tomaBombazo($usu->getCodUsu(), $x, $y, $logicaServidor);
 
   #Obtener partida actuializada
   $partida = $ctrlPartida->obtenerPartida($usu->getCodUsu());
@@ -67,7 +75,7 @@ function procesarComprobacionDisparo($usu,$x,$y)
   #Enmascara el tablero del boot 
   $mascara= $ctrlPartida->mascaraTablero($partida->getTablero2());
   $partida->setTablero2($mascara);
-  responseJson($usu, $partida, $car_gan);   #Response server
+  responseJson($usu, $partida, $car_gan,$logicaServidor);   #Response server
 }
 
 /*'-------------------------------------------------------------------------------------

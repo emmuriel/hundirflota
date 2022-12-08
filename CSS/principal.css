@@ -480,3 +480,8 @@ body {
   align-items: center;
   color:rgb(54, 54, 54);
 }
+
+.img-card {
+  max-width: 150px;
+  max-height: 150px;
+}

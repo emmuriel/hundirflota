@@ -67,7 +67,7 @@ session_start(); ?>
                         </div>
                         <div class="mb-3">
                             <label for="txt_password" class="form-label text-light">Password</label>
-                            <input type="password" class="form-control bg-dark border-primary text-light" id="txt_password" name="txt_password">
+                            <input type="password" class="form-control bg-dark border-primary text-light" id="txt_password" name="txt_password" autocomplete="new-password">
                         </div> 
                         <div class="mb-3">
                             <span class="text-danger m-1" id="error" ></span>

@@ -3,7 +3,7 @@ function datosUsu(){
         peticion: 1,
       };
   
-      fetch("datosUsu.php", {
+      fetch("UserData.php", {
         method: "POST",
         body: JSON.stringify(json),
         headers: {
@@ -35,9 +35,6 @@ function datosUsu(){
             div.appendChild(articulo);
 
           // Agregar los datos del JSON al artículo -->
-          let titulo = document.createElement("h1");
-          titulo.innerText = "DATOS DEL USUARIO";
-          articulo.appendChild(titulo);
           let usu = document.createElement("p");
             usu.innerText = `Nombre de usuario: ${datos[0].nombre}`;
             articulo.appendChild(usu);
@@ -51,8 +48,6 @@ function datosUsu(){
           return null;
         });
 }
-
 document.addEventListener("DOMContentLoaded", () => {
-    
-  
+  datosUsu(); //Visualizar datos de usuario
 });

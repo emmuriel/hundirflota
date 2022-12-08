@@ -6,7 +6,7 @@ function ranking(){
       peticion: 1
     };
 
-    fetch("charts.php", {
+    fetch("estadisticas.php", {
       method: "POST",
       body: JSON.stringify(json),
       headers: {
@@ -30,7 +30,9 @@ function ranking(){
       .then((datos) => {
         //Llamamos a drawChart
         // Set a callback to run when the Google Visualization API is loaded.
+        crearRanking(datos);
         google.charts.setOnLoadCallback(drawChart1(datos));
+        
       })
       .catch((error) => {
         console.error(error);
@@ -42,7 +44,7 @@ function ratioVictorias(){
       peticion: 2
     };
 
-    fetch("charts.php", {
+    fetch("estadisticas.php", {
       method: "POST",
       body: JSON.stringify(json),
       headers: {
@@ -87,8 +89,10 @@ function drawChart2(datos) {
      }
      // Set chart options
      var options = {'title':'Numero de Victorias en Total de conexiones',
-                    'width':500,
-                    'height':400};
+                    'width':300,
+                    'height':200,
+                    'backgroundColor' : {fill:grey}
+                  };
    
      // Instantiate and draw our chart, passing in some options.
      var chart = new google.visualization.PieChart(document.getElementById('ratio'));
@@ -109,14 +113,9 @@ function drawChart1(datos) {
     [`${datos[4].nombre}`, parseInt(datos[4].victorias), 'color: #10fbd0', 'Teniente' ]
   ]);
         
-    
-   
-     
-     
-
      // Set chart options
      var options = {
-      title: 'RANKING TOP 5',
+      title: 'TOP 5 Jugadores',
       chartArea: {width: '50%'},
       hAxis: {
         title: 'Total Victorias',
@@ -134,13 +133,78 @@ function drawChart1(datos) {
    
    } 
 
+  function crearRanking(datos){
+    let tablaRanking= document.querySelector('#tabla-ranking');
+
+    //remove and create child tblBody
+    var tbodyDeleted = document.getElementById("tblBody");
+      tablaRanking.removeChild(tbodyDeleted);
+  
+    let tblBody = document.createElement("tbody");
+    tblBody.setAttribute('id','tblBody');
+    //Cabecera de tabla
+    let cabecera=document.createElement('tr');
+    cabecera.classList.add('tr-cabecera');
+
+    let puesto = document.createElement("td");
+    let textoPuesto = document.createTextNode("Puesto");
+    puesto.appendChild(textoPuesto);
+    puesto.classList.add('td-cabecera-puesto');
+    cabecera.appendChild(puesto);
+
+    let usuario = document.createElement("td");
+    let textoUsuario = document.createTextNode("Usuario");
+    usuario.appendChild(textoUsuario);
+    usuario.classList.add('td-cabecera-usuario');
+    cabecera.appendChild(usuario);
+
+    let victorias = document.createElement("td");
+    let textoVictorias = document.createTextNode("Victorias");
+    victorias.appendChild(textoVictorias);
+    victorias.classList.add('td-cabecera-victorias');
+    cabecera.appendChild(victorias);
+
+    tblBody.appendChild(cabecera);
+    //Cuerpo
+    let arrDatos = Object.keys(datos);
+    for (let j=0; j<arrDatos.length; j++){
+  
+      let fila=document.createElement('tr');
+      fila.classList.add('tr-fila');
+  
+      let puesto = document.createElement("td");
+      let textoPuesto = document.createTextNode(j);
+      puesto.appendChild(textoPuesto);
+      if (j/2==0){ puesto.classList.add('td-fila-puesto-black');}
+      else {puesto.classList.add('td-fila-puesto-shadow');}
+      
+      fila.appendChild(puesto);
+  
+      let usuario = document.createElement("td");
+      let textoUsuario = document.createTextNode(datos[j].nombre);
+      usuario.appendChild(textoUsuario);
+      if (j/2==0){ puesto.classList.add('td-fila-usuario-black');}
+      else {puesto.classList.add('td-fila-usuario-shadow');}
+      fila.appendChild(usuario);
+  
+      let victorias = document.createElement("td");
+      let textoVictorias = document.createTextNode(datos[j].victorias);
+      victorias.appendChild(textoVictorias);
+      if (j/2==0){ puesto.classList.add('td-fila-victorias-black');}
+      else {puesto.classList.add('td-fila-victorias-shadow');}
+      fila.appendChild(victorias);
+
+      console.log(fila);//****************************************************** */
+      tblBody.appendChild(fila);  //Añade fila a l tblbody
+    }
+
+    tablaRanking.appendChild(tblBody); //Añade el tblbody a la tabla
+
+  }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     //Estadísticas, se actualizará cada 1 segundos
     setInterval(ranking,1000);
-   datosUsu(); //Visualizar datos de usuario
-
-
-
 
 });

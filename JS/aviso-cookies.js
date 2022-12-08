@@ -17,4 +17,3 @@ btnAceptar.addEventListener('click', () => {
     localStorage.setItem('hundirlaflota-acceptedCookies', true);
 });
 
-

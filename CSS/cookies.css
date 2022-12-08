@@ -3,17 +3,16 @@
     background: #ffff;
     padding: 40px;
     width: calc(100% -40px);
-    max-width: 800px;
-    line-height: 250%;
-    /*Espaciadoentretexto*/
-    border-radius: 10px;
+    max-width: 500px;
+    line-height: 100%;
+    /*Espaciadoentretexto*/border-radius: 10px;
     -webkit-border-radius: 1;
     -moz-border-radius: 1;
     -ms-border-radius: 1;
     -o-border-radius: 1;
-    position: fixed;   /*fijo a pantalla*/
-    bottom: 40px;
-    right: 40px;
+    position: fixed;
+    /*fijoapantalla*/bottom: 30px;
+    right: 30px;
     z-index: 100;
     padding-top: 60px;
     box-shadow: 0px 2px 20px 10px rgba(222, 222, 222, 0.5);
@@ -25,7 +24,7 @@
 }
 
 .aviso-cookies .img-cookie{
-    max-width: 200px;
+    max-width: 150px;
     position: absolute;
     top: -75px;
     right: calc(50% - 75px);
@@ -38,17 +37,18 @@
 .aviso-cookies .boton-cookies {
     width: 100%;
     border: none;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
 }
 
 .aviso-cookies .link-politica{
     color: rgb(9, 140, 221);
     text-decoration: none; /*no subrayado enlace*/
     font-size: 14px;
+    padding-top: 10px;
 }
 .aviso-cookies .link-politica:hover{
     text-decoration: underline; /*subrayado enlace*/

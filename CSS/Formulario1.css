@@ -19,10 +19,17 @@ body{
 
     font-size: 3em;
     text-align: center;
+    padding-bottom: 0;
 }
 .cabecera span{
     color:#0e6bb7;
     padding-left: 0.3em;
+}
+.img-logo {
+    margin-right: 20px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
 }
 
 .contacto{

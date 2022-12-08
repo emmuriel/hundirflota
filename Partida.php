@@ -119,7 +119,7 @@ if ($_SESSION['usuario']) {
 } else {
   session_destroy();
   setcookie('HundirFlota','',time()-100);
-  header("Location: Error.php");
+  header("Location: index.php");
 }
 
 

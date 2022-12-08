@@ -1,24 +1,32 @@
 <?php
 
 class Partida{
-
-    Private $jug1;   //Integer
+    Private $codPartida; //Integer
+    Private $jug1;   //Integer USuario
+    Private $jug2;   //Integer rival/boot
     Private $tablero1;  //String
     Private $tablero2; //String
     Private $turno;  //Boolean
 
 
     /*Constructores */
-    public function __construct($codJug,$tablero1,$tablero2,$turno){
-
-        $this->jug1=$codJug;
+    public function __construct($codPartida,$codJug1,$codJug2,$tablero1,$tablero2,$turno){
+        $this->codPartida=$codPartida;
+        $this->jug1=$codJug1;
+        $this->jug2=$codJug2;
         $this->tablero1=$tablero1;
         $this->tablero2=$tablero2;
         $this->turno=$turno;
     
     }
     //GETERS
+    public function getcodPartida(){
+        return $this->codPartida;
+    }
     public function getJug1(){
+        return $this->jug1;
+    }
+    public function getJug2(){
         return $this->jug1;
     }
     public function getTablero1(){
@@ -32,9 +40,15 @@ class Partida{
     }
 
     //SETTERS
+    public function setCodPartida($codPartida){
+        $this->codPartida=$codPartida;
+   }
     public function setJug1($codJug){
          $this->jug1=$codJug;
     }
+    public function setJug2($codJug){
+        $this->jug1=$codJug;
+   }
     public function setTablero1($tablero){
         $this->tablero1=$tablero;
     }
@@ -200,10 +214,6 @@ class CerebroServidor{
         $posicionConceptual=0; //Por defecto estamos en zona 0
         if ($posicion==0){        
             $posicionConceptual=1;
-        /*}else if   ($posicion>11&&$posicion<=18 || $posicion>=81 && $posicion<=88 || 
-                    $posicion%10==1 && $posicion!=1 && $posicion!=91 ||  
-                    $posicion%10==8 && $posicion!=8 && $posicion!=98){
-            $posicionConceptual=9;  */
         }else if ($posicion>0&&$posicion<9){
             $posicionConceptual=2;
         }else if ($posicion==9){ 
@@ -219,8 +229,6 @@ class CerebroServidor{
         }else if($posicion%10==9){  
             $posicionConceptual=4;
         }   
-
-
         return $posicionConceptual;
     }
 
@@ -233,7 +241,7 @@ class CerebroServidor{
              contiguas en diagonal de la posición pasada por valor 
     */
 
-    public function aguaDiagonal($posicion){
+    private function aguaDiagonal($posicion){
         
         $aquiEstoy=self::dondeEstoy($posicion);
         //Las diagonales
@@ -341,7 +349,7 @@ class CerebroServidor{
  *                                 * -1 entero negativo (-1) si despues de la última posición verdadera era la última explotable.
  * 
 */
-    public function UltimaPosicionOtroExtremo($posIni){
+    private function UltimaPosicionOtroExtremo($posIni){
        $posFinal=$posIni;
             //Estos bucles no ejecutan nada en su interior, recorren el array para obtener un indice
             switch ($this->rumbo){
@@ -445,7 +453,7 @@ class CerebroServidor{
 Entradas: 1 enteros con la posicion 
 Salidas: no tiene*/
 
-    public function brujula($pos,$resultado){
+    private function brujula($pos,$resultado){
 
         $zonaMapa=self::dondeEstoy($pos);
 

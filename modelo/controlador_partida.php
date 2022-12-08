@@ -22,28 +22,6 @@ class controlPartida
         //Pasar la cadena a array de caracteres
         $arr_cad = str_split($partida->getTablero1());
 
-        //Recorrer array pasandolo a tablero
-        /*Hablando de posiciones,en el array unidimensional, el contador i establece el valor de la unidad y el contador
-        j el valor de la decena,juntos (j*10 + i) establece lo que en una matriz con 2 for seria:
-
-        for ($i = 0; $i < 9; $i++) {
-            for ($j = 0; $j < 9; $j++) {
-                $matriz[$i][$j] = $arr_cad[$i * 10 + $j];
-            }
-        }   Pero con un array dimesional y el calculo del indice mencionado podemos solucionar el problema sin necesidad de 
-            darle más carga de trabajo al servidor, aunque nosotros los humanos entendamos mejor las coordenadas en una matriz */
-
-       /* while ($posicion_correcta == 0) {
-            $x = self::getCoordenada(10);
-            $y = self::getCoordenada(10);
-            if ($arr_cad[$x * 10 + $y] == "#" || $arr_cad[$x * 10 + $y] == "x") {   //No es correcto si la posición ha sido bombardeada
-                $posicion_correcta = 0;
-            } else {
-                $posicion_correcta = 1;
-            }
-        }
-        self::tomaBombazo($codUsu, $x, $y);*/
-
         /*Pongamosle talento al servidor */
         
         $posicion=$cerebritoServidor->ProximaJugada();
@@ -61,10 +39,10 @@ class controlPartida
     '' Entradas: Ninguna
     '' Salidas: Un entero que corresponde al total de registros de la tabla HF_tableros
     ''------------------------------------------------------------------------------------- */
-    public function totalTableros()
+    private function totalTableros()
     {
         $conexion = conexionBBDD();
-        $resultado = $conexion->query("SELECT COUNT(*) FROM hf_tablero");
+        $resultado = $conexion->query("SELECT COUNT(*) FROM TableroSistema");
         if ($resultado) {
             $fila = $resultado->fetch_row();
             $total = $fila[0];
@@ -81,13 +59,13 @@ class controlPartida
     '' Entradas: Ninguna
     '' Salidas: Una cadena que representa a la matriz de tablero o null si el rango si ocurre error
     ''------------------------------------------------------------------------------------- */
-    public function getTablero()
+    private function getTablero()
     {
         $cadTabl = null;
         $numReg = self::totalTableros();  //Obtenermos el rango del aleatorio
         $aleatorio = rand(1, $numReg);    //Genera un aletorio dentro del rango
         $conexion = conexionBBDD();
-        $resultado = $conexion->query("SELECT tablero FROM hf_tablero WHERE codTablero=$aleatorio");
+        $resultado = $conexion->query("SELECT tablero FROM TableroSistema WHERE codTablero=$aleatorio");
         if ($resultado) {
             $fila = $resultado->fetch_row();
             $cadTabl = $fila[0];
@@ -109,9 +87,9 @@ class controlPartida
     ' Entradas: El codigo del usuario
     ' Salidas: Un boolean (True si la partida se ha creado con exito y False delo contrario)
     '------------------------------------------------------------------------------------- */
-    public function crearPartidaBoot($codUsu)
+    public function crearPartidaBoot($codJug1)
     {
-
+        $codJug2=1; //El server
         $cadTUsu = "";  // String
         $cadTBoot = "";  // String
         $exito = false;
@@ -121,28 +99,30 @@ class controlPartida
             $cadTUsu =  self::getTablero();
             $cadTBoot = self::getTablero();
         }
-        //echo "Tablero Usu: ". $cadTUsu . "Tablero Boot: ". $cadTBoot."\n";
 
-        $exito = self::regPartidaBoot($codUsu, $cadTUsu, $cadTBoot);
+        $exito = self::regPartidaBoot($codJug1,$codJug2, $cadTUsu, $cadTBoot);
         return $exito;
     }
     /*  '-------------------------------------------------------------------------------------
     ' Nombre: regPartidaBoot
     ' Proceso: Registra una partida en la Base de datos.
-    ' Entradas: El codigo de usuario, el tablero del usuario y  el tablero del boot
-    ' Salidas: Un boolean (True si la partida se ha creado con exito y False delo contrario)
+    ' Entradas: El codigo de usuario jugador 1,codigo de usuario jugador 1, el tablero del usuario y  el tablero del boot
+    ' Salidas: Entero (Codigo de la partida creda o null si no se ha creado)
     '-------------------------------------------------------------------------------------*/
-    public function regPartidaBoot($codUsu, $cadTablUsu, $cadTabBoot)
+    public function regPartidaBoot($codJug1,$codJug2,$cadTablUsu, $cadTabBoot)
     {
-        $exito = false;
+
+        $exito=false;
         $turnoAleario =1; //$aleatorio = rand(0, 1); //Turno aleatorio
         $conexion = conexionBBDD();
-        $resultado = $conexion->query("INSERT INTO hf_partidaBoot (codUsu,tablero1,tablero2,turno) VALUES ('".$codUsu."','".$cadTablUsu."','".$cadTabBoot."','".$turnoAleario."')");
+        $resultado = $conexion->query("CALL regPartida(".$codJug1.",".$codJug2.",'".$cadTablUsu."','".$cadTabBoot."',".$turnoAleario.")");
         if ($resultado) {
-            $exito = true;
+            $fila = $resultado->fetch_row();
+            $codPartida = $fila[0];
+            $resultado->close();
         } else {
             echo "Ha ocurrido un error al generar la Partida;";
-            echo "$codUsu,$cadTablUsu,$cadTabBoot,$turnoAleario";
+            echo "$codJug1,$cadTablUsu,$cadTabBoot,$turnoAleario";
         }
        // $resultado->close(); // cerrar el resultset 
         $conexion->close(); //cerrar conexion
@@ -158,24 +138,40 @@ class controlPartida
     ' Salidas: Un objeto de tipo cls_partida
     '-------------------------------------------------------------------------------------*/
     public function obtenerPartida($codUsu)
-    {
+    {   
+        $codServer=1;
         $conexion = conexionBBDD();
-        $resultado = $conexion->query("SELECT tablero1,tablero2,turno FROM hf_partidaboot WHERE codUsu=$codUsu");
-        if ($resultado) {
-            $fila = $resultado->fetch_row();
-            if(isset($fila)){
-                $obPartida = new Partida($codUsu, $fila[0], $fila[1], $fila[2]);
+        $obPartida = new Partida(null,null,null, null, null, null);
+        $count=0;
+        $resultado = $conexion->query("SELECT
+        partida.codPartida AS codPartida,
+        partida.turno AS turno,
+        tableros.idJug AS idJug,
+        tableros.tablero AS tablero
+    FROM partida 
+    INNER JOIN tableropartida AS tableros on partida.codPartida = tableros.codPartida
+    WHERE partida.jug1=".$codUsu.";");
+        if ($resultado) {         
+            while ($fila = $resultado->fetch_array(MYSQLI_ASSOC)) { //Si el usuario tiene partida. Carga tableros y turno
+               
+                if ($fila['idJug']==1){
+                    $codPartida= intval($fila['codPartida'],10);
+                    $turno  = intval($fila['turno'],10);
+                    $tableroUsu  = $fila['tablero'];
+                }
+                if ($fila['idJug']==2){
+                    $tableroBoot  = $fila['tablero'];
+                }
+
             }
-            else{
-                echo "No se ha podido obtener la partida para el usuario $codUsu o simpelmente no existe";
-                $obPartida = new Partida(null, null, null, null); 
-            }
+         
+                $obPartida = new Partida($codPartida,$codUsu,$codServer,$tableroUsu,$tableroBoot,$turno);
+                //echo "Objeto partida: $codPartida,$codUsu,$codServer,$tableroUsu,$tableroBoot,$turno";
             
             
             $resultado->close(); // cerrar el resultset 
         } else {
             echo "No se ha podido obtener la partida para el usuario $codUsu o simpelmente no existe";
-            $obPartida = new Partida(null, null, null, null);
         }
         //$resultado->close();
         $conexion->close(); //cerrar conexion
@@ -187,13 +183,13 @@ class controlPartida
     ' Nombre: borraPartida
     ' Proceso: Elimina de la tabla HF_partidas de la BBDD una partida dado el codigo del 
     '           usuario
-    ' Entradas: un enterio(codigo usuario)
+    ' Entradas: un entero(codigo usuario)
     ' Salidas: Ninguna, modifica la BBDD
     '------------------------------------------------------------------------------------- */
     public function borraPartida($codUsu)
     {
         $conexion = conexionBBDD();
-        $conexion->query("DELETE FROM hf_partidaboot WHERE codUsu=$codUsu");
+        $conexion->query("DELETE FROM partida WHERE jug1=$codUsu");
         $conexion->close(); //cerrar conexion
 
     }
@@ -204,7 +200,7 @@ class controlPartida
     '           Cambia el valor de la coordenada dependiendo de du contenido.
     '           Si el contenido de la coordenada es agua, actualiza el valor turno de la
     '           tabla de partida
-    ' Entradas: El codigo de usuario, 2 enteros (coordenadas), un objeto de tipo CerebroServidor.
+    ' Entradas: El codigo de partida, 2 enteros (coordenadas), un objeto de tipo CerebroServidor.
     ' Salidas:  Cambia la cadena tablero de la BBDD y actualiza turno segun se acierte o no y el
                 jugador que esté jugando.
     '------------------------------------------------------------------------------------- */
@@ -215,13 +211,24 @@ class controlPartida
 
         #abrir conexion
         $conexion = conexionBBDD();
-        $resultado = $conexion->query("SELECT turno, tablero1, tablero2 FROM hf_partidaBoot WHERE codUsu=$codUsu");
-        $resultado->data_seek(0);
-        while ($fila = $resultado->fetch_assoc()) { //Si el usuario tiene partida. Carga tableros y turno
-            $turno  = intval($fila['turno'],10);
-            $tableroUsu   = $fila['tablero1'];
-            $tableroBoot   = $fila['tablero2'];
-        }
+        $resultado = $conexion->query("SELECT
+        partida.turno AS turno,
+        tableros.idJug AS idJug,
+        tableros.tablero AS tablero
+        FROM partida 
+        INNER JOIN tableropartida AS tableros on partida.codPartida = tableros.codPartida
+        WHERE partida.jug1=".$codUsu.";");
+         if ($resultado) {         
+            while ($fila = $resultado->fetch_array(MYSQLI_ASSOC)) { //Si el usuario tiene partida. Carga tableros y turno
+               
+                if ($fila['idJug']==1){
+                    $turno  = intval($fila['turno'],10);
+                    $tableroUsu  = $fila['tablero'];
+                }
+                if ($fila['idJug']==2){
+                    $tableroBoot  = $fila['tablero'];
+                }
+        }  }
         $conexion->close();
 
         #SI EL TURNO ERA DEL JUGADOR comprobar coordenadas en tablero2 
@@ -229,9 +236,9 @@ class controlPartida
 
             $acierto = self::ejecutarDisparo($tableroBoot, $x, $y);
             if ($acierto == 1) {
-                $nuevo_turno = 1;  //Turno sigue en jugador
+                $nuevo_turno = 1;  //jugador
             } else {
-                $nuevo_turno = 0; //Turno pasa a señor_servidor
+                $nuevo_turno = 0; //señor_servidor
             }
         } else { # turno==0 TURNO DE SERVIDOR: comprobar coodenadas en $tableroUsu
             $acierto = self::ejecutarDisparo($tableroUsu, $x, $y);
@@ -241,20 +248,25 @@ class controlPartida
             $_SESSION['serverBrain'] = serialize($SSerebritoSServidor);
             //Actualizar turno
             if ($acierto == 1) {
-                $nuevo_turno = 0;  //Turno sigue en señor_servidor
+                $nuevo_turno = 0;  //señor_servidor
             } else {
-                $nuevo_turno = 1; //Turno pasa a jugador
+                $nuevo_turno = 1; //jugador
             }
            
         }
-
-        
-        //echo "el turno es". $nuevo_turno;
-
-        #abrir conexion, actualizar la partida
+        #abrir conexion, actualizar la partida 
         $conexion = conexionBBDD();
-        $resultado = $conexion->query("UPDATE hf_partidaBoot SET tablero1='" . $tableroUsu . "' , tablero2 = '" . $tableroBoot . "', turno='" . $nuevo_turno . "' WHERE codUsu=$codUsu");
+        $codServer=1;
+        $resultado = $conexion->query("SELECT codPartida FROM partida WHERE jug1=".$codUsu." AND jug2=".$codServer.";");
+        if ($resultado){
+            $fila = $resultado->fetch_row();
+            $codPartida = $fila[0];
+            #abrir conexion, actualizar la partida 
+            $conexion = conexionBBDD();
+            $resultado = $conexion->query("CALL updtPartida(".$codPartida.",'" . $tableroUsu . "','" . $tableroBoot . "'," . $nuevo_turno.");");
+        }
         $conexion->close();
+
     }
 
     /* '-------------------------------------------------------------------------------------
@@ -333,7 +345,7 @@ class controlPartida
     {
         $existe=false;
         $conexion = conexionBBDD();
-        $resultado = $conexion->query("SELECT codUsu,tablero1,tablero2,turno FROM hf_partidaBoot WHERE codUsu=$codUsu");
+        $resultado = $conexion->query("SELECT codPartida FROM partida WHERE jug1=$codUsu");
         $resultado->data_seek(0);
         while ($fila = $resultado->fetch_assoc()) { //Si el usuario tiene partida. Carga tableros y turno
             $existe = true;

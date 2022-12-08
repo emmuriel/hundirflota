@@ -16,7 +16,7 @@ class ControlUsuario
     $conexion = conexionBBDD();
     mysqli_set_charset($conexion, "utf8");
     $hash = password_hash($nuevoUsuario->getPwd(), CRYPT_SHA256);
-    $consulta = 'INSERT INTO hf_usuario (usuario,email, pwd, victorias,estado,conexiones) VALUES (?,?,?,?,?,?)';
+    $consulta = 'INSERT INTO usuario (usuario,email, pwd, victorias,estado,conexiones) VALUES (?,?,?,?,?,?)';
     $resultado = mysqli_prepare($conexion, $consulta);
     $ok = mysqli_stmt_bind_param($resultado, "sssiii", $nuevoUsuario->getNombre(), $nuevoUsuario->getEmail(), $nuevoUsuario->getPwd(), $nuevoUsuario->getPuntuacion(), $nuevoUsuario->getEstado(), $nuevoUsuario->getConexion());
     $ok_exe = mysqli_stmt_execute($resultado);
@@ -44,7 +44,7 @@ class ControlUsuario
     $entradaSanitizada = htmlspecialchars($nomUsu);
     $conexion = conexionBBDD();
     $cadena_escapada = mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyeccion SQL
-    $consulta = "SELECT codUsu,usuario,email,pwd,victorias,estado FROM hf_usuario WHERE usuario=?";
+    $consulta = "SELECT codUsu,usuario,email,pwd,victorias,estado,conexiones FROM usuario WHERE usuario=?";
     $resultado = mysqli_prepare($conexion, $consulta);
     $ok = mysqli_stmt_bind_param($resultado, "s", $cadena_escapada);
     $ok_exe = mysqli_stmt_execute($resultado);
@@ -52,7 +52,7 @@ class ControlUsuario
     if ($ok_exe == false) {
       echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error
     } else {
-      $ok = mysqli_stmt_bind_result($resultado, $db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado);
+      $ok = mysqli_stmt_bind_result($resultado, $db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado, $dbconexiones);
       if ($ok == false) { //Controlar error
         echo "<span>Ha ocurrido un error al hacer la consulta en la BBDD.</span>";  //Controla el error          
       } else {
@@ -61,16 +61,14 @@ class ControlUsuario
           $busqueda = true;
           //Comprueba contraseña   
           if (password_verify($pwd, $db_hash)) { //éxito-->Cargamos los datos en memoria con un objeto Usuario
-            $objUsuario = new Usuario($db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado,null);
+            $objUsuario = new Usuario($db_codUsu, $db_usu, $db_mail, $db_hash, $db_victorias, $db_estado,$dbconexiones);
 
-            $errorEstado=self::cambiarEstado($db_codUsu, 1);  //Actualiza el estado del usuario
-           // echo "<br>ErrorEstado".$errorEstado;
-           // echo "Password verify=true<br />";
+            //$errorEstado=self::cambiarEstado($db_codUsu, 1);  //Actualiza el estado del usuario
             $cod = $objUsuario->getCodUsu();
             //echo   "EL codigo es $cod <br />";
           } else {
-            $objUsuario = new Usuario(-1, null, null, null, null, null, 0, 0); #esto es una solucion cutre a la no sobrecarga de constructores.
-           // echo "Password verify=false<br />";
+            $objUsuario = new Usuario(-1, null, null, null, null, null, 0); #esto es una solucion cutre a la no sobrecarga de constructores.
+        
           }
         }
         if ($busqueda == false) {
@@ -97,7 +95,7 @@ class ControlUsuario
     $conexion = conexionBBDD();
     $cadena_escapada = mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
-    $consulta = "SELECT codUsu FROM hf_usuario WHERE usuario =?";
+    $consulta = "SELECT codUsu FROM usuario WHERE usuario =?";
     $resultado = mysqli_prepare($conexion, $consulta);
     $ok = mysqli_stmt_bind_param($resultado, "s", $cadena_escapada);
     $ok_exe = mysqli_stmt_execute($resultado);
@@ -134,7 +132,7 @@ class ControlUsuario
     $conexion = conexionBBDD();
     $cadena_escapada = mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
-    $consulta = "SELECT codUsu FROM hf_usuario WHERE email =?";
+    $consulta = "SELECT codUsu FROM usuario WHERE email =?";
     $resultado = mysqli_prepare($conexion, $consulta);
     $ok = mysqli_stmt_bind_param($resultado, "s", $cadena_escapada);
     $ok_exe = mysqli_stmt_execute($resultado);
@@ -171,7 +169,7 @@ class ControlUsuario
     $conexion = conexionBBDD();
     $cadena_escapada = mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
 
-    $consulta = "DELETE FROM hf_usuario WHERE usuario =?";
+    $consulta = "DELETE FROM usuario WHERE usuario =?";
     $resultado = mysqli_prepare($conexion, $consulta);
     $ok = mysqli_stmt_bind_param($resultado, "s", $cadena_escapada);
     $ok_exe = mysqli_stmt_execute($resultado);
@@ -210,7 +208,7 @@ class ControlUsuario
     $conexion = conexionBBDD();
     
     mysqli_set_charset($conexion, "utf8");
-    $consulta='SELECT usuario, victorias FROM hf_usuario ORDER BY victorias DESC';
+    $consulta='SELECT usuario, victorias FROM usuario ORDER BY victorias DESC';
     $resultado = mysqli_query($conexion , $consulta);
     if (mysqli_num_rows($resultado) > 0){   
       $i=0;
@@ -240,7 +238,7 @@ class ControlUsuario
     $entradaSanitizada = htmlspecialchars($codUsu);
     $conexion = conexionBBDD();
     $nombreUsu = mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyecciones SQL
-    $resultado = $conexion->query("SELECT victorias FROM hf_usuario WHERE codUsu=$nombreUsu");
+    $resultado = $conexion->query("SELECT victorias FROM usuario WHERE codUsu=$nombreUsu");
     if ($resultado->data_seek(0)){
     while ($fila = $resultado->fetch_assoc()) {
       $victorias = $fila['victorias'];
@@ -248,7 +246,7 @@ class ControlUsuario
     //Actualiza el numero de victorias
     $victorias++;
     $conexion = conexionBBDD();
-    $resultado = $conexion->query("UPDATE hf_usuario SET victorias=$victorias WHERE codUsu=$codUsu");
+    $resultado = $conexion->query("UPDATE usuario SET victorias=$victorias WHERE codUsu=$codUsu");
     $conexion->close(); //cerrar conexion
   }
 }
@@ -270,7 +268,7 @@ class ControlUsuario
 
       //Actualiza el estado
       $conexion = conexionBBDD();
-      $resultado = $conexion->query("UPDATE hf_usuario SET estado=$estado WHERE codUsu=$codUsu");
+      $resultado = $conexion->query("UPDATE usuario SET estado=$estado WHERE codUsu=$codUsu");
       $conexion->close(); //cerrar conexion
 
     }

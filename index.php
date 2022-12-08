@@ -14,6 +14,7 @@ session_start(); ?>
     <link rel="icon" href="images/favicon.ico" type="image/png" />
     <link rel="stylesheet" type="text/css" href="CSS/styles.css"/>
     <link rel="stylesheet" type="text/css" href="CSS/index.css"/>
+    <link rel="stylesheet" type="text/css" href="CSS/cookies.css"/>
     <script src="JS/login.js" type="text/javascript"></script>
 </head>
 
@@ -38,7 +39,7 @@ session_start(); ?>
                         <img src="images/s1.png" class="d-block h-100 w-100" alt="Carrusel2">
                         <div class="carousel-caption d-none d-md-block">
                             <h5 class="text-light font-weight-bold">Prueba tu nivel de estrategia</h5>
-                            <p class="text-light">Totalmente gratuito y sin cosas raras</p>
+                            <p class="text-light">Totalmente gratuito</p>
                         </div>
                         </div>
                     </div>
@@ -83,7 +84,16 @@ session_start(); ?>
         </div>
       </section>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-     
+     <div class="aviso-cookies" id="banner-cookies">
+            <img class="img-cookie" src="./images/cookie.gif" alt="cookie">
+            <h3 class="titulo-cookies">Uso de cookies</h3>
+            <p class="parrafo-cookies">Este sitio web utiliza cookies propias y de terceros para prestar sus servicios.</p>
+            <p class="parrafo-cookies">Para poder acceder al sitio debe aceptar el uso de cookies.</p>
+            <button class="boton-cookies" id="aceptarCookies">Aceptar</button>
+            <a class="link-politicas"  href="politica-cookies.html">Politica cookies</a>
+     </div>
+     <div class="fondo-aviso-cookies" id="fondo-aviso-cookies"></div>
+     <script src="JS/aviso-cookies.js" type="text/javascript"></script>
 </body>
 
 </html>

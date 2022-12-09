@@ -175,7 +175,7 @@ function drawChart1(datos) {
       let puesto = document.createElement("td");
       let textoPuesto = document.createTextNode(j);
       puesto.appendChild(textoPuesto);
-      if (j/2==0){ puesto.classList.add('td-fila-puesto-black');}
+      if (j/j/2!=0){ puesto.classList.add('td-fila-puesto-black');}
       else {puesto.classList.add('td-fila-puesto-shadow');}
       
       fila.appendChild(puesto);
@@ -183,14 +183,14 @@ function drawChart1(datos) {
       let usuario = document.createElement("td");
       let textoUsuario = document.createTextNode(datos[j].nombre);
       usuario.appendChild(textoUsuario);
-      if (j/2==0){ puesto.classList.add('td-fila-usuario-black');}
+      if (j/2!=0){ puesto.classList.add('td-fila-usuario-black');}
       else {puesto.classList.add('td-fila-usuario-shadow');}
       fila.appendChild(usuario);
   
       let victorias = document.createElement("td");
       let textoVictorias = document.createTextNode(datos[j].victorias);
       victorias.appendChild(textoVictorias);
-      if (j/2==0){ puesto.classList.add('td-fila-victorias-black');}
+      if (j/j/2!=0){ puesto.classList.add('td-fila-victorias-black');}
       else {puesto.classList.add('td-fila-victorias-shadow');}
       fila.appendChild(victorias);
 

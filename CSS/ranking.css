@@ -1,0 +1,63 @@
+.table-ranking {
+    margin-top: 10px;
+    color: #ffff;
+    }
+    .tr-cabecera{
+    color: rgb(252, 215, 7);
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px;
+    border-bottom-color:rgb(252, 215, 7);
+    width: 2em;
+    }
+    .tr-fila{
+        border:0;
+     
+        }
+    .td-cabecera-puesto{
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 1px;
+        border-bottom-color:rgb(252, 215, 7);
+        margin: 0;
+    }
+    .td-cabecera-usuario{
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 1px;
+        border-bottom-color:rgb(252, 215, 7);
+        margin: 0;
+    }
+    .td-cabecera-victorias{
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 1px;
+        border-bottom-color:rgb(252, 215, 7);
+        margin: 0;
+    }
+    .td-fila-puesto-black{
+        color: #ffff;
+    }
+    .td-fila-usuario-black{
+        color: #ffff;
+    }
+    .td-fila-victorias-black{
+        color: #ffff;
+    }
+    .td-fila-puesto-shadow{
+        color: #ffff;
+    }
+    .td-fila-usuario-shadow{
+        color: #ffff;
+    }
+    .td-fila-victorias-shadow{
+    
+        color: #ffff;
+      
+    }
+        
+    

@@ -17,10 +17,9 @@ function getCookie(name) {
     if (!session){
         var RutaAbsoluta = getAbsolutePath();
 
-        location.replace(`${RutaAbsoluta}index.php`);
+        location.replace(`${RutaAbsoluta}Error.php`);
     }
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
     checkAuth();

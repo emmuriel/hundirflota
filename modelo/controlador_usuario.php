@@ -22,7 +22,7 @@ class ControlUsuario
     $ok_exe = mysqli_stmt_execute($resultado);
 
     if ($ok_exe == false) {
-      echo "<div class='parrafada'><p class='error'>Ha ocurrido un error al registrar el formulario en la BBDD.Registro no guardado</p></div>";  //Controla el error
+     // echo "<div class='parrafada'><p class='error'>Ha ocurrido un error al registrar el formulario en la BBDD.Registro no guardado</p></div>";  //Controla el error
     } else { //ASOCIAR VARIABLES A LOS VALORES DEVUELTOS DE LA CONSULTA EN EL RESULT_SET
       header("Location:Registrado.html");
     }

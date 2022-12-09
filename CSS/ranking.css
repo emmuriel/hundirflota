@@ -1,7 +1,7 @@
 .table-ranking {
     width: 80%;
     margin:10%;
-    margin-top: 10px;
+    margin-top: 10%;
     color: #ffff;
     }
     .tr-cabecera{
@@ -18,7 +18,7 @@
      
         }
     .td-cabecera-puesto{
-        padding-left: 0.5em;
+        padding-left: 1em;
         border-top: 0px;
         border-left: 0px;
         border-right: 0px;
@@ -41,9 +41,10 @@
         border-bottom: 1px solid;
         border-bottom-color:rgb(252, 215, 7);
         margin: 0;
+        padding-left: 0.5em;
     }
     .td-fila-puesto-black{
-        padding-left: 0.5em;
+        padding-left: 2em;
         color: #ffff;
       
     }
@@ -51,11 +52,11 @@
         color: #ffff;
     }
     .td-fila-victorias-black{
-
+        padding-left: 2em;
         color: #ffff;
     }
     .td-fila-puesto-shadow{
-        padding-left: 0.5em;
+        padding-left: 2em;
         color: rgb(6, 6, 6);
         background: rgba(222, 221, 221, 0.5);
     }
@@ -64,7 +65,7 @@
         background: rgba(222, 221, 221, 0.5);
     }
     .td-fila-victorias-shadow {
-    
+        padding-left: 2em;
         color: rgb(6, 6, 6);
         background: rgba(222, 221, 221, 0.5);
       

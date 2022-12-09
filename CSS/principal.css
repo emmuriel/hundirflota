@@ -243,7 +243,7 @@ body {
   margin-left: 70px;
   width: 343px;
   height: 343px;
-  background-image: url("../images/marco_tabla.jpg");
+  background-image: url("../images/marco_tabla1.jpg");
   z-index: 2;
   float: left;
 }
@@ -253,7 +253,7 @@ body {
   width: 343px;
   height: 343px;
   /*background-color: rgba(228, 68, 68,08);*/
-  background-image: url("../images/marco_tabla.jpg");
+  background-image: url("../images/marco_tabla2.jpg");
   z-index: 2;
   float: left;
 }

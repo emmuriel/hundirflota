@@ -646,7 +646,7 @@ Salidas: no tiene*/
                             
                         }
                     break;
-                    case 2: //ERROR-ZONA Esquina BORDE SUP                       
+                    case 2: //ERROR-ZONA BORDE SUP                       
                         switch($this->rumbo){
                         case 0:
                                 $this->siguientePetardazo=self::calculaPosicionAleatoria();
@@ -695,7 +695,7 @@ Salidas: no tiene*/
                             }
                         break;
                         case 3:
-                            if ($this->TableroLogico[$pos-1]=="1"&&$this->TableroLogico[$pos-2]=="1"){  //Comprueba EXTREMO OESTE
+                            if (($this->TableroLogico[$pos-1]=="1"&&$this->TableroLogico[$pos-2]=="1") || ($this->TableroLogico[$pos+$movAbajo-1]=="0")){  //Comprueba EXTREMO OESTE
                                 $posExtremo=self::UltimaPosicionOtroExtremo($pos-1);
 
                                     if ($posExtremo<0){ 

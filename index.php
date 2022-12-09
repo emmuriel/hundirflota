@@ -26,22 +26,28 @@ session_start(); ?>
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 3"></button>
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active" data-bs-interval="10000">
-                        <img src="images/s2.png" class="d-block h-100 w-100" alt="Carrusel1">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5 class="text-light font-weight-bold">Entra y juega!</h5>
-                            <p class="text-light">El mítico juego de Batalla Naval</p>
-                        </div>
+                            <img src="images/s1.png" class="d-block h-100 w-100" alt="Carrusel1">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 class="text-light font-weight-bold">Entra y juega!</h5>
+                                <p class="text-light">El mítico juego de Batalla Naval</p>
+                            </div>
                         </div>
                         <div class="carousel-item" data-bs-interval="2000">
-                        <img src="images/s1.png" class="d-block h-100 w-100" alt="Carrusel2">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5 class="text-light font-weight-bold">Prueba tu nivel de estrategia</h5>
-                            <p class="text-light">Totalmente gratuito</p>
+                            <img src="images/s2.png" class="d-block h-100 w-100" alt="Carrusel2">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
                         </div>
+
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <img src="images/s4.png" class="d-block h-100 w-100" alt="Carrusel3">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
                         </div>
+                       
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>

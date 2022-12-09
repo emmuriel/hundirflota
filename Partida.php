@@ -113,6 +113,9 @@ if ($_SESSION['usuario']) {
         unset($_SESSION['serverBrain']);
         $ctrlUsu = new ControlUsuario();
         $ctrlUsu->upVictorias($obUsu->getCodUsu());
+        $ok=1;
+        $oka= array ("ok"=>$ok);
+          echo json_encode($oka, JSON_FORCE_OBJECT,3);  #Response server
         break;
     }
   } 

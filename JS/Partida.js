@@ -247,8 +247,8 @@ function reloadPartida(cadTabl) {
           document.querySelector("#tbl_boot").classList.remove("tB_red");
           document.querySelector("#tbl_boot").classList.add("tabla_boot");
 
-          //Espera 2 segundos y hacer peticion a la pagina para recargar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          setTimeout("turno_servidor()", 2000);               //  RECARGA PARTIDA HASTA QUE EL TURNO SEA DEL USUArio
+          //Espera 1 segundo y hacer peticion a la pagina para recargar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          setTimeout("turno_servidor()", 1000);               //  RECARGA PARTIDA HASTA QUE EL TURNO SEA DEL USUArio
         } else {
           //limpia el intervalo
           clearTimeout();

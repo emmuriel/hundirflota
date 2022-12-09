@@ -2,8 +2,6 @@
 CREATE DATABASE `hundirlaflota`;
 USE `hundirlaflota`;
 
-##CREATE TABLES 
-
 CREATE TABLE IF NOT EXISTS `Usuario` (
 `codUsu` int(3) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
 `usuario` varchar(35) NOT NULL COMMENT 'nombre usuario',
@@ -46,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `TableroSistema` (
 )ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='cadena de tableros';
 
 
-## INSERT TABLES
+
 
 INSERT INTO `Usuario`(`usuario`,`email`,`pwd`,`victorias`,`estado`,`conexiones`) VALUES   ('$$erver','hundirlaflota@gmail.com','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',0,0,1),
 																('elisa','emartinm@iespuntadelverde.es','$2y$10$tP8mbOiwc7b.HGVynsyQpOtfaMIYmAgr/aaGOGkT0Vuc40r921Bdm',0,0,0),
@@ -77,58 +75,28 @@ INSERT INTO `TableroSistema` (`tablero`) VALUES  ('W111E000000000000000WE0000000
 										('0N00000N000S0000020000000002000W111E0S0000000000000000000N0000000002000N00000S0N0S00000002000000000S'),
 										('00000000000WE00000000000W11E00N0000000002000000WE020000000002000000000S0W1E00000000000000000W1E00000');		
 
-#CREATE PROCEDURES
-DELIMITER $$
-CREATE PROCEDURE regPartida2(IN jugador1 INT, IN jugador2 INT,IN tablero1 char(100),IN tablero2 char(100))
-COMMENT 'Crea una partida y sus tablero asociados'
-BEGIN	
-	   START TRANSACTION;
-    -- Insert nueva partida
-	INSERT INTO  partida(`jug1`,`jug2`,`turno`) 
-	VALUES (jugador1,jugador2,turno);
-    
-    SET @codP = 0;
-    SELECT @codP :=codPartida FROM partida WHERE jug1=jugador1 AND jug2 = jugador2;
-    
-    -- insert tableros para la partida
-    IF @codP > 0 THEN
-	INSERT INTO tableropartida(codPartida,idJug , tablero )
-    VALUES(@codP,1,tablero1);
 
-	INSERT INTO tableropartida(codPartida,idJug, tablero)
-	VALUES(@codP,2,tablero2);
-
-        -- commit
-        COMMIT;
-	ELSE
-	ROLLBACK;
-
-    END IF;
-
-	
-END$$
----------------------------------------------------------------
 
 DELIMITER $$
 CREATE PROCEDURE regPartida(IN jugador1 INT, IN jugador2 INT,IN tablero1 char(100),IN tablero2 char(100),IN turnoini INT)
 COMMENT 'Crea una partida y sus tablero asociados'
 BEGIN	
 	   START TRANSACTION;
-    -- Insert nueva partida
+
 	INSERT INTO  partida(`jug1`,`jug2`,`turno`) 
 	VALUES (jugador1,jugador2,turnoini);
     
     SET @codP = 0;
     SELECT @codP :=codPartida FROM partida WHERE jug1=jugador1 AND jug2 = jugador2;
     
-    -- insert tableros para la partida
+
     IF @codP > 0 THEN
 	INSERT INTO tableropartida(codPartida,idJug , tablero )
     VALUES(@codP,1,tablero1);
 
 	INSERT INTO tableropartida(codPartida,idJug, tablero)
 	VALUES(@codP,2,tablero2);
-        -- commit
+
         COMMIT;
 	ELSE
 	ROLLBACK;

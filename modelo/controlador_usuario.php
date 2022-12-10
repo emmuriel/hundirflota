@@ -20,12 +20,10 @@ class ControlUsuario
     $resultado = mysqli_prepare($conexion, $consulta);
     $ok = mysqli_stmt_bind_param($resultado, "sssiii", $nuevoUsuario->getNombre(), $nuevoUsuario->getEmail(), $nuevoUsuario->getPwd(), $nuevoUsuario->getPuntuacion(), $nuevoUsuario->getEstado(), $nuevoUsuario->getConexion());
     $ok_exe = mysqli_stmt_execute($resultado);
-
+ 
     if ($ok_exe == false) {
-     // echo "<div class='parrafada'><p class='error'>Ha ocurrido un error al registrar el formulario en la BBDD.Registro no guardado</p></div>";  //Controla el error
-    } else { //ASOCIAR VARIABLES A LOS VALORES DEVUELTOS DE LA CONSULTA EN EL RESULT_SET
-      header("Location:Registrado.html");
-    }
+     echo "<div class='parrafada'><p class='error'>Ha ocurrido un error al registrar el formulario en la BBDD.Registro no guardado</p></div>";  //Controla el error
+    } 
     $conexion->close(); //cerrar conexion
 
   }
@@ -274,4 +272,72 @@ class ControlUsuario
     }
     return $error;
   }
+
+
+
+    /*  '---------------------------------------------------------------------------------------------------
+    ' Nombre: cambiarPwd
+    ' Proceso: Actualiza el valor del campo pwd. Primero comprueba que la contraseña anterior es igual
+              al valor pasado por parámetro
+    ' Entradas: El código de usuario, contraseña anterior, nueva contraseña.
+    ' Salidas: codigo de error: 0--todo ok, 1--error al actualizar, 2--contraseña actual incorrecta.
+    '--------------------------------------------------------------------------------------------------- */
+    public function cambiarPwd($codUsu, $currentPwd, $newPwd)
+    {
+      $errorCompare = self::comparePwd($codUsu, $currentPwd);
+      if ($errorCompare==0){
+        $hash = password_hash($newPwd, CRYPT_SHA256);
+        //Actualiza el estado
+        $conexion = conexionBBDD();
+        $resultado = $conexion->query("UPDATE usuario SET pwd='". $hash ."' WHERE codUsu=$codUsu");
+        $conexion->close(); //cerrar conexion
+        $error=0;
+      } else{
+        $error=4;
+      }
+      return $error;
+    }
+/*-----------------------------------------------------------------------------------------
+    ' Nombre:   comparePwd
+    ' Proceso:  compara la contraseña de un usuario con una pasada por parámetro
+    ' Entradas: Código de usuario y contraseña
+    ' Salidas:  Devuelve un booleano, true si coincide, false si no coincide o el usuario no existe
+                
+    '----------------------------------------------------------------------------------------- */
+    public function comparePwd($codUsu, $currentPwd)
+    {
+      $entradaSanitizada = htmlspecialchars($codUsu);
+      $conexion = conexionBBDD();
+      $cadena_escapada = mysqli_real_escape_string($conexion, $entradaSanitizada); //Seguridad para evitar inyeccion SQL
+      $consulta = "SELECT pwd FROM usuario WHERE codUsu=?";
+      $resultado = mysqli_prepare($conexion, $consulta);
+      $ok = mysqli_stmt_bind_param($resultado, "i", $cadena_escapada);
+      $ok_exe = mysqli_stmt_execute($resultado);
+  
+      if ($ok_exe == false) {
+        $error=1;  //Controla el error
+      } else {
+        $ok = mysqli_stmt_bind_result($resultado, $db_hash);
+        if ($ok == false) { //Controlar error
+          $error=1; 
+        } else {
+          $busqueda = false;
+          while (mysqli_stmt_fetch($resultado)) { //La consulta devuelve valores, comprobar contraseña
+            $busqueda = true;
+            //Comprueba contraseña   
+            if (password_verify($currentPwd, $db_hash)) { //éxito-->Cargamos los datos en memoria con un objeto Usuario
+              $error=0;
+            } else {
+              $error=4;       
+            }
+          }
+          if ($busqueda == false) {
+            $error=1;
+          }
+          mysqli_stmt_close($resultado);
+        }
+      }
+      $conexion->close(); //cerrar conexion
+      return $error;
+    }
 }

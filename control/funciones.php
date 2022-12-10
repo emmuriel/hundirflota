@@ -106,7 +106,7 @@ function validaFormReg()
     //Contraseña segura
     if (!passSecure($f_password)) {
       $ok = false;
-      echo "<div class='ghosti'><span class='error'>**Error:La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico</span></div>";
+      echo "<div class='ghosti'><span class='error'>**Error:La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula</span></div>";
     }
 
 

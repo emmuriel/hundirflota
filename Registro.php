@@ -87,7 +87,7 @@ if (isset($_POST['registrar'])) {
             //Registra Usuario
             $ctrlUsu = new ControlUsuario();
             $ctrlUsu->registrarUsuario($nuevoUsu);
-            
+            header("Location:Registrado.html");
         } else {
             echo "<div class='ghosti'><span class='error'>Error:Las contraseñas no coinciden</span></div>";
         }

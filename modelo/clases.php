@@ -506,11 +506,11 @@ Salidas: no tiene*/
                                             }
                                         }   
                                         
-                                    }else if ($this->TableroLogico[$pos+$movAbajo+1]=="?"){  //ESTE??                           
+                                }else if ($this->TableroLogico[$pos+$movAbajo+1]=="?"){  //ESTE??                           
                                             $this->rumbo=3;   
                                             $this->siguientePetardazo=$pos+$movAbajo+1;
 
-                                    }else if ($this->TableroLogico[$pos+$movAbajo-1]=="?"){ // OESTE??
+                                }else if ($this->TableroLogico[$pos+$movAbajo-1]=="?"){ // OESTE??
                                             $this->rumbo=9;  
                                              $this->siguientePetardazo=$pos+$movAbajo-1; 
                                     }else{ //Por lógica este bloque no deberia ejecutarse nunca pero lo pongo para prevenir un infinito

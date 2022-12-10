@@ -87,9 +87,13 @@ if (isset($_POST['registrar'])) {
             //Registra Usuario
             $ctrlUsu = new ControlUsuario();
             $ctrlUsu->registrarUsuario($nuevoUsu);
-            header("Location:Registrado.html");
+            echo "<div class='fondo-exito'><div class='contenedor-exito'><div class='ghost-exito'>
+                    <h1>Bienvenido a bordo pirata!!</h1>
+                    <p>De momento no tendrás que activar la cuenta hasta que no implementemos ese servicio <br>
+                    Ya puedes logearte y comenzar guerrear </p>
+                    <a href='index.php'>sign in!</a></div></div></div> ";
         } else {
-            echo "<div class='ghosti'><span class='error'>Error:Las contraseñas no coinciden</span></div>";
+            echo "<div class='ghosti-error'><span class='error'>Error:Las contraseñas no coinciden</span></div>";
         }
     }
 }

@@ -14,11 +14,19 @@ class ControlUsuario
   {
 
     $conexion = conexionBBDD();
+
     mysqli_set_charset($conexion, "utf8");
-    $hash = password_hash($nuevoUsuario->getPwd(), CRYPT_SHA256);
+    $nombre=$nuevoUsuario->getNombre();
+    $mail=$nuevoUsuario->getEmail();
+    $pwd=$nuevoUsuario->getPwd();
+    $victorias=0;
+    $estado=0;
+    $conexiones=0;
+
+
     $consulta = 'INSERT INTO usuario (usuario,email, pwd, victorias,estado,conexiones) VALUES (?,?,?,?,?,?)';
     $resultado = mysqli_prepare($conexion, $consulta);
-    $ok = mysqli_stmt_bind_param($resultado, "sssiii", $nuevoUsuario->getNombre(), $nuevoUsuario->getEmail(), $nuevoUsuario->getPwd(), $nuevoUsuario->getPuntuacion(), $nuevoUsuario->getEstado(), $nuevoUsuario->getConexion());
+    $ok = mysqli_stmt_bind_param($resultado, "sssiii", $nombre, $mail, $pwd, $victorias, $estado, $conexiones);
     $ok_exe = mysqli_stmt_execute($resultado);
  
     if ($ok_exe == false) {

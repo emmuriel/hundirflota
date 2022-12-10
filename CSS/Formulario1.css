@@ -15,6 +15,16 @@ body{
     padding-right: 20em;
     
 }
+.contenedor-exito{
+    max-width: 100%;
+    max-height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20em;
+    padding-right: 20em;
+    padding-top: 10em;
+    
+}
 .cabecera{
 
     font-size: 3em;
@@ -99,6 +109,7 @@ input{
     justify-content: center;
     align-items: center;
     color:rgb(54, 54, 54);
+    z-index: 100;
 }
 .ghost a{
     color:#0e6bb7;
@@ -106,6 +117,7 @@ input{
 }
 .ghost a::selection{
     color:#4e97d3;
+   
 }
 
 .ghosti{
@@ -120,7 +132,47 @@ input{
     z-index: 1;
     margin-left: 8rem;
     margin-right: 8rem;
-    margin-top: 1rem;;
+    margin-top: 1rem;
 
     
+}
+
+
+.ghosti-error{
+    padding: 0.5rem;
+    background-color: rgba(12, 12, 12, 0.9);
+    box-shadow: 0 0 60px rgba(244, 4, 4, 0.612);
+    display: flex;
+    border-radius: 0.5em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:rgb(249, 3, 3);
+    z-index: 1;
+    margin-left: 20rem;
+    margin-right:20rem;
+    
+}
+
+.fondo-exito {
+    display: block;
+    background: rgba(0, 0,0, 0.90);
+    position: fixed;
+    z-index: 99;
+    width: 100vw;
+    height: 100vh;
+    top:0;
+    left: 0;
+}
+
+.ghost-exito{
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.70);
+    box-shadow: 0 0 50px rgba(9, 147, 245, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:rgb(54, 54, 54);
+    z-index: 100;
 }

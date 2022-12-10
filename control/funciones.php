@@ -95,18 +95,18 @@ function validaFormReg()
   if (empty($f_nombre) || empty($f_email) || empty($f_password) || empty($f_confirmacion)) {
     $ok = false;
 
-    echo "<div class='ghosti'><span class='error'>**Error: Todos los campos son obligarios</span></div>";
+    echo "<div class='ghosti-error'><span class='error'>**Error: Todos los campos son obligarios</span></div>";
   } else {
     //Nombre de usuario válido
     if (!usuValido($f_nombre)) {
       $ok = false;
-      echo "<div class='ghosti'><span class='error'>**Error:El nombre debe comenzar con dos letras. Solo se permiten caracteres especiales = - _ /</span></div>";
+      echo "<div class='ghosti-error'><span class='error'>**Error:El nombre debe comenzar con dos letras. Solo se permiten caracteres especiales = - _ /</span></div>";
     }
     //Formato de correo válido 
     //Contraseña segura
     if (!passSecure($f_password)) {
       $ok = false;
-      echo "<div class='ghosti'><span class='error'>**Error:La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula</span></div>";
+      echo "<div class='ghosti-error'><span class='error'>**Error:La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula</span></div>";
     }
 
 
@@ -115,13 +115,13 @@ function validaFormReg()
       $ctrl = new ControlUsuario();
       if ($ctrl->usuarioRegistrado($f_nombre)) {
         $ok = false;
-        echo "<div class='ghosti'><span class='error'>**Error: El nombre de usuario ya existe</span></div>";
+        echo "<div class='ghosti-error'><span class='error'>**Error: El nombre de usuario ya existe</span></div>";
       }
 
       //Correo ya existe ya existe en la BBDD
       if ($ctrl->emailRegistrado($f_email)) {
         $ok = false;
-        echo "<div class='ghosti'><span class='error'>**Error: La dirección de correo ya está registrada</span></div>";
+        echo "<div class='ghosti-error'><span class='error'>**Error: La dirección de correo ya está registrada</span></div>";
       }
     }
   }

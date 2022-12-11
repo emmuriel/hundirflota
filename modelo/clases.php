@@ -224,7 +224,7 @@ class CerebroServidor{
             $posicionConceptual=6;
         }else if($posicion==99){
             $posicionConceptual=5;
-        }else if(intval($posicion/10)==0){  
+        }else if(intval($posicion%10)==0){  
             $posicionConceptual=8;
         }else if($posicion%10==9){  
             $posicionConceptual=4;
@@ -357,14 +357,13 @@ class CerebroServidor{
                    
                     for ($i=$posIni; $i<99 && $this->TableroLogico[$i]=="1"; $i+=10){
                         $posFinal=$posFinal+10;
-                    
                     }          
                     //Reajuste del incide/contador y rumbo
                     if ($i>99){ //Controlar error de indexacion de array
                            //Asumimos que la ruta llega a un callejon sin salida. BARCO HUNDIDO
                            $posFinal=-1;
                            $this->rumbo=0;
-                    }else if ($this->TableroLogico[$i]=="?"){
+                    }else if ($this->TableroLogico[$i]==="?"){
                         $this->rumbo=6;  //S
                         $posFinal=$posFinal-10;
                     }else{
@@ -473,26 +472,17 @@ Salidas: no tiene*/
 
                                 if ($pos>=80&&$pos<=89){
                                     if ($this->TableroLogico[$pos+$movAbajo]=="1"){
-                                        $posExtremo=self::UltimaPosicionOtroExtremo($pos+$movAbajo);
-                                        if ($posExtremo<0){ 
-                                        $this->rumbo=0;
-                                        $this->siguientePetardazo=self::calculaPosicionAleatoria();
-                                        }else{
-                                            if ($this->TableroLogico[$posExtremo+$movAbajo]=="?"){
-                                                $this->siguientePetardazo=$posExtremo+$movAbajo;
-                                                $this->rumbo=6;
-                                            }
-                                        }  
-                                    } else if ($this->TableroLogico[$pos+$movAbajo+1]=="?"){  //ESTE??                           
-                                        $this->rumbo=3;   
-                                        $this->siguientePetardazo=$pos+$movAbajo+1;
+                                        if ($this->TableroLogico[$pos+$movAbajo+1]=="?"){  //ESTE??                           
+                                            $this->rumbo=3;   
+                                            $this->siguientePetardazo=$pos+$movAbajo+1;
 
-                                    }else if ($this->TableroLogico[$pos+$movAbajo-1]=="?"){ // OESTE??
-                                        $this->rumbo=9;  
-                                        $this->siguientePetardazo=$pos+$movAbajo-1; 
-                                    }else{ //Por lógica este bloque no deberia ejecutarse nunca pero lo pongo para prevenir un infinito
-                                        $this->rumbo=0;
-                                        $this->siguientePetardazo=self::calculaPosicionAleatoria();
+                                        }else if ($this->TableroLogico[$pos+$movAbajo-1]=="?"){ // OESTE??
+                                            $this->rumbo=9;  
+                                            $this->siguientePetardazo=$pos+$movAbajo-1; 
+                                        }else{ //Por lógica este bloque no deberia ejecutarse nunca pero lo pongo para prevenir un infinito
+                                            $this->rumbo=0;
+                                            $this->siguientePetardazo=self::calculaPosicionAleatoria();
+                                        }
                                     }
                                 }else if ($this->TableroLogico[$pos+$movAbajo]=="1"&& $this->TableroLogico[$pos+$movAbajo+$movAbajo]=="1"){  //Comprueba el otro extremo
                                             $posExtremo=self::UltimaPosicionOtroExtremo($pos+$movAbajo);
@@ -513,12 +503,11 @@ Salidas: no tiene*/
                                 }else if ($this->TableroLogico[$pos+$movAbajo-1]=="?"){ // OESTE??
                                             $this->rumbo=9;  
                                              $this->siguientePetardazo=$pos+$movAbajo-1; 
-                                    }else{ //Por lógica este bloque no deberia ejecutarse nunca pero lo pongo para prevenir un infinito
+                                }else{ //Por lógica este bloque no deberia ejecutarse nunca pero lo pongo para prevenir un infinito
                                         $this->rumbo=0;
                                         $this->siguientePetardazo=self::calculaPosicionAleatoria();
-                                    }
-                               
-                                
+                                }
+                             
                             break;
                             case 6: //RUMBO SUR
                                
@@ -754,9 +743,12 @@ Salidas: no tiene*/
                                             $this->siguientePetardazo=$posExtremo-1;
                                             $this->rumbo=9;
                                         }
-                                }else if ($this->TableroLogico[$pos-1+$movAbajo]=="?"){ // SUR??
+                                }else if ($this->TableroLogico[$pos-1+$movAbajo]==="?"){ // SUR??
                                     $this->rumbo=6;  
                                     $this->siguientePetardazo=$pos-1+$movAbajo; 
+                                }else if ($this->TableroLogico[$pos-1]=="1" && $this->TableroLogico[$pos-2]=="?"){
+                                    $this->rumbo=9;  
+                                    $this->siguientePetardazo=$pos-2; 
                                 }else{ //Por lógica este bloque no deberia ejecutarse nunca pero lo pongo para prevenir un infinito
                                             $this->rumbo=0;
                                             $this->siguientePetardazo=self::calculaPosicionAleatoria();
@@ -1012,6 +1004,9 @@ Salidas: no tiene*/
                                 }else if ($this->TableroLogico[$pos+1]=="?"){ // ESTE??
                                     $this->rumbo=3;  
                                          $this->siguientePetardazo=$pos+1; 
+                                }else if ($this->TableroLogico[$pos+$movAbajo]=="1"){ // sur??
+                                    $this->rumbo=6;  
+                                         $this->siguientePetardazo=$pos+($movAbajo*2); 
                                 }else{ //Por lógica este bloque no deberia ejecutarse nunca pero lo pongo para prevenir un infinito
                                     $this->rumbo=0;
                                     $this->siguientePetardazo=self::calculaPosicionAleatoria();
@@ -1097,7 +1092,7 @@ Salidas: no tiene*/
                                         $pos=self::calculaPosicionAleatoria();
                                     }else{
                                         $this->rumbo=6;
-                                        $this->siguientePetardazo=$posExtremo;
+                                        $this->siguientePetardazo=$posExtremo+$movAbajo;  //aki kizas hay q sumarle
                                     }
                                 } 
                             break;
@@ -1111,7 +1106,7 @@ Salidas: no tiene*/
                                     $pos=self::calculaPosicionAleatoria();
                                 }else{
                                     $this->rumbo=12;
-                                    $this->siguientePetardazo=$posExtremo;
+                                    $this->siguientePetardazo=$posExtremo+$movArriba;
                                 }
                             } 
                            
@@ -1141,7 +1136,7 @@ Salidas: no tiene*/
                                     $pos=self::calculaPosicionAleatoria();
                                 }else{
                                     $this->rumbo=6;
-                                    $this->siguientePetardazo=$posExtremo;
+                                    $this->siguientePetardazo=$posExtremo+$movAbajo;
                                 }
                             } 
                             break;
@@ -1171,7 +1166,7 @@ Salidas: no tiene*/
                                     $this->siguientePetardazo=self::calculaPosicionAleatoria();
                                 }else{ 
                                     $this->rumbo=6; //Sigue linea Sur
-                                    $this->siguientePetardazo=$posExtremo;//+$movAbajo;
+                                    $this->siguientePetardazo=$posExtremo+$movAbajo; 
                                 }
                             break;
                             case 9: //Rumbo OESTE- Posición ESTE anterior
@@ -1183,7 +1178,7 @@ Salidas: no tiene*/
                                     $this->siguientePetardazo=self::calculaPosicionAleatoria();
                                 }else{
                                     $this->rumbo=3;
-                                    $this->siguientePetardazo=$posExtremo; //+1;
+                                    $this->siguientePetardazo=$posExtremo+1;
                                 }
                             break;
                         }
@@ -1249,7 +1244,7 @@ Salidas: no tiene*/
                                         $this->siguientePetardazo=self::calculaPosicionAleatoria();
                                     }else{
                                         $this->rumbo=3; //Sigue linea por el Este
-                                        $this->siguientePetardazo=$posExtremo;
+                                        $this->siguientePetardazo=$posExtremo+1;
                                 }
                                 }
                             break;
@@ -1535,8 +1530,8 @@ Salidas: no tiene*/
                             break;
                             case 12: //Rumbo Norte -> Posicion Sur es la última
 
-                                if($this->TableroLogico[$pos-1]=="?"){
-                                    $this->siguientePetardazo=$pos-1;
+                                if($this->TableroLogico[$pos+$movArriba]=="?"){
+                                    $this->siguientePetardazo=$pos+$movArriba;
                                }else{
                                     
                                     $posExtremo=self::UltimaPosicionOtroExtremo($pos);
@@ -1567,10 +1562,10 @@ Salidas: no tiene*/
                                 }
                             break;
 
-                            case 6:  //Rumbo Oeste -> Posicion Este es la última
+                            case 6:  //Rumbo sur -> Posicion Este es la última
                            
-                                if($this->TableroLogico[$pos-1]=="?"){
-                                     $this->siguientePetardazo=$pos-1;
+                                if($this->TableroLogico[$pos+$movAbajo]=="?"){
+                                     $this->siguientePetardazo=$pos+$movAbajo;
                                 }else{
                                     $posExtremo=self::UltimaPosicionOtroExtremo($pos);
                                     if ($posExtremo<0){ //Barco hundido
